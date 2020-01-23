@@ -95,10 +95,6 @@ public class Wheel {
         SmartDashboard.putNumber("Drive encoder velocity", driveEncoder.getVelocity());
     }
     
-    private boolean approachSetPoint = false;
-    private double setPosition = 0;
-    private double setAngle = 0;
-    
     public void set(double targetAngle, double drive) {
 
         // Super overkill solution
@@ -126,14 +122,15 @@ public class Wheel {
         // } else if (approachSetPoint == true && azimuthMotor.getEncoder().getPosition() == setPosition) {
         //     approachSetPoint = false;
         // }
-        
+       
         SmartDashboard.putNumber("Angle Input", targetAngle);
-        
+    
         // Elegant overkill? solution
         targetAngle *= -360; // flip azimuth, hardware configuration dependent
 
         double currentPosition = ((azimuthEncoder.getValue() * 360.0 / 4049.0) - offsetAngle);
-        currentPosition =  currentPosition > 180 ? 360 - currentPosition : currentPosition;
+        currentPosition =  currentPosition > 180.0 ? currentPosition - 360.0 : currentPosition;
+        currentPosition = currentPosition == 360 ? 0 : currentPosition; // Making 360 deg and 0 deg equal
 
         double azimuthError = Math.IEEEremainder(targetAngle - currentPosition, 360.0);
 
@@ -143,8 +140,8 @@ public class Wheel {
             drive = -drive;
         }
 
-        azimuthSparkPID.setReference((azimuthError + currentPosition) / 360.0 * 18, ControlType.kSmartMotion);
-       
+        azimuthSparkPID.setReference((azimuthError + currentPosition + offsetAngle) / 360.0 * 18, ControlType.kSmartMotion);
+    
         SmartDashboard.putNumber("Current Encoder Position (Encoder Units)", azimuthEncoder.getValue());
         SmartDashboard.putNumber("Current Encoder Position (Deg)", currentPosition);
         SmartDashboard.putNumber("Target Position (Deg)", targetAngle);
@@ -152,6 +149,7 @@ public class Wheel {
         SmartDashboard.putNumber("Azimuth Error", azimuthError); 
         
         setDriveOutput(drive);
+        
 
          // Bad solution
         // minimize azimuth rotation, reversing drive if necessary
