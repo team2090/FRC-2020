@@ -123,32 +123,47 @@ public class Wheel {
         //     approachSetPoint = false;
         // }
        
-        SmartDashboard.putNumber("Raw angle Input", targetAngle);
+        // SmartDashboard.putNumber("Raw angle Input", targetAngle);
     
-        // Elegant overkill? solution
-        targetAngle *= -360; // flip azimuth, hardware configuration dependent
+        // // Elegant overkill? solution
+        // targetAngle *= -360; // flip azimuth, hardware configuration dependent
 
+        // double currentPosition = ((azimuthEncoder.getValue() * 360.0 / 4049.0));
+        // currentPosition =  currentPosition > 180.0 ? currentPosition - 360.0 : currentPosition;
+        // currentPosition = currentPosition == 360 ? 0 : currentPosition; // Making 360 deg and 0 deg equal
+
+        // double azimuthError = Math.IEEEremainder(targetAngle - currentPosition, 360.0);
+
+        // //minimize azimuth rotation, reversing drive if necessary
+        // // if (Math.abs(azimuthError) > 0.25 * 360) {
+        // //     azimuthError -= Math.copySign(0.5 * 360, azimuthError);
+        // //     drive = -drive;
+        // //      SmartDashboard.putBoolean("Direction", false);
+        // // }
+        // SmartDashboard.putBoolean("Direction", true);
+        //azimuthError = Math.abs(azimuthError) == 180 ? 0 : azimuthError;
+        
         double currentPosition = ((azimuthEncoder.getValue() * 360.0 / 4049.0));
         currentPosition =  currentPosition > 180.0 ? currentPosition - 360.0 : currentPosition;
         currentPosition = currentPosition == 360 ? 0 : currentPosition; // Making 360 deg and 0 deg equal
+        targetAngle *= -360; // flip azimuth, hardware configuration dependent
 
-        double azimuthError = Math.IEEEremainder(targetAngle - currentPosition, 360.0);
+        double azimuthError = Math.IEEEremainder(currentPosition - targetAngle, 360.0);
 
         // minimize azimuth rotation, reversing drive if necessary
-        // if (Math.abs(azimuthError) > 0.25 * 360) {
-        //     azimuthError -= Math.copySign(0.5 * 360, azimuthError);
-        //     drive = -drive;
-        //     SmartDashboard.putBoolean("Direction", false);
-        // }
-        SmartDashboard.putBoolean("Direction", true);
-        azimuthError = Math.abs(azimuthError) == 180 ? 0 : azimuthError;
-
-        azimuthSparkPID.setReference((azimuthError / 360.0 * 18) + azimuthMotor.getEncoder().getPosition(), ControlType.kSmartMotion);
+        if (Math.abs(azimuthError) > 0.25 * 360) {
+            azimuthError -= Math.copySign(0.5 * 360, azimuthError);
+            drive = -drive;
+             SmartDashboard.putBoolean("Direction", false);
+        }
+       
+        azimuthSparkPID.setReference(azimuthError / 360.0 * 18 + azimuthMotor.getEncoder().getPosition() + (32.0 / 360.0 * 18), ControlType.kSmartMotion);
+        
         //azimuthSparkPID.setReference(0, ControlType.kSmartMotion);
         //azimuthMotor.set(0.15);
 
         SmartDashboard.putNumber("Current Encoder Position (Encoder Units)", azimuthEncoder.getValue());
-        SmartDashboard.putNumber("Current Encoder Position (Deg)", currentPosition);
+        //SmartDashboard.putNumber("Current Encoder Position (Deg)", currentPosition);
         SmartDashboard.putNumber("Target Change", azimuthError);
         SmartDashboard.putNumber("Current Spark Position", azimuthMotor.getEncoder().getPosition());
         SmartDashboard.putNumber("Target Spark Position (Encoder units)", (azimuthError / 360.0 * 18) + azimuthMotor.getEncoder().getPosition());
