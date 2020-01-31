@@ -13,6 +13,8 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ControlType;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANEncoder;
 import edu.wpi.first.wpilibj.AnalogInput;
 
@@ -33,6 +35,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
  */
 public class Wheel {
     private final double offsetAngle;
+    //private final TalonSRX driveMotor;
     private final CANSparkMax driveMotor;
     private final CANSparkMax azimuthMotor;
     private final CANPIDController azimuthPIDController;
@@ -49,13 +52,14 @@ public class Wheel {
      * @param offset the offset to get correct zero position (in deg)
      */
     public Wheel(int azimuthMotorId, int driveMotorId, int encoderChannel, double offset) {
-        this.azimuthMotor = new CANSparkMax(azimuthMotorId, MotorType.kBrushless);
-        this.driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
-        this.azimuthPIDController = azimuthMotor.getPIDController();
-        this.azimuthEncoder = new AnalogInput(encoderChannel);
-        this.drivePIDController = driveMotor.getPIDController();
-        this.driveEncoder = driveMotor.getEncoder();
-        this.offsetAngle = offset;
+        azimuthMotor = new CANSparkMax(azimuthMotorId, MotorType.kBrushless);
+        azimuthPIDController = azimuthMotor.getPIDController();
+        azimuthEncoder = new AnalogInput(encoderChannel);
+        driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
+        // driveMotor = new TalonSRX(driveMotorId);
+        drivePIDController = driveMotor.getPIDController();
+        driveEncoder = driveMotor.getEncoder();
+        offsetAngle = offset;
     }
 
     /**
@@ -64,6 +68,49 @@ public class Wheel {
     public void initWheel() {
         azimuthMotor.restoreFactoryDefaults();
         driveMotor.restoreFactoryDefaults();
+
+        // driveMotor.configFactoryDefault();
+        // /* Config sensor used for Primary PID [Velocity] */
+        // driveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
+        //                                     Constants.kPIDLoopIdx, 
+        //                                     Constants.kTimeoutMs);
+
+        // /**
+		//  * Phase sensor accordingly. 
+        //  * Positive Sensor Reading should match Green (blinking) Leds on Talon
+        //  */
+		// driveMotor.setSensorPhase(true);
+
+		// /* Config the peak and nominal outputs */
+		// driveMotor.configNominalOutputForward(0, Constants.kTimeoutMs);
+		// driveMotor.configNominalOutputReverse(0, Constants.kTimeoutMs);
+		// driveMotor.configPeakOutputForward(1, Constants.kTimeoutMs);
+		// driveMotor.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+
+		// /* Config the Velocity closed loop gains in slot0 */
+		// driveMotor.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
+		// driveMotor.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kP, Constants.kTimeoutMs);
+		// driveMotor.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);
+        // driveMotor.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Constants.kTimeoutMs);
+        
+        // /**
+		//  * Configure Talon SRX Output and Sesnor direction accordingly Invert Motor to
+		//  * have green LEDs when driving Talon Forward / Requesting Postiive Output Phase
+		//  * sensor to have positive increment when driving Talon Forward (Green LED)
+		//  */
+		// driveMotor.setSensorPhase(false);
+		// driveMotor.setInverted(false);
+
+		// /* Set relevant frame periods to be at least as fast as periodic rate */
+		// driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
+        // driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
+        
+        // /* Set acceleration and vcruise velocity - see documentation */
+		// driveMotor.configMotionCruiseVelocity(15000, Constants.kTimeoutMs);
+		// driveMotor.configMotionAcceleration(6000, Constants.kTimeoutMs);
+
+		// /* Zero the sensor once on robot boot up */
+		// driveMotor.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 
         drivePIDController.setP(Constants.drivekP);
         drivePIDController.setI(Constants.drivekI);
@@ -111,6 +158,7 @@ public class Wheel {
      * @param setpoint the position in meters
      */
     public void setTargetDistance(double setpoint) {
+        //driveMotor.set(ControlMode.MotionMagic, setpoint * x);
         drivePIDController.setReference(setpoint, ControlType.kVelocity);
         SmartDashboard.putNumber("Drive target velocity", setpoint);
         SmartDashboard.putNumber("Drive encoder velocity", driveEncoder.getPosition());
@@ -122,6 +170,7 @@ public class Wheel {
      * @param output target velocity 0 to 1.0
      */
     public void setDriveOutput(double output) {
+        //driveMotor.set(ControlMode.Velocity, output * Constants.maxVel);
         drivePIDController.setReference(output * Constants.maxVel, ControlType.kVelocity);
         SmartDashboard.putNumber("Drive target velocity", output * Constants.maxVel);
         SmartDashboard.putNumber("Drive encoder velocity", driveEncoder.getVelocity());
