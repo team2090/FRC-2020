@@ -40,7 +40,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void generateWheels() {
     //wheels[0] = new Wheel(Constants.FRONT_LEFT_ANGLE_MOTOR, Constants.FRONT_LEFT_DRIVE_MOTOR, Constants.FRONT_LEFT_ENCODER, Constants.FRONT_LEFT_OFFSET);
-    wheels[0] = new Wheel(1, 11, 1, 0);
+    wheels[0] = new Wheel(1, 11, 1, 32);
     // wheels[1] = new Wheel(RobotMap.FRONT_RIGHT_ANGLE_MOTOR, RobotMap.FRONT_RIGHT_DRIVE_MOTOR, RobotMap.FRONT_RIGHT_OFFSET);
     // wheels[2] = new Wheel(RobotMap.BACK_LEFT_ANGLE_MOTOR, RobotMap.BACK_LEFT_DRIVE_MOTOR, RobotMap.BACK_LEFT_OFFSET);
     // wheels[3] = new Wheel(RobotMap.BACK_RIGHT_ANGLE_MOTOR, RobotMap.BACK_RIGHT_DRIVE_MOTOR, RobotMap.BACK_RIGHT_OFFSET);

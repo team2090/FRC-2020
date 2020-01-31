@@ -42,11 +42,13 @@ public final class Constants {
   public static int BACK_LEFT_ENCODER = 3;
 
   // Azimuth PID coefficients
-  public static double azimuthkP = 5e-4;
-  public static double azimuthkI = 0;
+  public static double azimuthkP = 5e-5;
+  public static double azimuthkI = 1e-6;
   public static double azimuthkD = 0;
-  public static double azimuthkF = 0.0;
-  public static double azimuthTolerance = 5.0;
+  public static double azimuthkIz = 0;
+  public static double azimuthkFF = 0;
+  public static double azimuthkMaxOutput = 1;
+  public static double azimuthkMinOutput = -1;
 
   // PID coefficients
   public static double drivekP = 5e-5; 
