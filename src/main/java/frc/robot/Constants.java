@@ -17,16 +17,20 @@ package frc.robot;
  */
 public final class Constants {
 
+  // Ratio
+  public static double robotLength = 1;
+  public static double robotWidth = 1;
+
   // Front Left
-  public static int FRONT_LEFT_ANGLE_MOTOR = 0;
-  public static int FRONT_LEFT_DRIVE_MOTOR = 10;
-  public static double FRONT_LEFT_OFFSET = 0;
+  public static int FRONT_LEFT_ANGLE_MOTOR = 1;
+  public static int FRONT_LEFT_DRIVE_MOTOR = 11;
+  public static double FRONT_LEFT_OFFSET = 32;
   public static int FRONT_LEFT_ENCODER = 1;
 
   // Front Right
   public static int FRONT_RIGHT_ANGLE_MOTOR = 1;
   public static int FRONT_RIGHT_DRIVE_MOTOR = 11;
-  public static double FRONT_RIGHT_OFFSET = 0;
+  public static double FRONT_RIGHT_OFFSET = 32;
   public static int FRONT_RIGHT_ENCODER = 1;
 
   // Back Right
@@ -63,4 +67,5 @@ public final class Constants {
   // Smart Motion Coefficients
   public static double maxVel = 2500; // rpm
   public static double maxAcc = 1500;
+  public static double minVel = 0;
 }

@@ -11,8 +11,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.TeleOpDriveCommand;
 import frc.robot.commands.AutoDriveCommand;
+import frc.robot.subsystems.HangSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.SubsystemStateMachine;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -24,6 +28,12 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem robotDrive = new SwerveSubsystem();
   private final AutoDriveCommand autoCommand = new AutoDriveCommand(robotDrive);
+
+  private final HangSubsystem hang = new HangSubsystem();
+  private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
+  
+  private final SubsystemStateMachine stateMachine = new SubsystemStateMachine(robotDrive, hang, intake, shooter);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -51,5 +61,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoCommand;
+  }
+
+  public Command getStateMachine() {
+    return stateMachine;
   }
 }
