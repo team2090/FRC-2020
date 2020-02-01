@@ -7,7 +7,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.HangSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -18,15 +20,13 @@ public class SubsystemStateMachine extends CommandBase {
   private final HangSubsystem hang;
   private final ShooterSubsystem shooter;
   private final IntakeSubsystem intake;
+  private boolean driveRunning = false;
   /**
    * Creates a new SubsystemStateMachine.
    */
   public SubsystemStateMachine(SwerveSubsystem driveSubsystem, HangSubsystem hangSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driveSubsystem);
-    addRequirements(hangSubsystem);
-    addRequirements(intakeSubsystem);
-    addRequirements(shooterSubsystem);
+    addRequirements(driveSubsystem, hangSubsystem, intakeSubsystem, shooterSubsystem);
 
     drive = driveSubsystem;
     hang = hangSubsystem;
@@ -42,6 +42,20 @@ public class SubsystemStateMachine extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    String stateInput = "";
+    // Check if subsystem is suppose to run
+    if (Robot.controls.getForward() != 0 || Robot.controls.getStrafe() != 0 || Robot.controls.getYaw() != 0) {
+      stateInput += "1";
+    } else {
+      stateInput += "0";
+    }
+
+    // Manage behavior based on running status
+    switch(stateInput) {
+      default:
+        SmartDashboard.putString("State Machine", "Current output sufficient");
+    }
+
   }
 
   // Called once the command ends or is interrupted.
