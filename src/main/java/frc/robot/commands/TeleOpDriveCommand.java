@@ -6,14 +6,37 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
+
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Wheel;
+
+import java.util.ArrayList;
+
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.music.Orchestra;
 
 
 public class TeleOpDriveCommand extends CommandBase {
   private final SwerveSubsystem robotDrive;
+  Orchestra orchestra;
+
+  String[] songs = new String[] {
+    "song1.chrp",
+    "song2.chrp",
+    "song3.chrp",
+    "song4.chrp",
+    "song5.chrp",
+    "song6.chrp",
+    "song7.chrp",
+    "song8.chrp",
+    "song9.chrp", /* the remaining songs play better with three or more FXs */
+    "song10.chrp",
+    "song11.chrp",
+  };
+
   public TeleOpDriveCommand(SwerveSubsystem swerve) {
     robotDrive = swerve;
     addRequirements(swerve);
@@ -24,6 +47,19 @@ public class TeleOpDriveCommand extends CommandBase {
   public void initialize() {
     robotDrive.generateWheels();
     robotDrive.initWheels();
+    
+    /* A list of TalonFX's that are to be used as instruments */
+    ArrayList<TalonFX> instruments = new ArrayList<TalonFX>();
+    
+    Wheel[] wheels = robotDrive.getWheels();
+    /* Initialize the TalonFX's to be used */
+    for (int i = 0; i < wheels.length; ++i) {
+        instruments.add(wheels[i].getDriveMotor());
+    }
+    
+    /* Create the orchestra with the TalonFX instruments */
+    Orchestra orchestra = new Orchestra(instruments);
+    orchestra.loadMusic(songs[(int) SmartDashboard.getNumber("songNum", 0)]);
     SmartDashboard.putString("State", "Teleop Init");
   }
 
@@ -61,6 +97,10 @@ public class TeleOpDriveCommand extends CommandBase {
     SmartDashboard.putNumber("Yaw", yaw);
 
     robotDrive.drive(forward, strafe, yaw);
+
+    if (!orchestra.isPlaying()) {
+      orchestra.play();
+    }
   }
 
   public double deadband(double value) {

@@ -78,7 +78,7 @@ public class Wheel {
         /* config all the settings */
         driveMotor.configAllSettings(configs);
         driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 20);
-        
+
 		/*
 		 * Choose which direction motor should spin during positive
 		 * motor-output/sensor-velocity. Note setInverted also takes classic true/false
@@ -198,6 +198,10 @@ public class Wheel {
             azimuthPIDController.setReference(azimuthError / 360.0 * 18 + azimuthMotor.getEncoder().getPosition() + (offsetAngle / 360.0 * 18), ControlType.kSmartMotion);
         }
         setDriveOutput(drive);
+    }
+
+    public TalonFX getDriveMotor() {
+        return driveMotor;
     }
 
     /**
