@@ -16,7 +16,6 @@ public class TeleOpDriveCommand extends CommandBase {
   private final SwerveSubsystem robotDrive;
   public TeleOpDriveCommand(SwerveSubsystem swerve) {
     robotDrive = swerve;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerve);
   }
 
@@ -35,6 +34,27 @@ public class TeleOpDriveCommand extends CommandBase {
     double forward = deadband(Robot.controls.getForward());
     double strafe = deadband(Robot.controls.getStrafe());
     double yaw = deadband(Robot.controls.getYaw());
+
+    if (Robot.controls.slowDriveMode()) {
+      forward /= 2;
+      strafe /= 2;
+      yaw /= 2;
+    }
+
+    // Mode changing
+    if (Robot.controls.robotOriented()) {
+      SmartDashboard.putString("Mode", "Robot Oriented");
+      robotDrive.setFieldOriented(false);
+    } else if (Robot.controls.fieldOriented()) {
+      SmartDashboard.putString("Mode", "Field Oriented");
+      robotDrive.setFieldOriented(true);
+    }
+
+    if (Robot.controls.robotOrientedForward()) {
+      robotDrive.setFieldOriented(false);
+      robotDrive.drive(0.3, 0, 0);
+      robotDrive.setFieldOriented(true);
+    }
 
     SmartDashboard.putNumber("Forward", forward);
     SmartDashboard.putNumber("Strafe", strafe);

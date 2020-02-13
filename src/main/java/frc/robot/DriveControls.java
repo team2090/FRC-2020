@@ -27,4 +27,20 @@ public class DriveControls {
     public double getYaw() {
       return joystick2.getRawAxis(0);
     }
+
+    public boolean robotOriented() {
+      return joystick1.getRawButton(5);
+    }
+
+    public boolean fieldOriented() {
+      return joystick1.getRawButton(6);
+    }
+
+    public boolean slowDriveMode() {
+      return joystick1.getRawButton(2);
+    }
+
+    public boolean robotOrientedForward() {
+      return joystick1.getRawButton(4);
+    }
 }

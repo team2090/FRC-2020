@@ -10,62 +10,67 @@ package frc.robot;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
- * declared globally (i.e. public static).  Do not put anything functional in this class.
+ * declared globally (i.e. public static final).  Do not put anything functional in this class.
  *
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static final class HangConstants {
 
-  // Ratio
-  public static double robotLength = 1;
-  public static double robotWidth = 1;
+  }
 
-  // Front Left
-  public static int FRONT_LEFT_ANGLE_MOTOR = 1;
-  public static int FRONT_LEFT_DRIVE_MOTOR = 11;
-  public static double FRONT_LEFT_OFFSET = 32;
-  public static int FRONT_LEFT_ENCODER = 1;
+  public static final class IntakeConstants {
+    
+  }
 
-  // Front Right
-  public static int FRONT_RIGHT_ANGLE_MOTOR = 1;
-  public static int FRONT_RIGHT_DRIVE_MOTOR = 11;
-  public static double FRONT_RIGHT_OFFSET = 32;
-  public static int FRONT_RIGHT_ENCODER = 1;
+  public static final class ShooterConstants {
+    
+  }
 
-  // Back Right
-  public static int BACK_RIGHT_ANGLE_MOTOR = 3;
-  public static int BACK_RIGHT_DRIVE_MOTOR = 13;
-  public static double BACK_RIGHT_OFFSET = 0;
-  public static int BACK_RIGHT_ENCODER = 2;
-  
-  // Back Left
-  public static int BACK_LEFT_DRIVE_MOTOR = 12;
-  public static int BACK_LEFT_ANGLE_MOTOR = 2;
-  public static double BACK_LEFT_OFFSET = 0;
-  public static int BACK_LEFT_ENCODER = 3;
+  public static final class SwerveConstants {
+    // Ratio
+    public static final double robotLength = 1;
+    public static final double robotWidth = 1;
 
-  // Azimuth PID coefficients
-  public static double azimuthkP = 5e-5;
-  public static double azimuthkI = 1e-6;
-  public static double azimuthkD = 0;
-  public static double azimuthkIz = 0;
-  public static double azimuthkFF = 0;
-  public static double azimuthkMaxOutput = 1;
-  public static double azimuthkMinOutput = -1;
+    // Front Left
+    public static final int FRONT_LEFT_ANGLE_MOTOR = 1;
+    public static final int FRONT_LEFT_DRIVE_MOTOR = 11;
+    public static final double FRONT_LEFT_OFFSET = 32;
+    public static final int FRONT_LEFT_ENCODER = 1;
 
-  // PID coefficients
-  public static double drivekP = 5e-5; 
-  public static double drivekI = 1e-6;
-  public static double drivekD = 0; 
-  public static double drivekIz = 0; 
-  public static double drivekFF = 0.000156; 
-  public static double drivekMaxOutput = 1; 
-  public static double drivekMinOutput = -1;
-  public static double driveMaxRPM = 5700;
+    // Front Right
+    public static final int FRONT_RIGHT_ANGLE_MOTOR = 1;
+    public static final int FRONT_RIGHT_DRIVE_MOTOR = 11;
+    public static final double FRONT_RIGHT_OFFSET = 32;
+    public static final int FRONT_RIGHT_ENCODER = 1;
 
-  // Smart Motion Coefficients
-  public static double maxVel = 2500; // rpm
-  public static double maxAcc = 1500;
-  public static double minVel = 0;
+    // Back Right
+    public static final int BACK_RIGHT_ANGLE_MOTOR = 3;
+    public static final int BACK_RIGHT_DRIVE_MOTOR = 13;
+    public static final double BACK_RIGHT_OFFSET = 0;
+    public static final int BACK_RIGHT_ENCODER = 2;
+
+    // Back Left
+    public static final int BACK_LEFT_DRIVE_MOTOR = 12;
+    public static final int BACK_LEFT_ANGLE_MOTOR = 2;
+    public static final double BACK_LEFT_OFFSET = 0;
+    public static final int BACK_LEFT_ENCODER = 3;
+
+    // Azimuth PID coefficients
+    public static final double azimuthkP = 5e-5;
+    public static final double azimuthkI = 1e-6;
+    public static final double azimuthkD = 0;
+    public static final double azimuthkIz = 0;
+    public static final double azimuthkFF = 0;
+    public static final double azimuthkMaxOutput = 1;
+    public static final double azimuthkMinOutput = -1;
+
+    // Smart Motion Coefficients
+    public static final double azimuthMaxVel = 2500; // rpm
+    public static final double azimuthMaxAcc = 1500;
+    public static final double azimuthMinVel = 0;
+    
+    public static final int driveTicks = 2048;
+  }
 }

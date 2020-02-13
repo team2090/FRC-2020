@@ -9,13 +9,17 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import frc.robot.Constants;
+import static frc.robot.Constants.SwerveConstants.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ControlType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.CANEncoder;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import edu.wpi.first.wpilibj.AnalogInput;
 
 /**
@@ -35,13 +39,10 @@ import edu.wpi.first.wpilibj.AnalogInput;
  */
 public class Wheel {
     private final double offsetAngle;
-    //private final TalonSRX driveMotor;
-    private final CANSparkMax driveMotor;
+    private final TalonFX driveMotor;
     private final CANSparkMax azimuthMotor;
     private final CANPIDController azimuthPIDController;
     private final AnalogInput azimuthEncoder;
-    private final CANPIDController drivePIDController;
-    private final CANEncoder driveEncoder;
     
     /**
      * This constructs a wheel with supplied azimuth spark, drive falcon, and MA3 encoder.
@@ -55,85 +56,49 @@ public class Wheel {
         azimuthMotor = new CANSparkMax(azimuthMotorId, MotorType.kBrushless);
         azimuthPIDController = azimuthMotor.getPIDController();
         azimuthEncoder = new AnalogInput(encoderChannel);
-        driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
-        // driveMotor = new TalonSRX(driveMotorId);
-        drivePIDController = driveMotor.getPIDController();
-        driveEncoder = driveMotor.getEncoder();
+        driveMotor = new TalonFX(driveMotorId);
         offsetAngle = offset;
     }
 
     /**
-     * Configures the drive and azimuth motors with supplied PID constants.
+     * Configures the drive and azimuth motors with supplied PID 
      */
     public void initWheel() {
         azimuthMotor.restoreFactoryDefaults();
-        driveMotor.restoreFactoryDefaults();
+        TalonFXConfiguration configs = new TalonFXConfiguration();
+        /* select integ-sensor for PID0 (it doesn't matter if PID is actually used) */
+        configs.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+        /* config all the settings */
+        driveMotor.configAllSettings(configs);
+        driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 20);
 
-        // driveMotor.configFactoryDefault();
-        // /* Config sensor used for Primary PID [Velocity] */
-        // driveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-        //                                     Constants.kPIDLoopIdx, 
-        //                                     Constants.kTimeoutMs);
+		/*
+		 * Choose which direction motor should spin during positive
+		 * motor-output/sensor-velocity. Note setInverted also takes classic true/false
+		 * as an input.
+		 */
+		driveMotor.setInverted(TalonFXInvertType.CounterClockwise);
+		/*
+		 * Talon FX does not need sensor phase set for its integrated sensor
+		 * This is because it will always be correct if the selected feedback device is integrated sensor (default value)
+		 * and the user calls getSelectedSensor* to get the sensor's position/velocity.
+		 * 
+		 * https://phoenix-documentation.readthedocs.io/en/latest/ch14_MCSensor.html#sensor-phase
+		 */
 
-        // /**
-		//  * Phase sensor accordingly. 
-        //  * Positive Sensor Reading should match Green (blinking) Leds on Talon
-        //  */
-		// driveMotor.setSensorPhase(true);
-
-		// /* Config the peak and nominal outputs */
-		// driveMotor.configNominalOutputForward(0, Constants.kTimeoutMs);
-		// driveMotor.configNominalOutputReverse(0, Constants.kTimeoutMs);
-		// driveMotor.configPeakOutputForward(1, Constants.kTimeoutMs);
-		// driveMotor.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-
-		// /* Config the Velocity closed loop gains in slot0 */
-		// driveMotor.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
-		// driveMotor.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kP, Constants.kTimeoutMs);
-		// driveMotor.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);
-        // driveMotor.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Constants.kTimeoutMs);
-        
-        // /**
-		//  * Configure Talon SRX Output and Sesnor direction accordingly Invert Motor to
-		//  * have green LEDs when driving Talon Forward / Requesting Postiive Output Phase
-		//  * sensor to have positive increment when driving Talon Forward (Green LED)
-		//  */
-		// driveMotor.setSensorPhase(false);
-		// driveMotor.setInverted(false);
-
-		// /* Set relevant frame periods to be at least as fast as periodic rate */
-		// driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
-        // driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
-        
-        // /* Set acceleration and vcruise velocity - see documentation */
-		// driveMotor.configMotionCruiseVelocity(15000, Constants.kTimeoutMs);
-		// driveMotor.configMotionAcceleration(6000, Constants.kTimeoutMs);
-
-		// /* Zero the sensor once on robot boot up */
-		// driveMotor.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-
-        drivePIDController.setP(Constants.drivekP);
-        drivePIDController.setI(Constants.drivekI);
-        drivePIDController.setD(Constants.drivekD);
-        drivePIDController.setIZone(Constants.drivekIz);
-        drivePIDController.setFF(Constants.drivekFF);
-        drivePIDController.setOutputRange(Constants.drivekMinOutput, Constants.drivekMaxOutput);
-
-        drivePIDController.setSmartMotionMaxVelocity(Constants.maxVel, 0);
-        drivePIDController.setSmartMotionMinOutputVelocity(Constants.minVel, 0);
-        drivePIDController.setSmartMotionMaxAccel(Constants.maxAcc, 0);
-        //drivePIDController.setSmartMotionAllowedClosedLoopError(Constants.allowedErr, 0);
-
-        // set PID coefficients
-        azimuthPIDController.setP(Constants.azimuthkP);
-        azimuthPIDController.setI(Constants.azimuthkI);
-        azimuthPIDController.setD(Constants.azimuthkD);
-        azimuthPIDController.setIZone(Constants.azimuthkIz);
-        azimuthPIDController.setFF(Constants.azimuthkFF);
-        azimuthPIDController.setOutputRange(Constants.azimuthkMinOutput, Constants.azimuthkMaxOutput);
-        azimuthPIDController.setSmartMotionMaxVelocity(Constants.maxVel, 0);
-        //azimuthPIDController.setSmartMotionMinOutputVelocity(Constants.minVel, 0);
-        azimuthPIDController.setSmartMotionMaxAccel(Constants.maxAcc, 0);
+		/* Brake or coast during neutral */
+		driveMotor.setNeutralMode(NeutralMode.Brake);
+    
+        // set azimuth PID coefficients
+        azimuthPIDController.setP(azimuthkP);
+        azimuthPIDController.setI(azimuthkI);
+        azimuthPIDController.setD(azimuthkD);
+        azimuthPIDController.setIZone(azimuthkIz);
+        azimuthPIDController.setFF(azimuthkFF);
+        azimuthPIDController.setOutputRange(azimuthkMinOutput, azimuthkMaxOutput);
+        azimuthPIDController.setSmartMotionMaxVelocity(azimuthMaxVel, 0);
+        azimuthPIDController.setSmartMotionMinOutputVelocity(azimuthMinVel, 0);
+        azimuthPIDController.setSmartMotionMaxAccel(azimuthMaxAcc, 0);
         azimuthEncoder.setOversampleBits(4);
     }
 
@@ -158,10 +123,9 @@ public class Wheel {
      * @param setpoint the position in meters
      */
     public void setTargetDistance(double setpoint) {
-        //driveMotor.set(ControlMode.MotionMagic, setpoint * x);
-        drivePIDController.setReference(setpoint, ControlType.kVelocity);
+        driveMotor.set(ControlMode.MotionMagic, setpoint * driveTicks);
         SmartDashboard.putNumber("Drive target velocity", setpoint);
-        SmartDashboard.putNumber("Drive encoder velocity", driveEncoder.getPosition());
+        SmartDashboard.putNumber("Drive encoder velocity", driveMotor.getSelectedSensorPosition());
     } 
 
     /**
@@ -170,10 +134,9 @@ public class Wheel {
      * @param output target velocity 0 to 1.0
      */
     public void setDriveOutput(double output) {
-        //driveMotor.set(ControlMode.Velocity, output * Constants.maxVel);
-        drivePIDController.setReference(output * Constants.maxVel, ControlType.kVelocity);
-        SmartDashboard.putNumber("Drive target velocity", output * Constants.maxVel);
-        SmartDashboard.putNumber("Drive encoder velocity", driveEncoder.getVelocity());
+        driveMotor.set(ControlMode.Velocity, output * driveTicks * 500.0);
+        SmartDashboard.putNumber("Drive target velocity", output * driveTicks * 500.0);
+        SmartDashboard.putNumber("Drive encoder velocity", driveMotor.getSelectedSensorVelocity());
     }
     
     /**
@@ -197,17 +160,19 @@ public class Wheel {
 
         // The difference between the target angle and the current position 
         double azimuthError = Math.IEEEremainder(currentPosition - targetAngle, 360.0);
-        boolean overThres = false;
+        // boolean overThres = false;
 
-        SmartDashboard.putBoolean("OverThres", overThres);
+        // SmartDashboard.putBoolean("OverThres", overThres);
+
         // Minimize azimuth rotation by reversing drive if necessary
-        if (Math.abs(azimuthError) > 0.75 * 360) {
-            azimuthError -= Math.copySign(360, azimuthError);
-            drive = -drive;
-            if (!overThres){
-                overThres = true;
-            }
-        } else if (Math.abs(azimuthError) > 0.25 * 360) {
+        // if (Math.abs(azimuthError) > 0.75 * 360) {
+        //     azimuthError -= Math.copySign(360, azimuthError);
+        //     drive = -drive;
+        //     if (!overThres){
+        //         overThres = true;
+        //     }
+        // } else 
+        if (Math.abs(azimuthError) > 0.25 * 360) {
             azimuthError -= Math.copySign(0.5 * 360, azimuthError);
             drive = -drive;
              SmartDashboard.putBoolean("Direction", false);
@@ -243,6 +208,6 @@ public class Wheel {
     public void stop() {
         azimuthEncoder.close();
         azimuthMotor.set(0);
-        driveMotor.set(0);
+        driveMotor.set(ControlMode.PercentOutput, 0);
     }
 }

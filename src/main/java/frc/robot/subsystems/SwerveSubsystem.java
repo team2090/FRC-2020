@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.kauailabs.navx.frc.AHRS;
 import frc.robot.subsystems.Wheel;
-import frc.robot.Constants;
+import static frc.robot.Constants.SwerveConstants.*;
 
 /**
  * FRC Team 2090's Swerve Drive Code.
@@ -40,9 +40,9 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public SwerveSubsystem() {
     gyro = new AHRS();
-    double radius = Math.hypot(Constants.robotLength, Constants.robotWidth);
-    kLengthComponent = Constants.robotLength / radius;
-    kWidthComponent = Constants.robotWidth / radius;
+    double radius = Math.hypot(robotLength, robotWidth);
+    kLengthComponent = robotLength / radius;
+    kWidthComponent = robotWidth / radius;
     setFieldOriented(true);
     //setFieldOriented(gyro != null && gyro.isConnected());
   }
@@ -52,22 +52,20 @@ public class SwerveSubsystem extends SubsystemBase {
    * Wheels are an array numbered 0-3 from front to back, with even numbers on the left side when facing forward
    */
   public void generateWheels() {
-    wheels[0] = new Wheel(Constants.FRONT_LEFT_ANGLE_MOTOR, Constants.FRONT_LEFT_DRIVE_MOTOR, Constants.FRONT_LEFT_ENCODER, Constants.FRONT_LEFT_OFFSET);
-    // wheels[1] = new Wheel(RobotMap.FRONT_RIGHT_ANGLE_MOTOR, RobotMap.FRONT_RIGHT_DRIVE_MOTOR, RobotMap.FRONT_RIGHT_OFFSET);
-    // wheels[2] = new Wheel(RobotMap.BACK_LEFT_ANGLE_MOTOR, RobotMap.BACK_LEFT_DRIVE_MOTOR, RobotMap.BACK_LEFT_OFFSET);
-    // wheels[3] = new Wheel(RobotMap.BACK_RIGHT_ANGLE_MOTOR, RobotMap.BACK_RIGHT_DRIVE_MOTOR, RobotMap.BACK_RIGHT_OFFSET);
+    wheels[0] = new Wheel(FRONT_LEFT_ANGLE_MOTOR, FRONT_LEFT_DRIVE_MOTOR, FRONT_LEFT_ENCODER, FRONT_LEFT_OFFSET);
+    wheels[1] = new Wheel(FRONT_RIGHT_ANGLE_MOTOR, FRONT_RIGHT_DRIVE_MOTOR, FRONT_RIGHT_ENCODER, FRONT_RIGHT_OFFSET);
+    wheels[2] = new Wheel(BACK_LEFT_ANGLE_MOTOR, BACK_LEFT_DRIVE_MOTOR, BACK_LEFT_ENCODER, BACK_LEFT_OFFSET);
+    wheels[3] = new Wheel(BACK_RIGHT_ANGLE_MOTOR, BACK_RIGHT_DRIVE_MOTOR, BACK_RIGHT_ENCODER, BACK_RIGHT_OFFSET);
   }
 
   /**
    * Initialize the wheels and set them to the absolute zero based on the each Wheel's given offset
    */
   public void initWheels() {
-    // for (int i = 0; i < 4; i++) {
-    //   wheels[i].initWheel();
-    //   wheels[i].zero();
-    // }
-    wheels[0].initWheel();
-    wheels[0].zero();
+    for (int i = 0; i < 4; i++) {
+      wheels[i].initWheel();
+      wheels[i].zero();
+    }
   }
 
   /**
@@ -78,7 +76,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   /**
-   * /**
+   * 
    * Drive the robot in given field-relative direction and with given rotation.
    *
    * @param forward Y-axis movement, from -1.0 (reverse) to 1.0 (forward)
@@ -119,18 +117,18 @@ public class SwerveSubsystem extends SubsystemBase {
     wa[2] = Math.atan2(a, d) * 0.5 / Math.PI;
     wa[3] = Math.atan2(a, c) * 0.5 / Math.PI;
 
-    // normalize wheel speed
-    // final double maxWheelSpeed = Math.max(Math.max(ws[0], ws[1]), Math.max(ws[2], ws[3]));
-    // if (maxWheelSpeed > 1.0) {
-    //   for (int i = 0; i < 4; i++) {
-    //     ws[i] /= maxWheelSpeed;
-    //   }
-    // }
-    // set wheels
-    // for (int i = 0; i < 4; i++) {
-    //   wheels[i].set(wa[i], ws[i]);
-    // }
-    wheels[0].set(wa[0], ws[0]);
+    //normalize wheel speed
+    final double maxWheelSpeed = Math.max(Math.max(ws[0], ws[1]), Math.max(ws[2], ws[3]));
+    if (maxWheelSpeed > 1.0) {
+      for (int i = 0; i < 4; i++) {
+        ws[i] /= maxWheelSpeed;
+      }
+    }
+    //set wheels
+    for (int i = 0; i < 4; i++) {
+      wheels[i].set(wa[i], ws[i]);
+    }
+   
   }
 
   /**
@@ -147,15 +145,14 @@ public class SwerveSubsystem extends SubsystemBase {
    * Stop all Swerve Modules
    */
   public void stop() {
-    // for (Wheel wheel : wheels) {
-    //   wheel.stop();
-    // }
-    wheels[0].stop();
+    for (Wheel wheel : wheels) {
+      wheel.stop();
+    }
     SmartDashboard.putString("State", "Stopped");
   }
 
   /**
-   * Change current output based on the SubsystemStateMachine
+   * Change current output based on the whether or not other subsystems are running
    */
   public void modifyOutput() {
     
