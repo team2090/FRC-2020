@@ -43,7 +43,6 @@ public class Wheel {
     private final CANSparkMax azimuthMotor;
     private final CANPIDController azimuthPIDController;
     private final AnalogInput azimuthEncoder;
-    private final TalonFXInvertType kInvertType;
     
     /**
      * This constructs a wheel with supplied azimuth spark, drive falcon, and MA3 encoder.
@@ -52,19 +51,13 @@ public class Wheel {
      * @param driveMotorId the drive Falcon 500
      * @param encoderChannel the MA3 Analog encoder port
      * @param offset the offset to get correct zero position (in deg)
-     * @param wheelDirection the direction of the drive (clockwise = true)
      */
-    public Wheel(int azimuthMotorId, int driveMotorId, int encoderChannel, double offset, boolean wheelDirection) {
+    public Wheel(int azimuthMotorId, int driveMotorId, int encoderChannel, double offset) {
         azimuthMotor = new CANSparkMax(azimuthMotorId, MotorType.kBrushless);
         azimuthPIDController = azimuthMotor.getPIDController();
         azimuthEncoder = new AnalogInput(encoderChannel);
         driveMotor = new TalonFX(driveMotorId);
         offsetAngle = offset;
-        if (wheelDirection) {
-            kInvertType = TalonFXInvertType.Clockwise; 
-        } else {
-            kInvertType = TalonFXInvertType.CounterClockwise; 
-        }
     }
 
     /**
@@ -75,6 +68,9 @@ public class Wheel {
         TalonFXConfiguration configs = new TalonFXConfiguration();
         /* select integ-sensor for PID0 (it doesn't matter if PID is actually used) */
         configs.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+        configs.slot0.kP = drivekP;
+        configs.slot0.kI = drivekI;
+        configs.slot0.kD = drivekD;
         /* config all the settings */
         driveMotor.configAllSettings(configs);
         driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 20);
@@ -84,7 +80,7 @@ public class Wheel {
 		 * motor-output/sensor-velocity. Note setInverted also takes classic true/false
 		 * as an input.
 		 */
-		driveMotor.setInverted(kInvertType);
+		driveMotor.setInverted(TalonFXInvertType.CounterClockwise);
 		/*
 		 * Talon FX does not need sensor phase set for its integrated sensor
 		 * This is because it will always be correct if the selected feedback device is integrated sensor (default value)
@@ -141,8 +137,8 @@ public class Wheel {
      * @param output target velocity 0 to 1.0
      */
     public void setDriveOutput(double output) {
-        driveMotor.set(ControlMode.Velocity, output * driveTicks * 500.0);
-        SmartDashboard.putNumber("Drive target velocity", output * driveTicks * 500.0);
+        driveMotor.set(ControlMode.Velocity, output * driveTicks * 6380.0 / 600.0);
+        SmartDashboard.putNumber("Drive target velocity", output * driveTicks * 6380.0 / 600.0);
         SmartDashboard.putNumber("Drive encoder velocity", driveMotor.getSelectedSensorVelocity());
     }
     
