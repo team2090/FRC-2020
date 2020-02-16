@@ -137,7 +137,7 @@ public class Wheel {
      * @param output target velocity 0 to 1.0
      */
     public void setDriveOutput(double output) {
-        driveMotor.set(ControlMode.Velocity, output * driveTicks * 6380.0 / 600.0);
+        driveMotor.set(ControlMode.PercentOutput, output);
         SmartDashboard.putNumber("Drive target velocity", output * driveTicks * 6380.0 / 600.0);
         SmartDashboard.putNumber("Drive encoder velocity", driveMotor.getSelectedSensorVelocity());
     }

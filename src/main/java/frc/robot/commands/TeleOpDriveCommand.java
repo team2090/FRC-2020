@@ -16,12 +16,12 @@ import frc.robot.subsystems.Wheel;
 import java.util.ArrayList;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.music.Orchestra;
+// import com.ctre.phoenix.music.Orchestra;
 
 
 public class TeleOpDriveCommand extends CommandBase {
   private final SwerveSubsystem robotDrive;
-  Orchestra orchestra;
+  // Orchestra orchestra;
 
   String[] songs = new String[] {
     "song1.chrp",
@@ -58,8 +58,8 @@ public class TeleOpDriveCommand extends CommandBase {
     }
     
     /* Create the orchestra with the TalonFX instruments */
-    Orchestra orchestra = new Orchestra(instruments);
-    orchestra.loadMusic(songs[(int) SmartDashboard.getNumber("songNum", 0)]);
+    // Orchestra orchestra = new Orchestra(instruments);
+    // orchestra.loadMusic(songs[(int) SmartDashboard.getNumber("songNum", 0)]);
     SmartDashboard.putString("State", "Teleop Init");
   }
 
@@ -98,9 +98,9 @@ public class TeleOpDriveCommand extends CommandBase {
 
     robotDrive.drive(forward, strafe, yaw);
 
-    if (!orchestra.isPlaying()) {
-      orchestra.play();
-    }
+    // if (!orchestra.isPlaying()) {
+    //   orchestra.play();
+    // }
   }
 
   public double deadband(double value) {
