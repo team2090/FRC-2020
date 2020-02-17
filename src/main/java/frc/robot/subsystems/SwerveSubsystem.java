@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.kauailabs.navx.frc.AHRS;
 import frc.robot.subsystems.Wheel;
@@ -149,6 +151,27 @@ public class SwerveSubsystem extends SubsystemBase {
       wheel.stop();
     }
     SmartDashboard.putString("State", "Stopped");
+  }
+
+  public void updateLimelightTracking(double strafeInput) {
+    // TODO: MOVE this to its proper place
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    final double steerConstant = 0.03; // how hard to turn toward the target
+    final double driveConstant = 0.26; // how hard to drive fwd toward the target
+
+    double headingError = -table.getEntry("tx").getDouble(0);
+    double distanceError = -table.getEntry("ty").getDouble(0);
+   
+    double forwardInput = 0;
+    double yawInput = 0;
+
+    forwardInput = Math.abs(distanceError) < 5.0 ? 0 : (distanceError * driveConstant);
+    yawInput = Math.abs(headingError) < 1.0 ? 0 : (headingError * steerConstant);
+
+    forwardInput = forwardInput > 0.5 ? 0.5 : forwardInput;
+    yawInput = yawInput > 0.25 ? 0.25 : yawInput;
+
+    drive(forwardInput, strafeInput, yawInput);
   }
 
   /**
