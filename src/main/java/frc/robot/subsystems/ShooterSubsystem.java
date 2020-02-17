@@ -7,14 +7,20 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import static frc.robot.Constants.ShooterConstants.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
+  private CANSparkMax shooterMotor1;
+  private CANSparkMax shooterMotor2;
   /**
    * Creates a new ShooterSubsystem.
    */
   public ShooterSubsystem() {
-
+    // shooterMotor1 = new CANSparkMax(shooter1, MotorType.kBrushless);
+    // shooterMotor2 = new CANSparkMax(shooter2, MotorType.kBrushless);
   }
 
   @Override

@@ -102,7 +102,7 @@ public class Wheel {
         azimuthPIDController.setSmartMotionMaxVelocity(azimuthMaxVel, 0);
         azimuthPIDController.setSmartMotionMinOutputVelocity(azimuthMinVel, 0);
         azimuthPIDController.setSmartMotionMaxAccel(azimuthMaxAcc, 0);
-        azimuthEncoder.setOversampleBits(4);
+        //azimuthEncoder.setOversampleBits(4);
     }
 
     /**
@@ -180,7 +180,8 @@ public class Wheel {
             drive = -drive;
              SmartDashboard.putBoolean("Direction", false);
         }   
-       
+        
+        SmartDashboard.putNumber("Encoder current position", azimuthEncoder.getValue());
         SmartDashboard.putNumber("currentPosition", currentPosition);
         SmartDashboard.putNumber("targetAngle", targetAngle);
         SmartDashboard.putNumber("AzimuthError", azimuthError);

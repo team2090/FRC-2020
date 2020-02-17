@@ -25,7 +25,8 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    
+    public static final int shooter1 = 6;
+    public static final int shooter2 = 7;
   }
 
   public static final class SwerveConstants {
