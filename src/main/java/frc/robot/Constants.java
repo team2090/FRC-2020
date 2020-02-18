@@ -83,4 +83,14 @@ public final class Constants {
     
     public static final int driveTicks = 2048;
   }
+
+  public static final class LimelightConstants {
+    public static final double headingConstant = 0.03; // how hard to turn toward the target
+    public static final double driveConstant = 0.26; // how hard to drive fwd toward the target
+    public static final double maxDistanceError = 5.0;
+    public static final double maxHeadingError = 1.0;
+    public static final double maxForwardOutput = 0.5;
+    public static final double maxYawOutput = 0.2;
+
+  }
 }

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.kauailabs.navx.frc.AHRS;
 import frc.robot.subsystems.Wheel;
 import static frc.robot.Constants.SwerveConstants.*;
+import static frc.robot.Constants.LimelightConstants.*;
 
 /**
  * FRC Team 2090's Swerve Drive Code.
@@ -154,23 +155,21 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void updateLimelightTracking(double strafeInput) {
-    // TODO: MOVE this to its proper place
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    final double headingConstant = 0.03; // how hard to turn toward the target
-    final double driveConstant = 0.26; // how hard to drive fwd toward the target
-
     double headingError = -table.getEntry("tx").getDouble(0);
     double distanceError = -table.getEntry("ty").getDouble(0);
+
+    SmartDashboard.putNumber("tx", headingError);
+    SmartDashboard.putNumber("ty", distanceError);
    
     double forwardInput = 0;
     double yawInput = 0;
 
-    // TODO: Make values in Constants for all the arbituary values below
-    forwardInput = Math.abs(distanceError) < 5.0 ? 0 : (distanceError * driveConstant);
-    yawInput = Math.abs(headingError) < 1.0 ? 0 : (headingError * headingConstant);
+    forwardInput = Math.abs(distanceError) < maxDistanceError ? 0 : (distanceError * driveConstant);
+    yawInput = Math.abs(headingError) < maxHeadingError ? 0 : (headingError * headingConstant);
 
-    forwardInput = forwardInput > 0.5 ? 0.5 : forwardInput;
-    yawInput = yawInput > 0.25 ? 0.25 : yawInput;
+    forwardInput = Math.abs(forwardInput) > maxForwardOutput ? Math.copySign(maxForwardOutput, forwardInput): forwardInput;
+    yawInput = Math.abs(yawInput) > maxYawOutput ? Math.copySign(maxYawOutput, yawInput): yawInput;
 
     drive(forwardInput, strafeInput, yawInput);
   }
