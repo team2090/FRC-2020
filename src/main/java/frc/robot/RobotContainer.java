@@ -36,7 +36,7 @@ public class RobotContainer {
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
   private final AutoDriveCommand autoCommand = new AutoDriveCommand(robotDrive, shooter, intake);
-  //private final DriveControls controls = new DriveControls();
+  private final DriveControls controls = new DriveControls();
   private final StateMachineCommand stateMachine = new StateMachineCommand(robotDrive, shooter, intake, hang);
 
   /**
@@ -45,15 +45,13 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    robotDrive.setDefaultCommand(new TeleOpDriveCommand(robotDrive));
+    //robotDrive.setDefaultCommand(new TeleOpDriveCommand(robotDrive));
     
-    // robotDrive.setDefaultCommand(
-    //   // A split-stick arcade command, with forward/backward controlled by the left
-    //   // hand, and turning controlled by the right.
-    //   new RunCommand(() -> robotDrive.drive(
-    //       controls.getForward(),
-    //       controls.getStrafe(),
-    //       controls.getYaw())).alongWith(stateMachine));
+    robotDrive.setDefaultCommand(
+      new RunCommand(() -> robotDrive.drive(
+          modifyInput(controls.getForward()),
+          modifyInput(controls.getStrafe()),
+          modifyInput(controls.getYaw()))).alongWith(stateMachine));
 
     hang.setDefaultCommand(new HangCommand(hang));
     intake.setDefaultCommand(new IntakeCommand(intake));
@@ -80,4 +78,19 @@ public class RobotContainer {
     return autoCommand;
   }
   
+  public double modifyInput(double value) {
+    if (Math.abs(value) < 0.1) {
+      return 0;
+    }
+
+    if (controls.slowDriveMode()) {
+      return value / 2;
+    } else {
+      return value;
+    }
+  }
+
+  public SwerveSubsystem getSwerve() {
+    return robotDrive;
+  }
 }

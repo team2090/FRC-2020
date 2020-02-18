@@ -47,6 +47,10 @@ public class SwerveSubsystem extends SubsystemBase {
     kLengthComponent = robotLength / radius;
     kWidthComponent = robotWidth / radius;
     setFieldOriented(true);
+    SmartDashboard.putBoolean("Gyro Test", gyro != null && gyro.isConnected());
+    
+    generateWheels();
+    initWheels();
     //setFieldOriented(gyro != null && gyro.isConnected());
   }
 
