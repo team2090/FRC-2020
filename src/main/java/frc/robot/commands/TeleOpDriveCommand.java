@@ -45,8 +45,8 @@ public class TeleOpDriveCommand extends CommandBase {
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    robotDrive.generateWheels();
-    robotDrive.initWheels();
+    // robotDrive.generateWheels();
+    // robotDrive.initWheels();
     
     /* A list of TalonFX's that are to be used as instruments */
     ArrayList<TalonFX> instruments = new ArrayList<TalonFX>();
