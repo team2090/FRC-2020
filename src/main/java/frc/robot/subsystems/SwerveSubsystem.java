@@ -154,6 +154,15 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putString("State", "Stopped");
   }
 
+  /**
+   * Zero all Swerve Modules (azimuth position and drive output are set to 0)
+   */
+  public void zero() {
+    for (Wheel wheel : wheels) {
+      wheel.zero();
+    }
+  }
+
   public void updateLimelightTracking(double strafeInput) {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     double headingError = -table.getEntry("tx").getDouble(0);

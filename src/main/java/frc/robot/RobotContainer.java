@@ -14,6 +14,7 @@ import frc.robot.commands.AutoDriveCommand;
 import frc.robot.commands.HangCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.StateMachineCommand;
 import frc.robot.subsystems.HangSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -35,7 +36,8 @@ public class RobotContainer {
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
   private final AutoDriveCommand autoCommand = new AutoDriveCommand(robotDrive, shooter, intake);
-  // private final DriveControls controls = new DriveControls();
+  //private final DriveControls controls = new DriveControls();
+  private final StateMachineCommand stateMachine = new StateMachineCommand(robotDrive, shooter, intake, hang);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -51,11 +53,12 @@ public class RobotContainer {
     //   new RunCommand(() -> robotDrive.drive(
     //       controls.getForward(),
     //       controls.getStrafe(),
-    //       controls.getYaw())));
+    //       controls.getYaw())).alongWith(stateMachine));
 
     hang.setDefaultCommand(new HangCommand(hang));
     intake.setDefaultCommand(new IntakeCommand(intake));
     shooter.setDefaultCommand(new ShooterCommand(shooter));
+    
   }
 
   /**
@@ -65,7 +68,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
+    //controls.testButton.whenPressed(new RunCommand(() -> robotDrive.setFieldOriented(true)));
   }
 
   /**
@@ -76,4 +79,5 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return autoCommand;
   }
+  
 }

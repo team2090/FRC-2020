@@ -6,13 +6,18 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 /**
  * Add your docs here.
  */
 public class DriveControls {
     private final Joystick joystick1 = new Joystick(0);
     private final Joystick joystick2 = new Joystick(1);
+
+    // This is just an example
+    public final JoystickButton testButton = new JoystickButton(joystick1, 1);
 
     public double getForward() {
       return -joystick1.getRawAxis(1);
