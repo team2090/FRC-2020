@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -7,32 +7,16 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.IntakeSubsystem;
 
-/**
- * An example command that uses an example subsystem.
- */
-public class AutoDriveCommand extends CommandBase {
-
-  private final SwerveSubsystem robotDrive;
-  private final ShooterSubsystem robotShooter;
-  private final IntakeSubsystem robotIntake;
-
+public class IntakeCommand extends CommandBase {
   /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
+   * Creates a new IntakeCommand.
    */
-  public AutoDriveCommand(SwerveSubsystem swerve, ShooterSubsystem shooter, IntakeSubsystem intake) {
-    robotDrive = swerve;
-    robotShooter = shooter;
-    robotIntake = intake;
-
+  public IntakeCommand(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(robotDrive, shooter, intake);
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
@@ -43,7 +27,6 @@ public class AutoDriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
   }
 
   // Called once the command ends or is interrupted.

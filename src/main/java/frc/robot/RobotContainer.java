@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.TeleOpDriveCommand;
 import frc.robot.commands.AutoDriveCommand;
+import frc.robot.commands.HangCommand;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.HangSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -26,11 +29,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem robotDrive = new SwerveSubsystem();
-  private final AutoDriveCommand autoCommand = new AutoDriveCommand(robotDrive);
-
   private final HangSubsystem hang = new HangSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
+
+  private final AutoDriveCommand autoCommand = new AutoDriveCommand(robotDrive, shooter, intake);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -39,6 +42,9 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     robotDrive.setDefaultCommand(new TeleOpDriveCommand(robotDrive));
+    hang.setDefaultCommand(new HangCommand(hang));
+    intake.setDefaultCommand(new IntakeCommand(intake));
+    shooter.setDefaultCommand(new ShooterCommand(shooter));
   }
 
   /**
