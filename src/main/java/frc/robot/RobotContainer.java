@@ -19,6 +19,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -34,6 +35,7 @@ public class RobotContainer {
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
   private final AutoDriveCommand autoCommand = new AutoDriveCommand(robotDrive, shooter, intake);
+  // private final DriveControls controls = new DriveControls();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -42,6 +44,15 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     robotDrive.setDefaultCommand(new TeleOpDriveCommand(robotDrive));
+    
+    // robotDrive.setDefaultCommand(
+    //   // A split-stick arcade command, with forward/backward controlled by the left
+    //   // hand, and turning controlled by the right.
+    //   new RunCommand(() -> robotDrive.drive(
+    //       controls.getForward(),
+    //       controls.getStrafe(),
+    //       controls.getYaw())));
+
     hang.setDefaultCommand(new HangCommand(hang));
     intake.setDefaultCommand(new IntakeCommand(intake));
     shooter.setDefaultCommand(new ShooterCommand(shooter));
