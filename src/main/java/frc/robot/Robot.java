@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
   
   
   // This is some custom drive control code (Jason)
-  public static DriveControls controls;
+  //public static DriveControls controls;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
-    controls = new DriveControls();
+    //controls = new DriveControls();
   }
 
   /**

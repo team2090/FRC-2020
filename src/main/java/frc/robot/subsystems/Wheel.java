@@ -43,6 +43,7 @@ public class Wheel {
     private final CANSparkMax azimuthMotor;
     private final CANPIDController azimuthPIDController;
     private final AnalogInput azimuthEncoder;
+    private double inverseDirection = 1.0;
     
     /**
      * This constructs a wheel with supplied azimuth spark, drive falcon, and MA3 encoder.
@@ -156,6 +157,8 @@ public class Wheel {
          * E.g. If current position = 300 deg, then the current position of -60 deg should be used
         */
 
+        drive *= inverseDirection;
+
         double currentPosition = ((azimuthEncoder.getValue() * 360.0 / 4049.0));
         currentPosition =  currentPosition > 180.0 ? currentPosition - 360.0 : currentPosition;
         currentPosition = currentPosition == 360 ? 0 : currentPosition; 
@@ -181,9 +184,9 @@ public class Wheel {
              SmartDashboard.putBoolean("Direction", false);
         }   
         
-        SmartDashboard.putNumber("Encoder current position", azimuthEncoder.getValue());
-        SmartDashboard.putNumber("currentPosition", currentPosition);
-        SmartDashboard.putNumber("targetAngle", targetAngle);
+        SmartDashboard.putNumber("Encoder current position" + azimuthMotor.getDeviceId(), azimuthEncoder.getValue());
+        SmartDashboard.putNumber("currentPosition" + azimuthMotor.getDeviceId(), currentPosition);
+        SmartDashboard.putNumber("targetAngle" + azimuthMotor.getDeviceId(), targetAngle);
         SmartDashboard.putNumber("AzimuthError", azimuthError);
         SmartDashboard.putNumber("Drive", drive);
         SmartDashboard.putNumber("Current Spark Position", azimuthMotor.getEncoder().getPosition());
@@ -207,6 +210,14 @@ public class Wheel {
     public void zero() {
         setTargetAngle(offsetAngle);
         setDriveOutput(0);
+    }
+
+    public void reverseDirection() {
+        inverseDirection = -1.0;
+    }
+
+    public void reverseAzimuthDirection() {
+        azimuthMotor.setInverted(false);
     }
 
     /**
