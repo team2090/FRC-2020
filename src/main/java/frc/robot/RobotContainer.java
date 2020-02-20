@@ -51,7 +51,7 @@ public class RobotContainer {
       new RunCommand(() -> robotDrive.drive(
           modifyInput(controls.getForward()),
           modifyInput(controls.getStrafe()),
-          modifyInput(controls.getYaw()))).alongWith(stateMachine));
+          modifyInput(controls.getYaw())), robotDrive).alongWith(stateMachine));
 
     hang.setDefaultCommand(new HangCommand(hang));
     intake.setDefaultCommand(new IntakeCommand(intake));

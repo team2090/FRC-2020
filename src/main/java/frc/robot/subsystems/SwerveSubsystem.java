@@ -48,7 +48,7 @@ public class SwerveSubsystem extends SubsystemBase {
     kWidthComponent = robotWidth / radius;
     setFieldOriented(true);
     SmartDashboard.putBoolean("Gyro Test", gyro != null && gyro.isConnected());
-    
+
     generateWheels();
     initWheels();
     //setFieldOriented(gyro != null && gyro.isConnected());
@@ -72,12 +72,12 @@ public class SwerveSubsystem extends SubsystemBase {
     for (int i = 0; i < 4; i++) {
       wheels[i].initWheel();
       wheels[i].zero();
-      if (i == 1 || i == 3 || i == 2) {
-        wheels[i].reverseDirection();
-        if (i == 2) {
-          wheels[i].reverseAzimuthDirection();
-        }
-      }
+      // if (i == 1 || i == 3 || i == 2) {
+      //   wheels[i].reverseDirection();
+      //   if (i == 2) {
+      //     wheels[i].reverseAzimuthDirection();
+      //   }
+      // }
     }
   }
 
