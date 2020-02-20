@@ -161,6 +161,8 @@ public class Wheel {
 
         double currentPosition = ((azimuthEncoder.getValue() * 360.0 / 4049.0));
         currentPosition =  currentPosition > 180.0 ? currentPosition - 360.0 : currentPosition;
+        currentPosition -= offsetAngle;
+        currentPosition %= 360;
         currentPosition = currentPosition == 360 ? 0 : currentPosition; 
         targetAngle *= 360; 
 
@@ -187,7 +189,7 @@ public class Wheel {
         SmartDashboard.putNumber("Encoder current position" + azimuthMotor.getDeviceId(), azimuthEncoder.getValue());
         SmartDashboard.putNumber("currentPosition" + azimuthMotor.getDeviceId(), currentPosition);
         SmartDashboard.putNumber("targetAngle" + azimuthMotor.getDeviceId(), targetAngle);
-        SmartDashboard.putNumber("AzimuthError", azimuthError);
+        SmartDashboard.putNumber("AzimuthError" + azimuthMotor.getDeviceId(), azimuthError);
         SmartDashboard.putNumber("Drive", drive);
         SmartDashboard.putNumber("Current Spark Position", azimuthMotor.getEncoder().getPosition());
         SmartDashboard.putNumber("Target Spark Position (Encoder units)", azimuthError / 360.0 * 18 + azimuthMotor.getEncoder().getPosition());
@@ -195,7 +197,7 @@ public class Wheel {
         // Prevent the azimuth from resetting position to zero
         if (drive != 0) {
             // The azimuth motor has units of 18 for one full rotation. The position is set using the azimuth error + current position. 
-            azimuthPIDController.setReference(azimuthError / 360.0 * 18 + azimuthMotor.getEncoder().getPosition() + (offsetAngle / 360.0 * 18), ControlType.kSmartMotion);
+            azimuthPIDController.setReference(azimuthError / 360.0 * 18 + azimuthMotor.getEncoder().getPosition(), ControlType.kSmartMotion);
         }
         setDriveOutput(drive);
     }

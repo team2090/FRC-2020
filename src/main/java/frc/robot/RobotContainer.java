@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 //import frc.robot.commands.TeleOpDriveCommand;
 import frc.robot.commands.AutoDriveCommand;
-// import frc.robot.commands.HangCommand;
-// import frc.robot.commands.IntakeCommand;
-// import frc.robot.commands.ShooterCommand;
-// import frc.robot.commands.StateMachineCommand;
+import frc.robot.commands.HangCommand;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.StateMachineCommand;
 import frc.robot.subsystems.HangSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -37,7 +37,7 @@ public class RobotContainer {
 
   private final AutoDriveCommand autoCommand = new AutoDriveCommand(robotDrive, shooter, intake);
   private final DriveControls controls = new DriveControls();
-  //private final StateMachineCommand stateMachine = new StateMachineCommand(robotDrive, shooter, intake, hang);
+  private final StateMachineCommand stateMachine = new StateMachineCommand(robotDrive, shooter, intake, hang);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -51,11 +51,11 @@ public class RobotContainer {
       new RunCommand(() -> robotDrive.drive(
           modifyInput(controls.getForward()),
           modifyInput(controls.getStrafe()),
-          modifyInput(controls.getYaw())), robotDrive));
+          modifyInput(controls.getYaw()))).alongWith(stateMachine));
 
-    // hang.setDefaultCommand(new HangCommand(hang));
-    // intake.setDefaultCommand(new IntakeCommand(intake));
-    // shooter.setDefaultCommand(new ShooterCommand(shooter));
+    hang.setDefaultCommand(new HangCommand(hang));
+    intake.setDefaultCommand(new IntakeCommand(intake));
+    shooter.setDefaultCommand(new ShooterCommand(shooter));
     
   }
 
@@ -79,10 +79,12 @@ public class RobotContainer {
   }
   
   public double modifyInput(double value) {
+    // Deadband
     if (Math.abs(value) < 0.1) {
       return 0;
     }
 
+    // If slow drive mode is enabled
     if (controls.slowDriveMode()) {
       return value / 2;
     } else {

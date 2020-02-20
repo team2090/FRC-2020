@@ -37,25 +37,25 @@ public final class Constants {
     // Front Left
     public static final int FRONT_LEFT_ANGLE_MOTOR = 4;
     public static final int FRONT_LEFT_DRIVE_MOTOR = 14;
-    public static final double FRONT_LEFT_OFFSET = 54;
+    public static final double FRONT_LEFT_OFFSET = 122;
     public static final int FRONT_LEFT_ENCODER = 3;
 
     // Front Right
     public static final int FRONT_RIGHT_ANGLE_MOTOR = 3;
     public static final int FRONT_RIGHT_DRIVE_MOTOR = 13;
-    public static final double FRONT_RIGHT_OFFSET = 26;
+    public static final double FRONT_RIGHT_OFFSET = -151;
     public static final int FRONT_RIGHT_ENCODER = 2;
 
     // Back Right
     public static final int BACK_RIGHT_ANGLE_MOTOR = 2;
     public static final int BACK_RIGHT_DRIVE_MOTOR = 12;
-    public static final double BACK_RIGHT_OFFSET = 38;
+    public static final double BACK_RIGHT_OFFSET = -136;
     public static final int BACK_RIGHT_ENCODER = 1;
 
     // Back Left
     public static final int BACK_LEFT_ANGLE_MOTOR = 1;
     public static final int BACK_LEFT_DRIVE_MOTOR = 11;
-    public static final double BACK_LEFT_OFFSET = 212;
+    public static final double BACK_LEFT_OFFSET = 55;
     public static final int BACK_LEFT_ENCODER = 0;
 
     // Azimuth PID coefficients
