@@ -160,9 +160,9 @@ public class Wheel {
         drive *= inverseDirection;
 
         double currentPosition = ((azimuthEncoder.getValue() * 360.0 / 4049.0));
+        currentPosition += offsetAngle;
+        currentPosition =  currentPosition < 0 ? currentPosition + 360.0 : currentPosition;
         currentPosition =  currentPosition > 180.0 ? currentPosition - 360.0 : currentPosition;
-        currentPosition -= offsetAngle;
-        currentPosition %= 360;
         currentPosition = currentPosition == 360 ? 0 : currentPosition; 
         targetAngle *= 360; 
 
@@ -210,7 +210,7 @@ public class Wheel {
      * Set the drive output to 0 and azimuth to the zeroed position
      */
     public void zero() {
-        setTargetAngle(offsetAngle);
+        setTargetAngle(0);
         setDriveOutput(0);
     }
 

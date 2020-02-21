@@ -74,9 +74,9 @@ public class SwerveSubsystem extends SubsystemBase {
       wheels[i].zero();
       // if (i == 1 || i == 3 || i == 2) {
       //   wheels[i].reverseDirection();
-      //   if (i == 2) {
-      //     wheels[i].reverseAzimuthDirection();
-      //   }
+        // if (i == 2) {
+        //   wheels[i].reverseAzimuthDirection();
+        // }
       // }
     }
   }
