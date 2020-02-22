@@ -16,8 +16,11 @@ public class DriveControls {
     private final Joystick joystick1 = new Joystick(0);
     private final Joystick joystick2 = new Joystick(1);
 
-    // This is just an example
-    public final JoystickButton testButton = new JoystickButton(joystick1, 1);
+    public final JoystickButton robotOrientedForward = new JoystickButton(joystick1, 4);
+    public final JoystickButton setRobotOriented = new JoystickButton(joystick1, 5);
+    public final JoystickButton setFieldOriented = new JoystickButton(joystick1, 6);
+    public final JoystickButton zeroAzimuthPosition = new JoystickButton(joystick1, 7);
+    
 
     public double getForward() {
       return -joystick1.getRawAxis(1);
@@ -33,19 +36,7 @@ public class DriveControls {
       return joystick2.getRawAxis(0);
     }
 
-    public boolean robotOriented() {
-      return joystick1.getRawButton(5);
-    }
-
-    public boolean fieldOriented() {
-      return joystick1.getRawButton(6);
-    }
-
     public boolean slowDriveMode() {
-      return joystick1.getRawButton(2);
-    }
-
-    public boolean robotOrientedForward() {
-      return joystick1.getRawButton(4);
+      return joystick1.getRawButton(1);
     }
 }
