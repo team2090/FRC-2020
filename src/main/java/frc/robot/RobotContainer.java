@@ -33,6 +33,7 @@ public class RobotContainer {
 
   private final AutoDriveCommand autoCommand = new AutoDriveCommand(robotDrive, shooter, intake);
   private final DriveControls controls = new DriveControls();
+  private double speedMod = 1;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -59,7 +60,9 @@ public class RobotContainer {
     controls.zeroAzimuthPosition.whenPressed(new InstantCommand(() -> robotDrive.zero()));
     controls.setRobotOriented.whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(false)));
     controls.setFieldOriented.whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(true)));
-    controls.robotOrientedForward.whenPressed(new InstantCommand(() -> robotDrive.drive(0.2, 0, 0)));
+    controls.robotOrientedForward.whenPressed(new InstantCommand(() -> robotDrive.robotOrientedDriveForward(0.2)));
+    controls.normalDriveMode.whenPressed(new InstantCommand(() -> speedMod = 1));
+    controls.slowDriveMode.whenPressed(new InstantCommand(() -> speedMod = 0.5));
   }
 
   /**
@@ -78,11 +81,7 @@ public class RobotContainer {
     }
 
     // If slow drive mode is enabled
-    if (controls.slowDriveMode()) {
-      return value / 2;
-    } else {
-      return value;
-    }
+    return value / speedMod;
   }
 
   public SwerveSubsystem getSwerve() {

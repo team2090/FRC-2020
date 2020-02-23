@@ -72,12 +72,6 @@ public class SwerveSubsystem extends SubsystemBase {
     for (int i = 0; i < 4; i++) {
       wheels[i].initWheel();
       wheels[i].zero();
-      // if (i == 1 || i == 3 || i == 2) {
-      //   wheels[i].reverseDirection();
-        // if (i == 2) {
-        //   wheels[i].reverseAzimuthDirection();
-        // }
-      // }
     }
   }
 
@@ -171,6 +165,12 @@ public class SwerveSubsystem extends SubsystemBase {
     for (Wheel wheel : wheels) {
       wheel.zero();
     }
+  }
+
+  public void robotOrientedDriveForward(double forward) {
+    setFieldOriented(false);
+    drive(forward, 0, 0);
+    setFieldOriented(true);
   }
 
   public void updateLimelightTracking(double strafeInput) {
