@@ -32,8 +32,8 @@ public class RobotContainer {
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
   private final AutoDriveCommand autoCommand = new AutoDriveCommand(robotDrive, shooter, intake);
-  private final DriveControls controls = new DriveControls();
-  private double speedMod = 1;
+  DriveControls controls = new DriveControls(0, 1);
+  private double speedMod = 1.0;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -42,7 +42,6 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     //robotDrive.setDefaultCommand(new TeleOpDriveCommand(robotDrive));
-    
     robotDrive.setDefaultCommand(
       new RunCommand(() -> robotDrive.drive(
           modifyInput(controls.getForward()),
@@ -60,9 +59,11 @@ public class RobotContainer {
     controls.zeroAzimuthPosition.whenPressed(new InstantCommand(() -> robotDrive.zero()));
     controls.setRobotOriented.whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(false)));
     controls.setFieldOriented.whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(true)));
-    controls.robotOrientedForward.whenPressed(new InstantCommand(() -> robotDrive.robotOrientedDriveForward(0.2)));
+    controls.robotOrientedForward.whenPressed(new InstantCommand(() -> robotDrive.robotOrientedDrive(0.2, 0, 0)));
+    controls.robotOrientedRight.whenPressed(new InstantCommand(() -> robotDrive.robotOrientedDrive(0, 0.2, 0)));
+    controls.robotOrientedLeft.whenPressed(new InstantCommand(() -> robotDrive.robotOrientedDrive(0, -0.2, 0)));
     controls.normalDriveMode.whenPressed(new InstantCommand(() -> speedMod = 1));
-    controls.slowDriveMode.whenPressed(new InstantCommand(() -> speedMod = 0.5));
+    controls.slowDriveMode.whenPressed(new InstantCommand(() -> speedMod = 2));
   }
 
   /**

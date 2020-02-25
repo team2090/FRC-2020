@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.kauailabs.navx.frc.AHRS;
 import frc.robot.subsystems.Wheel;
@@ -35,6 +36,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public final AHRS gyro;
   private final double kLengthComponent;
   private final double kWidthComponent;
+  private final Servo visionServo;
 
   /**
    * This constructs the Swerve Subsystem with the navx and given constants 
@@ -43,6 +45,7 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public SwerveSubsystem() {
     gyro = new AHRS();
+    visionServo = new Servo(visionServoPort);
     double radius = Math.hypot(robotLength, robotWidth);
     kLengthComponent = robotLength / radius;
     kWidthComponent = robotWidth / radius;
@@ -167,9 +170,9 @@ public class SwerveSubsystem extends SubsystemBase {
     }
   }
 
-  public void robotOrientedDriveForward(double forward) {
+  public void robotOrientedDrive(double forward, double strafe, double yaw) {
     setFieldOriented(false);
-    drive(forward, 0, 0);
+    drive(forward, strafe, yaw);
     setFieldOriented(true);
   }
 
@@ -191,6 +194,12 @@ public class SwerveSubsystem extends SubsystemBase {
     yawInput = Math.abs(yawInput) > maxYawOutput ? Math.copySign(maxYawOutput, yawInput): yawInput;
 
     drive(forwardInput, strafeInput, yawInput);
+  }
+
+  public void adjustVisionPosition(double offset) {
+    offset += visionServo.get();
+    offset = offset > visionUpperPosition ? 0.8 : offset < visionLowerPosition ? 0.2 : offset;
+    visionServo.set(offset);
   }
 
   /**

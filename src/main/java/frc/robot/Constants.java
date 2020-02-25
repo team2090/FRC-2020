@@ -82,6 +82,10 @@ public final class Constants {
     public static final double azimuthMinVel = 0;
     
     public static final int driveTicks = 2048;
+    public static final int visionServoPort = 0;
+
+    public static final double visionUpperPosition = 0.8;
+    public static final double visionLowerPosition = 0.2;
   }
 
   public static final class LimelightConstants {
