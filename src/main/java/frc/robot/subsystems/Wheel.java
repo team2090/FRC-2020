@@ -102,7 +102,6 @@ public class Wheel {
         azimuthPIDController.setSmartMotionMaxVelocity(azimuthMaxVel, 0);
         azimuthPIDController.setSmartMotionMinOutputVelocity(azimuthMinVel, 0);
         azimuthPIDController.setSmartMotionMaxAccel(azimuthMaxAcc, 0);
-        //azimuthEncoder.setOversampleBits(4);
     }
 
     /**

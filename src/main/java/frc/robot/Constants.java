@@ -27,6 +27,16 @@ public final class Constants {
   public static final class ShooterConstants {
     public static final int shooter1 = 6;
     public static final int shooter2 = 7;
+
+    // PID coefficients
+    public static final double shooterkP = 6e-5; 
+    public static final double shooterkI = 0;
+    public static final double shooterkD = 0; 
+    public static final double shooterkIz = 0; 
+    public static final double shooterkFF = 0.000015; 
+    public static final double shooterkMaxOutput = 1; 
+    public static final double shooterkMinOutput = -1;
+    public static final double shooterMaxRPM = 5700;
   }
 
   public static final class SwerveConstants {
@@ -95,6 +105,5 @@ public final class Constants {
     public static final double maxHeadingError = 1.0;
     public static final double maxForwardOutput = 0.5;
     public static final double maxYawOutput = 0.2;
-
   }
 }
