@@ -36,7 +36,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public final AHRS gyro;
   private final double kLengthComponent;
   private final double kWidthComponent;
-  private final Servo visionServo;
+  //private final Servo visionServo;
 
   /**
    * This constructs the Swerve Subsystem with the navx and given constants 
@@ -45,7 +45,7 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public SwerveSubsystem() {
     gyro = new AHRS();
-    visionServo = new Servo(visionServoPort);
+    //visionServo = new Servo(visionServoPort);
     double radius = Math.hypot(robotLength, robotWidth);
     kLengthComponent = robotLength / radius;
     kWidthComponent = robotWidth / radius;
@@ -75,6 +75,12 @@ public class SwerveSubsystem extends SubsystemBase {
     for (int i = 0; i < 4; i++) {
       wheels[i].initWheel();
       wheels[i].zero();
+      // if (i == 1 || i == 3 || i == 2) {
+      //   wheels[i].reverseDirection();
+        // if (i == 2) {
+        //   wheels[i].reverseAzimuthDirection();
+        // }
+      // }
     }
   }
 
@@ -196,11 +202,11 @@ public class SwerveSubsystem extends SubsystemBase {
     drive(forwardInput, strafeInput, yawInput);
   }
 
-  public void adjustVisionPosition(double offset) {
-    offset += visionServo.get();
-    offset = offset > visionUpperPosition ? 0.8 : offset < visionLowerPosition ? 0.2 : offset;
-    visionServo.set(offset);
-  }
+  // public void adjustVisionPosition(double offset) {
+  //   // offset += visionServo.get();
+  //   // offset = offset > visionUpperPosition ? 0.8 : offset < visionLowerPosition ? 0.2 : offset;
+  //   // visionServo.set(offset);
+  // }
 
   /**
    * Change current output based on the whether or not other subsystems are running
