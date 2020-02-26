@@ -127,8 +127,8 @@ public class Wheel {
      */
     public void setTargetDistance(double setpoint) {
         driveMotor.set(ControlMode.MotionMagic, setpoint * driveTicks);
-        SmartDashboard.putNumber("Drive target velocity", setpoint);
-        SmartDashboard.putNumber("Drive encoder velocity", driveMotor.getSelectedSensorPosition());
+        SmartDashboard.putNumber("driveSetpoint", setpoint);
+        SmartDashboard.putNumber("drivePosition", driveMotor.getSelectedSensorPosition());
     } 
 
     /**
@@ -138,8 +138,7 @@ public class Wheel {
      */
     public void setDriveOutput(double output) {
         driveMotor.set(ControlMode.PercentOutput, output);
-        SmartDashboard.putNumber("Drive target velocity", output * driveTicks * 6380.0 / 600.0);
-        SmartDashboard.putNumber("Drive encoder velocity", driveMotor.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("driveOutput", output);
     }
     
     /**
@@ -180,16 +179,16 @@ public class Wheel {
         if (Math.abs(azimuthError) > 0.25 * 360) {
             azimuthError -= Math.copySign(0.5 * 360, azimuthError);
             drive = -drive;
-             SmartDashboard.putBoolean("Direction", false);
+             SmartDashboard.putBoolean("direction" + azimuthMotor.getDeviceId(), false);
         }   
         
-        SmartDashboard.putNumber("Encoder current position" + azimuthMotor.getDeviceId(), azimuthEncoder.getValue());
-        SmartDashboard.putNumber("currentPosition" + azimuthMotor.getDeviceId(), currentPosition);
-        SmartDashboard.putNumber("targetAngle" + azimuthMotor.getDeviceId(), targetAngle);
-        SmartDashboard.putNumber("AzimuthError" + azimuthMotor.getDeviceId(), azimuthError);
-        SmartDashboard.putNumber("Drive", drive);
-        SmartDashboard.putNumber("Current Spark Position", azimuthMotor.getEncoder().getPosition());
-        SmartDashboard.putNumber("Target Spark Position (Encoder units)", azimuthError / 360.0 * 18 + azimuthMotor.getEncoder().getPosition());
+        // SmartDashboard.putNumber("Encoder current position" + azimuthMotor.getDeviceId(), azimuthEncoder.getValue());
+        // SmartDashboard.putNumber("currentPosition" + azimuthMotor.getDeviceId(), currentPosition);
+        // SmartDashboard.putNumber("targetAngle" + azimuthMotor.getDeviceId(), targetAngle);
+        // SmartDashboard.putNumber("AzimuthError" + azimuthMotor.getDeviceId(), azimuthError);
+        // SmartDashboard.putNumber("Drive", drive);
+        // SmartDashboard.putNumber("Current Spark Position", azimuthMotor.getEncoder().getPosition());
+        // SmartDashboard.putNumber("Target Spark Position (Encoder units)", azimuthError / 360.0 * 18 + azimuthMotor.getEncoder().getPosition());
 
         // Prevent the azimuth from resetting position to zero
         if (drive != 0) {

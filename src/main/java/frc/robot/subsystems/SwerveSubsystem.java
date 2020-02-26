@@ -51,7 +51,7 @@ public class SwerveSubsystem extends SubsystemBase {
     kWidthComponent = robotWidth / radius;
     setFieldOriented(true);
     
-    SmartDashboard.putBoolean("Gyro Test", gyro != null && gyro.isConnected());
+    //SmartDashboard.putBoolean("Gyro Test", gyro != null && gyro.isConnected());
     generateWheels();
     //setFieldOriented(gyro.isConnected());
   }
@@ -95,7 +95,7 @@ public class SwerveSubsystem extends SubsystemBase {
     */
     if (isFieldOriented) {
       double angle = gyro.getAngle();
-      SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
+      SmartDashboard.putNumber("Gyro", gyro.getAngle());
 
       angle += gyro.getRate();
       angle = Math.IEEEremainder(angle, 360.0);
