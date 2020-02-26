@@ -43,7 +43,6 @@ public class Wheel {
     private final CANSparkMax azimuthMotor;
     private final CANPIDController azimuthPIDController;
     private final AnalogInput azimuthEncoder;
-    private double inverseDirection = 1.0;
     
     /**
      * This constructs a wheel with supplied azimuth spark, drive falcon, and MA3 encoder.
@@ -156,8 +155,6 @@ public class Wheel {
          * If the current position is greater than 180, the negative position is used
          * E.g. If current position = 300 deg, then the current position of -60 deg should be used
         */
-
-        drive *= inverseDirection;
 
         double currentPosition = ((azimuthEncoder.getValue() * 360.0 / 4049.0));
         currentPosition += offsetAngle;

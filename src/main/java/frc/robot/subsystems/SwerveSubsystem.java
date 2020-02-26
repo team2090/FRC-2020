@@ -50,37 +50,27 @@ public class SwerveSubsystem extends SubsystemBase {
     kLengthComponent = robotLength / radius;
     kWidthComponent = robotWidth / radius;
     setFieldOriented(true);
+    
     SmartDashboard.putBoolean("Gyro Test", gyro != null && gyro.isConnected());
-
     generateWheels();
-    initWheels();
-    //setFieldOriented(gyro != null && gyro.isConnected());
+    //setFieldOriented(gyro.isConnected());
   }
 
   /**
    * Instantiates the wheels with the correct ports for the drive motor, azimuth motor, encoder, and angle offset.
-   * Wheels are an array numbered 0-3 from front to back, with even numbers on the left side when facing forward
+   * Wheels are an array numbered 0-3 from front to back, with even numbers on the left side when facing forward.
+   * 
+   * Initialize the wheels and set them to the absolute zero based on the each Wheel's given offset.
    */
   public void generateWheels() {
     wheels[0] = new Wheel(FRONT_LEFT_ANGLE_MOTOR, FRONT_LEFT_DRIVE_MOTOR, FRONT_LEFT_ENCODER, FRONT_LEFT_OFFSET);
     wheels[1] = new Wheel(FRONT_RIGHT_ANGLE_MOTOR, FRONT_RIGHT_DRIVE_MOTOR, FRONT_RIGHT_ENCODER, FRONT_RIGHT_OFFSET);
     wheels[2] = new Wheel(BACK_LEFT_ANGLE_MOTOR, BACK_LEFT_DRIVE_MOTOR, BACK_LEFT_ENCODER, BACK_LEFT_OFFSET);
     wheels[3] = new Wheel(BACK_RIGHT_ANGLE_MOTOR, BACK_RIGHT_DRIVE_MOTOR, BACK_RIGHT_ENCODER, BACK_RIGHT_OFFSET);
-  }
-
-  /**
-   * Initialize the wheels and set them to the absolute zero based on the each Wheel's given offset
-   */
-  public void initWheels() {
-    for (int i = 0; i < 4; i++) {
-      wheels[i].initWheel();
-      wheels[i].zero();
-      // if (i == 1 || i == 3 || i == 2) {
-      //   wheels[i].reverseDirection();
-        // if (i == 2) {
-        //   wheels[i].reverseAzimuthDirection();
-        // }
-      // }
+    
+    for (Wheel wheel : wheels) {
+      wheel.initWheel();
+      wheel.zero();
     }
   }
 
