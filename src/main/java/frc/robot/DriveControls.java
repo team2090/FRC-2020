@@ -18,6 +18,10 @@ public class DriveControls {
 
     // This is just an example
     public final JoystickButton testButton = new JoystickButton(joystick1, 1);
+    public final JoystickButton slowDriveMode = new JoystickButton(joystick1, 10);
+    public final JoystickButton normalDriveMode = new JoystickButton(joystick1, 11);
+    public final JoystickButton setFieldOriented = new JoystickButton(joystick2, 6);
+    public final JoystickButton setRobotOriented = new JoystickButton(joystick2, 7);
 
     public double getForward() {
       return -joystick1.getRawAxis(1);
@@ -31,18 +35,6 @@ public class DriveControls {
     /** Right stick Y (left-right) axis. */
     public double getYaw() {
       return joystick2.getRawAxis(0);
-    }
-
-    public boolean robotOriented() {
-      return joystick1.getRawButton(5);
-    }
-
-    public boolean fieldOriented() {
-      return joystick1.getRawButton(6);
-    }
-
-    public boolean slowDriveMode() {
-      return joystick1.getRawButton(2);
     }
 
     public boolean robotOrientedForward() {
