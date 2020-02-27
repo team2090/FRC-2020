@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    robotContainer.getSwerve().stop();
+    robotContainer.getSwerve().drive(0, 0, 0);
   }
 
   @Override
