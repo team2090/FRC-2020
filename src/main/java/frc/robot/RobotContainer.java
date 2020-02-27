@@ -32,9 +32,9 @@ public class RobotContainer {
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
   private final AutoDriveCommand autoCommand = new AutoDriveCommand(robotDrive, shooter, intake);
-  private final DriveControls controls = new DriveControls(0, 1);
+  private final DriveControls controls = new DriveControls();
+  // private final StateMachineCommand stateMachine = new StateMachineCommand(robotDrive, shooter, intake, hang);
   private double speedMod = 1.0;
-
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
