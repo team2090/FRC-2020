@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoDriveCommand;
 import frc.robot.subsystems.HangSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,10 +27,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem robotDrive = new SwerveSubsystem();
   private final HangSubsystem hang = new HangSubsystem();
-  private final IntakeSubsystem intake = new IntakeSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
-  private final AutoDriveCommand autoCommand = new AutoDriveCommand(robotDrive, shooter, intake);
+  private final AutoDriveCommand autoCommand = new AutoDriveCommand(robotDrive, shooter);
   private final DriveControls controls = new DriveControls();
   // private final StateMachineCommand stateMachine = new StateMachineCommand(robotDrive, shooter, intake, hang);
   private double speedMod = 1.0;
@@ -47,6 +45,10 @@ public class RobotContainer {
           modifyInput(controls.getForward()),
           modifyInput(controls.getStrafe()),
           modifyInput(controls.getYaw())), robotDrive));
+      
+    shooter.setDefaultCommand(
+      new RunCommand(() -> shooter.stop(), shooter)
+    );
   }
 
   /**
@@ -64,6 +66,12 @@ public class RobotContainer {
     controls.robotOrientedLeft.whenPressed(new InstantCommand(() -> robotDrive.robotOrientedDrive(0, -0.2, 0)));
     controls.normalDriveMode.whenPressed(new InstantCommand(() -> speedMod = 1.0));
     controls.slowDriveMode.whenPressed(new InstantCommand(() -> speedMod = 0.5));
+
+    controls.shootBallLow.whenPressed(new InstantCommand(() -> shooter.launchBall(0)));
+    controls.shootBallMid.whenPressed(new InstantCommand(() -> shooter.launchBall(1)));
+    controls.shootBallHigh.whenPressed(new InstantCommand(() -> shooter.launchBall(2)));
+
+    controls.intake.whenPressed(new InstantCommand(() -> shooter.runIntake()));
   }
 
   /**

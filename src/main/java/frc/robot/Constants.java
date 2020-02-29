@@ -20,13 +20,17 @@ public final class Constants {
 
   }
 
-  public static final class IntakeConstants {
-    
-  }
-
   public static final class ShooterConstants {
     public static final int shooter1 = 6;
     public static final int shooter2 = 7;
+
+    public static final int intakeMotorId = 8;
+    public static final int storageMotorId = 9;
+
+    public static final int ballHolderForwardChannel = 0;
+    public static final int ballHolderReverseChannel = 1;
+    public static final int intakeReleaseForwardChannel = 2;
+    public static final int intakeReleaseReverseChannel = 3;
 
     // PID coefficients
     public static final double shooterkP = 6e-5; 
@@ -87,11 +91,13 @@ public final class Constants {
     public static final double drivekMinOutput = -1;
 
     // Smart Motion Coefficients
-    public static final double azimuthMaxVel = 5000; // rpm
+    // I found max at 5720
+    public static final double azimuthMaxVel = 5500; // rpm
     public static final double azimuthMaxAcc = 3200;
     public static final double azimuthMinVel = 0;
     
     public static final int driveTicks = 2048;
+
     public static final int visionServoPort = 0;
 
     public static final double visionUpperPosition = 0.8;

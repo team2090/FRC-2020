@@ -16,7 +16,9 @@ public class DriveControls {
   
   private final Joystick joystick1 = new Joystick(0);
   private final Joystick joystick2 = new Joystick(1);
+  private final Joystick joystick3 = new Joystick(2);
 
+  public final JoystickButton intake = new JoystickButton(joystick1, 1);
   public final JoystickButton robotOrientedForward = new JoystickButton(joystick1, 3);
   public final JoystickButton robotOrientedLeft = new JoystickButton(joystick1, 4);
   public final JoystickButton robotOrientedRight = new JoystickButton(joystick1, 5);
@@ -25,18 +27,21 @@ public class DriveControls {
   public final JoystickButton normalDriveMode = new JoystickButton(joystick1, 11);
   public final JoystickButton setFieldOriented = new JoystickButton(joystick2, 6);
   public final JoystickButton setRobotOriented = new JoystickButton(joystick2, 7);
+  public final JoystickButton shootBallLow = new JoystickButton(joystick3, 4);
+  public final JoystickButton shootBallMid = new JoystickButton(joystick3, 3);
+  public final JoystickButton shootBallHigh = new JoystickButton(joystick3, 5);
+  
+  public double getForward() {
+    return -joystick1.getRawAxis(1);
+  }
 
-    public double getForward() {
-      return -joystick1.getRawAxis(1);
-    }
-  
-    /** Left stick Y (left-right) axis. */
-    public double getStrafe() {
-      return joystick1.getRawAxis(0);
-    }
-  
-    /** Right stick Y (left-right) axis. */
-    public double getYaw() {
-      return joystick2.getRawAxis(0);
-    }
+  /** Left stick Y (left-right) axis. */
+  public double getStrafe() {
+    return joystick1.getRawAxis(0);
+  }
+
+  /** Right stick Y (left-right) axis. */
+  public double getYaw() {
+    return joystick2.getRawAxis(0);
+  }
 }

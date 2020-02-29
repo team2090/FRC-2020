@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -19,20 +18,18 @@ public class AutoDriveCommand extends CommandBase {
 
   private final SwerveSubsystem robotDrive;
   private final ShooterSubsystem robotShooter;
-  private final IntakeSubsystem robotIntake;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoDriveCommand(SwerveSubsystem swerve, ShooterSubsystem shooter, IntakeSubsystem intake) {
+  public AutoDriveCommand(SwerveSubsystem swerve, ShooterSubsystem shooter) {
     robotDrive = swerve;
     robotShooter = shooter;
-    robotIntake = intake;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(robotDrive, robotShooter, robotIntake);
+    addRequirements(robotDrive, robotShooter);
   }
 
   // Called when the command is initially scheduled.
