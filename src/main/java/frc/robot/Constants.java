@@ -17,14 +17,18 @@ package frc.robot;
  */
 public final class Constants {
   public static final class HangConstants {
+    public static final int armForwardChannel = 4;
+    public static final int armReverseChannel = 5;
 
+    public static final int lock1port = 1;
+    public static final int lock2port = 2;
   }
 
   public static final class ShooterConstants {
-    public static final int shooter1 = 6;
-    public static final int shooter2 = 7;
+    public static final int shooter1 = 7;
+    public static final int shooter2 = 8;
 
-    public static final int intakeMotorId = 8;
+    public static final int intakeMotorId = 6;
     public static final int storageMotorId = 9;
 
     public static final int ballHolderForwardChannel = 0;

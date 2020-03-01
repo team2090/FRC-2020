@@ -7,18 +7,27 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.Constants.HangConstants.*;
 
 public class HangSubsystem extends SubsystemBase {
+  private DoubleSolenoid arm;
+  private Servo lock1;
+  private Servo lock2;
+  
   /**
    * Creates a new HangSubsystem.
    */
   public HangSubsystem() {
+    arm = new DoubleSolenoid(armForwardChannel, armReverseChannel);
+    lock1 = new Servo(lock1port);
+    lock2 = new Servo(lock2port);
 
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void lift() {
+    
   }
 }
