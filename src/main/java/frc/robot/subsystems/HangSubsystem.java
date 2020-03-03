@@ -14,20 +14,20 @@ import static frc.robot.Constants.HangConstants.*;
 
 public class HangSubsystem extends SubsystemBase {
   private DoubleSolenoid arm;
-  private Servo lock1;
-  private Servo lock2;
+  // private Servo lock1;
+  // private Servo lock2;
   
   /**
    * Creates a new HangSubsystem.
    */
   public HangSubsystem() {
     arm = new DoubleSolenoid(armForwardChannel, armReverseChannel);
-    lock1 = new Servo(lock1port);
-    lock2 = new Servo(lock2port);
-
+    // lock1 = new Servo(lock1port);
+    // lock2 = new Servo(lock2port);
+    arm.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void lift() {
-    
+    arm.set(DoubleSolenoid.Value.kForward);
   }
 }

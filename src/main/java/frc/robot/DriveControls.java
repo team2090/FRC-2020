@@ -19,6 +19,7 @@ public class DriveControls {
   private final Joystick joystick3 = new Joystick(2);
 
   public final JoystickButton intake = new JoystickButton(joystick1, 1);
+  public final JoystickButton limelightAim = new JoystickButton(joystick1, 2);
   public final JoystickButton robotOrientedForward = new JoystickButton(joystick1, 3);
   public final JoystickButton robotOrientedLeft = new JoystickButton(joystick1, 4);
   public final JoystickButton robotOrientedRight = new JoystickButton(joystick1, 5);
@@ -30,7 +31,9 @@ public class DriveControls {
   public final JoystickButton shootBallLow = new JoystickButton(joystick3, 4);
   public final JoystickButton shootBallMid = new JoystickButton(joystick3, 3);
   public final JoystickButton shootBallHigh = new JoystickButton(joystick3, 5);
-  
+  public final JoystickButton ballStorage = new JoystickButton(joystick3, 1);
+  public final JoystickButton hang = new JoystickButton(joystick3, 2);
+
   public double getForward() {
     return -joystick1.getRawAxis(1);
   }

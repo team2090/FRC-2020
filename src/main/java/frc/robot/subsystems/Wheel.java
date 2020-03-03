@@ -188,7 +188,7 @@ public class Wheel {
         // SmartDashboard.putNumber("Drive", drive);
         // SmartDashboard.putNumber("Current Spark Position", azimuthMotor.getEncoder().getPosition());
         // SmartDashboard.putNumber("Target Spark Position (Encoder units)", azimuthError / 360.0 * 18 + azimuthMotor.getEncoder().getPosition());
-
+        SmartDashboard.putNumber("module" + azimuthMotor.getDeviceId(), currentPosition);
         // Prevent the azimuth from resetting position to zero
         if (drive != 0) {
             // The azimuth motor has units of 18 for one full rotation. The position is set using the azimuth error + current position. 

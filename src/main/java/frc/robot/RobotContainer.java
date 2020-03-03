@@ -66,11 +66,15 @@ public class RobotContainer {
     controls.robotOrientedLeft.whenPressed(new InstantCommand(() -> robotDrive.robotOrientedDrive(0, -0.2, 0)));
     controls.normalDriveMode.whenPressed(new InstantCommand(() -> speedMod = 1.0));
     controls.slowDriveMode.whenPressed(new InstantCommand(() -> speedMod = 0.5));
+    controls.ballStorage.whenPressed(new InstantCommand(() -> shooter.runBallStorage()));
+    controls.limelightAim.whenPressed(new InstantCommand(() -> robotDrive.updateLimelightTracking(
+      modifyInput(controls.getForward()),
+      modifyInput(controls.getStrafe()))));
 
     controls.shootBallLow.whenPressed(new InstantCommand(() -> shooter.launchBall(0)));
     controls.shootBallMid.whenPressed(new InstantCommand(() -> shooter.launchBall(1)));
     controls.shootBallHigh.whenPressed(new InstantCommand(() -> shooter.launchBall(2)));
-
+    controls.hang.whenPressed(new InstantCommand(() -> hang.lift()));
     controls.intake.whenPressed(new InstantCommand(() -> shooter.runIntake()));
   }
 

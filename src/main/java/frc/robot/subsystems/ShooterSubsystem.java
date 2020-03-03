@@ -56,7 +56,7 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterPIDController.setOutputRange(shooterkMinOutput, shooterkMaxOutput);
 
     shooterMotor2.follow(shooterMotor1);
-    intakeRelease.set(DoubleSolenoid.Value.kReverse);
+    intakeRelease.set(DoubleSolenoid.Value.kForward);
     ballHolder.set(DoubleSolenoid.Value.kForward);
   }
 
@@ -70,12 +70,14 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void runIntake() {
-    intakeRelease.set(DoubleSolenoid.Value.kForward);
+    intakeRelease.set(DoubleSolenoid.Value.kReverse);
     intakeMotor.set(ControlMode.PercentOutput, 0.8);
-
-    // TODO: ADD DETECTION HERE
-    ballStorage.set(ControlMode.PercentOutput, 0.8);
   }
+  public void runBallStorage() {
+     // TODO: ADD DETECTION HERE
+     ballStorage.set(ControlMode.PercentOutput, 0.8);
+  }
+
 
   public void stop() {
     shooterMotor1.set(0);

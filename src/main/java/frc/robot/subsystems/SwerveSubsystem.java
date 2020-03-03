@@ -50,10 +50,7 @@ public class SwerveSubsystem extends SubsystemBase {
     kLengthComponent = robotLength / radius;
     kWidthComponent = robotWidth / radius;
     setFieldOriented(true);
-    
-    //SmartDashboard.putBoolean("Gyro Test", gyro != null && gyro.isConnected());
     generateWheels();
-    //setFieldOriented(gyro.isConnected());
   }
 
   /**
@@ -90,6 +87,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * @param azimuth robot rotation, from -1.0 (CCW) to 1.0 (CW)
    */
   public void drive(double forward, double strafe, double yaw) {
+    isFieldOriented = SmartDashboard.getBoolean("driveMode", true);
     /* If the robot is field oriented, the inputed values are modified to 
      * be with respect to the zero of the field on the navx.
     */
@@ -145,6 +143,7 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public void setFieldOriented(boolean enable) {
     isFieldOriented = enable;
+    SmartDashboard.putBoolean("driveMode", enable);
   }
 
   /**
@@ -172,21 +171,14 @@ public class SwerveSubsystem extends SubsystemBase {
     setFieldOriented(true);
   }
 
-  public void updateLimelightTracking(double strafeInput) {
+  public void updateLimelightTracking(double forwardInput, double strafeInput) {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     double headingError = -table.getEntry("tx").getDouble(0);
-    double distanceError = -table.getEntry("ty").getDouble(0);
 
     SmartDashboard.putNumber("tx", headingError);
-    SmartDashboard.putNumber("ty", distanceError);
-   
-    double forwardInput = 0;
+  
     double yawInput = 0;
-
-    forwardInput = Math.abs(distanceError) < maxDistanceError ? 0 : (distanceError * driveConstant);
     yawInput = Math.abs(headingError) < maxHeadingError ? 0 : (headingError * headingConstant);
-
-    forwardInput = Math.abs(forwardInput) > maxForwardOutput ? Math.copySign(maxForwardOutput, forwardInput): forwardInput;
     yawInput = Math.abs(yawInput) > maxYawOutput ? Math.copySign(maxYawOutput, yawInput): yawInput;
 
     drive(forwardInput, strafeInput, yawInput);
