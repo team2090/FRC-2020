@@ -12,9 +12,13 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.music.Orchestra;
 import com.kauailabs.navx.frc.AHRS;
-import frc.robot.subsystems.Wheel;
 import static frc.robot.Constants.SwerveConstants.*;
+
+import java.util.ArrayList;
+
 import static frc.robot.Constants.LimelightConstants.*;
 
 /**
@@ -36,6 +40,8 @@ public class SwerveSubsystem extends SubsystemBase {
   public final AHRS gyro;
   private final double kLengthComponent;
   private final double kWidthComponent;
+  private final ArrayList<TalonFX> instruments = new ArrayList<TalonFX>();
+  private Orchestra orchestra;
   //private final Servo visionServo;
 
   /**
@@ -68,6 +74,7 @@ public class SwerveSubsystem extends SubsystemBase {
     for (Wheel wheel : wheels) {
       wheel.initWheel();
       wheel.zero();
+      instruments.add(wheel.getDriveMotor());
     }
   }
 
@@ -195,5 +202,28 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public void modifyOutput() {
     
+  }
+
+  public void playMusic() {
+    orchestra = new Orchestra(instruments);
+
+    String[] songs = new String[] {
+      "song1.chrp",
+      "song2.chrp",
+      "song3.chrp",
+      "song4.chrp",
+      "song5.chrp",
+      "song6.chrp",
+      "song7.chrp",
+      "song8.chrp",
+      "song9.chrp", /* the remaining songs play better with three or more FXs */
+      "song10.chrp",
+      "song11.chrp",
+    };
+
+    if (orchestra.isPlaying()) {
+      orchestra.loadMusic(songs[(int) SmartDashboard.getNumber("Song", 0)]); 
+      orchestra.play();
+    }
   }
 }

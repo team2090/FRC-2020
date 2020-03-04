@@ -37,6 +37,7 @@ public class DriveControls {
   public final JoystickButton shootBallMid = new JoystickButton(joystick3, 3);
   public final JoystickButton shootBallLow = new JoystickButton(joystick3, 4);
   public final JoystickButton shootBallHigh = new JoystickButton(joystick3, 5);
+  public final JoystickButton fun = new JoystickButton(joystick3, 8);
 
 
   public double getForward() {

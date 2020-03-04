@@ -27,7 +27,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private CANEncoder shooterEncoder;
   private TalonSRX intakeMotor;
   private TalonSRX ballStorage;
-  private double[] targetVelocities = {0.5, 0.8, 1.0};
+  private double[] targetVelocities = {0.6, 0.8, 1.0};
   private DoubleSolenoid ballHolder;
   private DoubleSolenoid intakeRelease;
 

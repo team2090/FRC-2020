@@ -80,6 +80,7 @@ public class RobotContainer {
     controls.hangUp.whenHeld(new InstantCommand(() -> hang.lift()));
     controls.hangDown.whenHeld(new InstantCommand(() -> hang.down()));
     controls.intake.whenHeld(new InstantCommand(() -> shooter.runIntake()));
+    controls.fun.whenHeld(new InstantCommand(() -> robotDrive.playMusic()));
   }
 
   /**
