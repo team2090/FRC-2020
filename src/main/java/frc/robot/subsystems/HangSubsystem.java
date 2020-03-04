@@ -30,4 +30,8 @@ public class HangSubsystem extends SubsystemBase {
   public void lift() {
     arm.set(DoubleSolenoid.Value.kForward);
   }
+
+  public void defaultPosition() {
+    arm.set(DoubleSolenoid.Value.kReverse);
+  }
 }

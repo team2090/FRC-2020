@@ -17,18 +17,17 @@ package frc.robot;
  */
 public final class Constants {
   public static final class HangConstants {
-    public static final int armForwardChannel = 4;
-    public static final int armReverseChannel = 5;
-
+    public static final int armForwardChannel = 6;
+    public static final int armReverseChannel = 7;
     public static final int lock1port = 1;
     public static final int lock2port = 2;
   }
 
   public static final class ShooterConstants {
-    public static final int shooter1 = 7;
-    public static final int shooter2 = 8;
+    public static final int shooter1 = 10;
+    public static final int shooter2 = 11;
 
-    public static final int intakeMotorId = 6;
+    public static final int intakeMotorId = 8;
     public static final int storageMotorId = 9;
 
     public static final int ballHolderForwardChannel = 0;
@@ -61,13 +60,13 @@ public final class Constants {
     // Front Right
     public static final int FRONT_RIGHT_ANGLE_MOTOR = 3;
     public static final int FRONT_RIGHT_DRIVE_MOTOR = 13;
-    public static final double FRONT_RIGHT_OFFSET = 216;
+    public static final double FRONT_RIGHT_OFFSET = -31;
     public static final int FRONT_RIGHT_ENCODER = 2;
 
     // Back Right
     public static final int BACK_RIGHT_ANGLE_MOTOR = 2;
     public static final int BACK_RIGHT_DRIVE_MOTOR = 12;
-    public static final double BACK_RIGHT_OFFSET = 71;
+    public static final double BACK_RIGHT_OFFSET = 66;
     public static final int BACK_RIGHT_ENCODER = 1;
 
     // Back Left
@@ -96,8 +95,8 @@ public final class Constants {
 
     // Smart Motion Coefficients
     // I found max at 5720
-    public static final double azimuthMaxVel = 5500; // rpm
-    public static final double azimuthMaxAcc = 3200;
+    public static final double azimuthMaxVel = 5000; // rpm
+    public static final double azimuthMaxAcc = 2000;
     public static final double azimuthMinVel = 0;
     
     public static final int driveTicks = 2048;
