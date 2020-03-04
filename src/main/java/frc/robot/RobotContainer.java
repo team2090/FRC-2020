@@ -65,21 +65,21 @@ public class RobotContainer {
     controls.zeroAzimuthPosition.whenPressed(new InstantCommand(() -> robotDrive.zero()));
     controls.setRobotOriented.whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(false)));
     controls.setFieldOriented.whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(true)));
-    controls.robotOrientedForward.whileHeld(new InstantCommand(() -> robotDrive.robotOrientedDrive(0.2, 0, 0)));
-    controls.robotOrientedRight.whileHeld(new InstantCommand(() -> robotDrive.robotOrientedDrive(0, 0.2, 0)));
-    controls.robotOrientedLeft.whileHeld(new InstantCommand(() -> robotDrive.robotOrientedDrive(0, -0.2, 0)));
-    controls.normalDriveMode.whileHeld(new InstantCommand(() -> speedMod = 1.0));
-    controls.slowDriveMode.whileHeld(new InstantCommand(() -> speedMod = 0.5));
-    controls.ballStorage.whileHeld(new InstantCommand(() -> shooter.runBallStorage()));
-    controls.limelightAim.whileHeld(new InstantCommand(() -> robotDrive.updateLimelightTracking(
+    controls.robotOrientedForward.whenHeld(new InstantCommand(() -> robotDrive.robotOrientedDrive(0.2, 0, 0)));
+    controls.robotOrientedRight.whenHeld(new InstantCommand(() -> robotDrive.robotOrientedDrive(0, 0.2, 0)));
+    controls.robotOrientedLeft.whenHeld(new InstantCommand(() -> robotDrive.robotOrientedDrive(0, -0.2, 0)));
+    controls.normalDriveMode.whenPressed(new InstantCommand(() -> speedMod = 1.0));
+    controls.slowDriveMode.whenPressed(new InstantCommand(() -> speedMod = 0.5));
+    controls.ballStorage.whenHeld(new InstantCommand(() -> shooter.runBallStorage()));
+    controls.limelightAim.whenHeld(new InstantCommand(() -> robotDrive.updateLimelightTracking(
       modifyInput(controls.getForward()),
       modifyInput(controls.getStrafe()))));
-
-    controls.shootBallLow.whileHeld(new InstantCommand(() -> shooter.launchBall(0)));
-    controls.shootBallMid.whileHeld(new InstantCommand(() -> shooter.launchBall(1)));
+    controls.shootBallLow.whenHeld(new InstantCommand(() -> shooter.launchBall(0)));
+    controls.shootBallMid.whenHeld(new InstantCommand(() -> shooter.launchBall(1)));
     controls.shootBallHigh.whenPressed(new InstantCommand(() -> shooter.launchBall(2)));
-    controls.hang.whileHeld(new InstantCommand(() -> hang.lift()));
-    controls.intake.whileHeld(new InstantCommand(() -> shooter.runIntake()));
+    controls.hangUp.whenHeld(new InstantCommand(() -> hang.lift()));
+    controls.hangDown.whenHeld(new InstantCommand(() -> hang.down()));
+    controls.intake.whenHeld(new InstantCommand(() -> shooter.runIntake()));
   }
 
   /**

@@ -65,8 +65,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void launchBall(int setPosition) {
-    shooterMotor1.set(0.8);
-    //shooterPIDController.setReference(targetVelocities[setPosition] * shooterMaxRPM, ControlType.kVelocity);
+    // shooterMotor1.set(0.8);
+    shooterPIDController.setReference(targetVelocities[setPosition] * shooterMaxRPM, ControlType.kVelocity);
     // if (Math.abs(shooterEncoder.getVelocity() - (targetVelocities[setPosition] * shooterMaxRPM)) < 100) {
     //   ballHolder.set(DoubleSolenoid.Value.kReverse);
     //   ballStorage.set(ControlMode.PercentOutput, 0.5);
@@ -76,24 +76,22 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void runIntake() {
     intakeRelease.set(DoubleSolenoid.Value.kReverse);
-    intakeMotor.set(ControlMode.PercentOutput, 0.8);
-    SmartDashboard.putBoolean("Working", true);
+    intakeMotor.set(ControlMode.PercentOutput, 0.2);
+    SmartDashboard.putBoolean("Intake", true);
   }
   public void runBallStorage() {
      // TODO: ADD DETECTION HERE
-     ballStorage.set(ControlMode.PercentOutput, 0.8);
+     ballStorage.set(ControlMode.PercentOutput, 0.6);
   }
 
 
   public void stop() {
-    shooterPIDController.setReference(3500, ControlType.kVelocity);
-    SmartDashboard.putNumber("SPEED!", shooterEncoder.getVelocity());
-    ballStorage.set(ControlMode.PercentOutput, 0.6);
-    intakeMotor.set(ControlMode.PercentOutput, 0.2);
-
+    shooterMotor1.set(0);
+    //SmartDashboard.putNumber("SPEED!", shooterEncoder.getVelocity());
+    //ballStorage.set(ControlMode.PercentOutput, 0.6);
+    //intakeMotor.set(ControlMode.PercentOutput, 0.2);
     intakeRelease.set(DoubleSolenoid.Value.kForward);
     ballHolder.set(DoubleSolenoid.Value.kForward);
-
-    SmartDashboard.putBoolean("Working", false);
+    SmartDashboard.putBoolean("Intake", false);
   }
 }
