@@ -10,6 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoDriveCommand;
+import frc.robot.commands.AutoDriveCommandLeft;
+import frc.robot.commands.AutoDriveCommandMid;
+import frc.robot.commands.AutoDriveCommandRight;
 import frc.robot.subsystems.HangSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -29,7 +32,9 @@ public class RobotContainer {
   private final HangSubsystem hang = new HangSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
-  private final AutoDriveCommand autoCommand = new AutoDriveCommand(robotDrive, shooter);
+  private final AutoDriveCommand autoLeftCommand = new AutoDriveCommandLeft(robotDrive, shooter);
+  private final AutoDriveCommand autoMidCommand = new AutoDriveCommandMid(robotDrive, shooter);
+  private final AutoDriveCommand autoRightCommand = new AutoDriveCommandRight(robotDrive, shooter);
   private final DriveControls controls = new DriveControls();
   // private final StateMachineCommand stateMachine = new StateMachineCommand(robotDrive, shooter, intake, hang);
   private double speedMod = 1.0;
@@ -88,10 +93,18 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    return autoCommand;
+  public Command getAutonomousCommandLeft() {
+    return autoLeftCommand;
   }
   
+  public Command getAutonomousCommandMid() {
+    return autoMidCommand;
+  }
+
+  public Command getAutonomousCommandRight() {
+    return autoRightCommand;
+  }
+
   public double modifyInput(double value) {
     // Deadband
     if (Math.abs(value) < 0.1) {

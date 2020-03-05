@@ -153,6 +153,18 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("driveMode", enable);
   }
 
+  public void setAllAzimuth(double angle) {
+    for (Wheel wheel : wheels) {
+      wheel.setTargetAngle(angle);
+    }
+  }
+
+  public void driveSetDistance(double distance) {
+    for (Wheel wheel : wheels) {
+      wheel.setTargetDistance(distance);
+    }
+  }
+
   /**
    * Stop all Swerve Modules
    */

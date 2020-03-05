@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 /**
  * An example command that uses an example subsystem.
  */
-public abstract class AutoDriveCommand extends CommandGroupBase {
+public class AutoDriveCommandMid extends AutoDriveCommand {
 
   private final SwerveSubsystem robotDrive;
   private final ShooterSubsystem robotShooter;
@@ -26,19 +26,13 @@ public abstract class AutoDriveCommand extends CommandGroupBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoDriveCommand(SwerveSubsystem swerve, ShooterSubsystem shooter) {
+  public AutoDriveCommandMid(SwerveSubsystem swerve, ShooterSubsystem shooter) {
+    super(swerve, shooter);
     robotDrive = swerve;
     robotShooter = shooter;
-
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(robotDrive, robotShooter);
-
   }
 
-  public abstract void autoSequence();
-
-  @Override
-  public void addCommands(Command... commands) {
-    new InstantCommand(() -> autoSequence(), robotDrive);
+  public void autoSequence() {
+    
   }
 }
