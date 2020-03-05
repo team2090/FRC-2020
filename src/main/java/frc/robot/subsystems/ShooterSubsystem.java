@@ -27,7 +27,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private CANEncoder shooterEncoder;
   private TalonSRX intakeMotor;
   private TalonSRX ballStorage;
-  private double[] targetVelocities = {0.6, 0.8, 1.0};
+  private double[] targetVelocities = {0.5, 0.8, 1.0};
   private DoubleSolenoid ballHolder;
   private DoubleSolenoid intakeRelease;
 
@@ -46,7 +46,7 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotor2.restoreFactoryDefaults();
 
     shooterMotor1.setInverted(true);
-    shooterMotor2.setInverted(false);
+    shooterMotor2.setInverted(true);
 
     shooterPIDController = shooterMotor1.getPIDController();
     shooterEncoder = shooterMotor1.getEncoder(); // Encoder object created to display velocity values
@@ -65,8 +65,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void launchBall(int setPosition) {
-    // shooterMotor1.set(0.8);
-    shooterPIDController.setReference(targetVelocities[setPosition] * shooterMaxRPM, ControlType.kVelocity);
+    shooterMotor1.set(0.8);
+    //shooterPIDController.setReference(targetVelocities[setPosition] * shooterMaxRPM, ControlType.kVelocity);
     // if (Math.abs(shooterEncoder.getVelocity() - (targetVelocities[setPosition] * shooterMaxRPM)) < 100) {
     //   ballHolder.set(DoubleSolenoid.Value.kReverse);
     //   ballStorage.set(ControlMode.PercentOutput, 0.5);
@@ -88,8 +88,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public void stop() {
     shooterMotor1.set(0);
     //SmartDashboard.putNumber("SPEED!", shooterEncoder.getVelocity());
-    //ballStorage.set(ControlMode.PercentOutput, 0.6);
-    //intakeMotor.set(ControlMode.PercentOutput, 0.2);
+    ballStorage.set(ControlMode.PercentOutput, 0);
+    intakeMotor.set(ControlMode.PercentOutput, 0);
     intakeRelease.set(DoubleSolenoid.Value.kForward);
     ballHolder.set(DoubleSolenoid.Value.kForward);
     SmartDashboard.putBoolean("Intake", false);

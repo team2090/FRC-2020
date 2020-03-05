@@ -32,9 +32,9 @@ public class RobotContainer {
   private final HangSubsystem hang = new HangSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
-  private final AutoDriveCommand autoLeftCommand = new AutoDriveCommandLeft(robotDrive, shooter);
-  private final AutoDriveCommand autoMidCommand = new AutoDriveCommandMid(robotDrive, shooter);
-  private final AutoDriveCommand autoRightCommand = new AutoDriveCommandRight(robotDrive, shooter);
+  // private final AutoDriveCommand autoLeftCommand = new AutoDriveCommandLeft(robotDrive, shooter);
+  // private final AutoDriveCommand autoMidCommand = new AutoDriveCommandMid(robotDrive, shooter);
+  // private final AutoDriveCommand autoRightCommand = new AutoDriveCommandRight(robotDrive, shooter);
   private final DriveControls controls = new DriveControls();
   // private final StateMachineCommand stateMachine = new StateMachineCommand(robotDrive, shooter, intake, hang);
   private double speedMod = 1.0;
@@ -51,9 +51,9 @@ public class RobotContainer {
           modifyInput(controls.getStrafe()),
           modifyInput(controls.getYaw())), robotDrive));
       
-    shooter.setDefaultCommand(
-      new RunCommand(() -> shooter.stop(), shooter)
-    );
+    // shooter.setDefaultCommand(
+    //   new RunCommand(() -> shooter.stop(), shooter)
+    // );
     
     hang.setDefaultCommand(
       new RunCommand(() -> hang.defaultPosition(), hang)
@@ -81,29 +81,29 @@ public class RobotContainer {
       modifyInput(controls.getStrafe()))));
     controls.shootBallLow.whenHeld(new InstantCommand(() -> shooter.launchBall(0)));
     controls.shootBallMid.whenHeld(new InstantCommand(() -> shooter.launchBall(1)));
-    controls.shootBallHigh.whenPressed(new InstantCommand(() -> shooter.launchBall(2)));
+    controls.shootBallHigh.whenPressed(new InstantCommand(() -> shooter.launchBall(2))).whenReleased(new InstantCommand(() -> shooter.stop()));
     controls.hangUp.whenHeld(new InstantCommand(() -> hang.lift()));
     controls.hangDown.whenHeld(new InstantCommand(() -> hang.down()));
     controls.intake.whenHeld(new InstantCommand(() -> shooter.runIntake()));
-    controls.fun.whenHeld(new InstantCommand(() -> robotDrive.playMusic()));
   }
 
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommandLeft() {
-    return autoLeftCommand;
-  }
+  // public Command getAutonomousCommandLeft() {
+  //   return autoLeftCommand;
+  // }
   
-  public Command getAutonomousCommandMid() {
-    return autoMidCommand;
-  }
+  // public Command getAutonomousCommandMid() {
+  //   return autoMidCommand;
+  // }
 
-  public Command getAutonomousCommandRight() {
-    return autoRightCommand;
-  }
+  // public Command getAutonomousCommandRight() {
+  //   return autoRightCommand;
+  // }
 
   public double modifyInput(double value) {
     // Deadband

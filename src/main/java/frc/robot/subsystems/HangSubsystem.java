@@ -14,7 +14,6 @@ import static frc.robot.Constants.HangConstants.*;
 
 public class HangSubsystem extends SubsystemBase {
   private DoubleSolenoid arm;
-  private DoubleSolenoid.Value heldPosition = DoubleSolenoid.Value.kReverse;
   // private Servo lock1;
   // private Servo lock2;
   
@@ -30,15 +29,13 @@ public class HangSubsystem extends SubsystemBase {
 
   public void lift() {
     arm.set(DoubleSolenoid.Value.kForward);
-    heldPosition = DoubleSolenoid.Value.kForward;
   }
 
   public void down() {
     arm.set(DoubleSolenoid.Value.kReverse);
-    heldPosition = DoubleSolenoid.Value.kReverse;
   }
 
   public void defaultPosition() {
-    arm.set(heldPosition);
+    arm.set(DoubleSolenoid.Value.kReverse);
   }
 }

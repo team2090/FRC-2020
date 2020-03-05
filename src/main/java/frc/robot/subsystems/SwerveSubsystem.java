@@ -41,7 +41,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final double kLengthComponent;
   private final double kWidthComponent;
   private final ArrayList<TalonFX> instruments = new ArrayList<TalonFX>();
-  private Orchestra orchestra;
+  //private Orchestra orchestra;
   //private final Servo visionServo;
 
   /**
@@ -216,26 +216,26 @@ public class SwerveSubsystem extends SubsystemBase {
     
   }
 
-  public void playMusic() {
-    orchestra = new Orchestra(instruments);
+  // public void playMusic() {
+  //   orchestra = new Orchestra(instruments);
 
-    String[] songs = new String[] {
-      "song1.chrp",
-      "song2.chrp",
-      "song3.chrp",
-      "song4.chrp",
-      "song5.chrp",
-      "song6.chrp",
-      "song7.chrp",
-      "song8.chrp",
-      "song9.chrp", /* the remaining songs play better with three or more FXs */
-      "song10.chrp",
-      "song11.chrp",
-    };
+  //   String[] songs = new String[] {
+  //     "song1.chrp",
+  //     "song2.chrp",
+  //     "song3.chrp",
+  //     "song4.chrp",
+  //     "song5.chrp",
+  //     "song6.chrp",
+  //     "song7.chrp",
+  //     "song8.chrp",
+  //     "song9.chrp", /* the remaining songs play better with three or more FXs */
+  //     "song10.chrp",
+  //     "song11.chrp",
+  //   };
 
-    if (orchestra.isPlaying()) {
-      orchestra.loadMusic(songs[(int) SmartDashboard.getNumber("Song", 0)]); 
-      orchestra.play();
-    }
-  }
+  //   if (orchestra.isPlaying()) {
+  //     orchestra.loadMusic(songs[(int) SmartDashboard.getNumber("Song", 0)]); 
+  //     orchestra.play();
+  //   }
+  // }
 }
