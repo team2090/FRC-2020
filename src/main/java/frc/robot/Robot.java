@@ -38,8 +38,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
-    // auto = new SendableChooser<Command>();
-    // auto.setDefaultOption("Left Auto", robotContainer.getAutonomousCommandLeft());
+    auto = new SendableChooser<Command>();
+    auto.setDefaultOption("Left Auto", robotContainer.getAutonomousCommandLeft());
     // auto.addOption("Mid Auto", robotContainer.getAutonomousCommandMid());
     // auto.addOption("Right Auto", robotContainer.getAutonomousCommandRight());
   }
@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    autonomousCommand = robotContainer.getAutonomousCommandLeft();
+    autonomousCommand = auto.getSelected();
 
     // schedule the autonomous command (example)
     if (autonomousCommand != null) {
