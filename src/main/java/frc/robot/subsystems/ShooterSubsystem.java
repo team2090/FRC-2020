@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import static frc.robot.Constants.ShooterConstants.*;
 
@@ -61,7 +62,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void launchBall(int setPosition) {
-    shooterMotor1.set(0.8);
+    shooterMotor1.set(0.62);
     //shooterPIDController.setReference(targetVelocities[setPosition] * shooterMaxRPM, ControlType.kVelocity);
     // if (Math.abs(shooterEncoder.getVelocity() - (targetVelocities[setPosition] * shooterMaxRPM)) < 100) {
     //   ballHolder.set(DoubleSolenoid.Value.kReverse);
@@ -71,8 +72,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void runIntake() {
-    intakeRelease.set(DoubleSolenoid.Value.kReverse);
-    intakeMotor.set(ControlMode.PercentOutput, 0.2);
+    intakeRelease.set(DoubleSolenoid.Value.kForward);
+    intakeMotor.set(ControlMode.PercentOutput, 0.4);
     SmartDashboard.putBoolean("Intake", true);
   }
   public void runBallStorage() {
@@ -80,13 +81,19 @@ public class ShooterSubsystem extends SubsystemBase {
      ballStorage.set(ControlMode.PercentOutput, 0.6);
   }
 
+  public void runBallStorageBackwards() {
+    // TODO: ADD DETECTION HERE
+    ballStorage.set(ControlMode.PercentOutput, -0.6);
+ }
+
+
 
   public void stop() {
     shooterMotor1.set(0);
     //SmartDashboard.putNumber("SPEED!", shooterEncoder.getVelocity());
     ballStorage.set(ControlMode.PercentOutput, 0);
     intakeMotor.set(ControlMode.PercentOutput, 0);
-    intakeRelease.set(DoubleSolenoid.Value.kForward);
+    intakeRelease.set(DoubleSolenoid.Value.kReverse);
     ballHolder.set(DoubleSolenoid.Value.kForward);
     SmartDashboard.putBoolean("Intake", false);
   }

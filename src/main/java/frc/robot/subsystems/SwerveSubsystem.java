@@ -195,6 +195,7 @@ public class SwerveSubsystem extends SubsystemBase {
     double headingError = -table.getEntry("tx").getDouble(0);
 
     SmartDashboard.putNumber("tx", headingError);
+    SmartDashboard.putBoolean("HEY", true);
   
     double yawInput = 0;
     yawInput = Math.abs(headingError) < maxHeadingError ? 0 : (headingError * headingConstant);

@@ -9,10 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.AutoDriveCommand;
+//import frc.robot.commands.AutoDriveCommand;
 import frc.robot.commands.AutoDriveCommandLeft;
-import frc.robot.commands.AutoDriveCommandMid;
-import frc.robot.commands.AutoDriveCommandRight;
+// import frc.robot.commands.AutoDriveCommandMid;
+// import frc.robot.commands.AutoDriveCommandRight;
 import frc.robot.subsystems.HangSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -32,7 +32,7 @@ public class RobotContainer {
   private final HangSubsystem hang = new HangSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
-  // private final AutoDriveCommand autoLeftCommand = new AutoDriveCommandLeft(robotDrive, shooter);
+  private final AutoDriveCommandLeft autoLeftCommand = new AutoDriveCommandLeft(robotDrive, shooter);
   // private final AutoDriveCommand autoMidCommand = new AutoDriveCommandMid(robotDrive, shooter);
   // private final AutoDriveCommand autoRightCommand = new AutoDriveCommandRight(robotDrive, shooter);
   private final DriveControls controls = new DriveControls();
@@ -83,11 +83,11 @@ public class RobotContainer {
 
     controls.intake.whileHeld(new RunCommand(() -> shooter.runIntake()));
     controls.ballStorage.whileHeld(new RunCommand(() -> shooter.runBallStorage()));
-    
+    controls.backwardsBallStorage.whileHeld(new RunCommand(() -> shooter.runBallStorageBackwards()));
     
     controls.shootBallLow.whileHeld(new RunCommand(() -> shooter.launchBall(0)));
     controls.shootBallMid.whileHeld(new RunCommand(() -> shooter.launchBall(1)));
-    controls.shootBallHigh.whenPressed(new RunCommand(() -> shooter.launchBall(2)));
+    controls.shootBallHigh.whileHeld(new RunCommand(() -> shooter.launchBall(2)));
     
     controls.hangUp.whileHeld(new RunCommand(() -> hang.lift()));
     controls.hangDown.whileHeld(new RunCommand(() -> hang.down()));
@@ -99,9 +99,9 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommandLeft() {
-  //   return autoLeftCommand;
-  // }
+  public Command getAutonomousCommandLeft() {
+    return autoLeftCommand;
+  }
   
   // public Command getAutonomousCommandMid() {
   //   return autoMidCommand;

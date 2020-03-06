@@ -36,14 +36,14 @@ public final class Constants {
     public static final int intakeReleaseReverseChannel = 3;
 
     // PID coefficients
-    public static final double shooterkP = 5e-5;
-    public static final double shooterkI = 1e-6;
-    public static final double shooterkD = 0;
+    public static final double shooterkP = 0.1;
+    public static final double shooterkI = 0;
+    public static final double shooterkD = 0.8;
     public static final double shooterkIz = 0;
     public static final double shooterkFF = 0;
     public static final double shooterkMaxOutput = 1;
     public static final double shooterkMinOutput = -1;
-    public static final double shooterMaxRPM = 4700;
+    public static final double shooterMaxRPM = 5000;
   }
 
   public static final class SwerveConstants {
