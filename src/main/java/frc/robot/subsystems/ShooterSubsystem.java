@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import static frc.robot.Constants.ShooterConstants.*;
 
@@ -38,7 +37,6 @@ public class ShooterSubsystem extends SubsystemBase {
     ballStorage = new TalonSRX(storageMotorId);
     ballHolder = new DoubleSolenoid(ballHolderForwardChannel, ballHolderReverseChannel);
     intakeRelease = new DoubleSolenoid(intakeReleaseForwardChannel, intakeReleaseReverseChannel);
-    
     intakeMotor.configFactoryDefault();
     intakeMotor.setInverted(false);
 
@@ -46,11 +44,10 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotor2.restoreFactoryDefaults();
 
     shooterMotor1.setInverted(true);
-    shooterMotor2.setInverted(true);
 
     shooterPIDController = shooterMotor1.getPIDController();
     shooterEncoder = shooterMotor1.getEncoder(); // Encoder object created to display velocity values
-
+    
     // set PID coefficients
     shooterPIDController.setP(shooterkP);
     shooterPIDController.setI(shooterkI);
@@ -58,8 +55,7 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterPIDController.setIZone(shooterkIz);
     shooterPIDController.setFF(shooterkFF);
     shooterPIDController.setOutputRange(shooterkMinOutput, shooterkMaxOutput);
-
-    shooterMotor2.follow(shooterMotor1);
+    shooterMotor2.follow(shooterMotor1, true);
     intakeRelease.set(DoubleSolenoid.Value.kForward);
     ballHolder.set(DoubleSolenoid.Value.kForward);
   }

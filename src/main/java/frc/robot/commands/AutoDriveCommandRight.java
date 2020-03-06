@@ -29,6 +29,6 @@ public class AutoDriveCommandRight extends AutoDriveCommand {
   }
 
   public void autoSequence() {
-    
+    robotDrive.drive(0, 0, 0);
   }
 }

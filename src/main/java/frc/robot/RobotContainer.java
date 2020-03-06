@@ -50,10 +50,10 @@ public class RobotContainer {
           modifyInput(controls.getForward()),
           modifyInput(controls.getStrafe()),
           modifyInput(controls.getYaw())), robotDrive));
-      
-    // shooter.setDefaultCommand(
-    //   new RunCommand(() -> shooter.stop(), shooter)
-    // );
+    
+    shooter.setDefaultCommand(
+      new RunCommand(() -> shooter.stop(), shooter)
+    );
     
     hang.setDefaultCommand(
       new RunCommand(() -> hang.defaultPosition(), hang)
@@ -70,23 +70,29 @@ public class RobotContainer {
     controls.zeroAzimuthPosition.whenPressed(new InstantCommand(() -> robotDrive.zero()));
     controls.setRobotOriented.whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(false)));
     controls.setFieldOriented.whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(true)));
-    controls.robotOrientedForward.whenHeld(new InstantCommand(() -> robotDrive.robotOrientedDrive(0.2, 0, 0)));
-    controls.robotOrientedRight.whenHeld(new InstantCommand(() -> robotDrive.robotOrientedDrive(0, 0.2, 0)));
-    controls.robotOrientedLeft.whenHeld(new InstantCommand(() -> robotDrive.robotOrientedDrive(0, -0.2, 0)));
+
     controls.normalDriveMode.whenPressed(new InstantCommand(() -> speedMod = 1.0));
     controls.slowDriveMode.whenPressed(new InstantCommand(() -> speedMod = 0.5));
-    controls.ballStorage.whenHeld(new InstantCommand(() -> shooter.runBallStorage()));
-    controls.limelightAim.whenHeld(new InstantCommand(() -> robotDrive.updateLimelightTracking(
+    
+    controls.robotOrientedForward.whileHeld(new RunCommand(() -> robotDrive.robotOrientedDrive(0.2, 0, 0)));
+    controls.robotOrientedRight.whileHeld(new RunCommand(() -> robotDrive.robotOrientedDrive(0, 0.2, 0)));
+    controls.robotOrientedLeft.whileHeld(new RunCommand(() -> robotDrive.robotOrientedDrive(0, -0.2, 0)));
+    controls.limelightAim.whileHeld(new RunCommand(() -> robotDrive.updateLimelightTracking(
       modifyInput(controls.getForward()),
       modifyInput(controls.getStrafe()))));
-    controls.shootBallLow.whenHeld(new InstantCommand(() -> shooter.launchBall(0)));
-    controls.shootBallMid.whenHeld(new InstantCommand(() -> shooter.launchBall(1)));
-    controls.shootBallHigh.whenPressed(new InstantCommand(() -> shooter.launchBall(2))).whenReleased(new InstantCommand(() -> shooter.stop()));
-    controls.hangUp.whenHeld(new InstantCommand(() -> hang.lift()));
-    controls.hangDown.whenHeld(new InstantCommand(() -> hang.down()));
-    controls.intake.whenHeld(new InstantCommand(() -> shooter.runIntake()));
-  }
 
+    controls.intake.whileHeld(new RunCommand(() -> shooter.runIntake()));
+    controls.ballStorage.whileHeld(new RunCommand(() -> shooter.runBallStorage()));
+    
+    
+    controls.shootBallLow.whileHeld(new RunCommand(() -> shooter.launchBall(0)));
+    controls.shootBallMid.whileHeld(new RunCommand(() -> shooter.launchBall(1)));
+    controls.shootBallHigh.whenPressed(new RunCommand(() -> shooter.launchBall(2)));
+    
+    controls.hangUp.whileHeld(new RunCommand(() -> hang.lift()));
+    controls.hangDown.whileHeld(new RunCommand(() -> hang.down()));
+    
+  }
   
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
