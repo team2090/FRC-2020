@@ -28,15 +28,17 @@ public class DriveControls {
 
   public final JoystickButton intake = new JoystickButton(joystick2, 1);
   public final JoystickButton ballStorage = new JoystickButton(joystick2, 2);
+  public final JoystickButton backwardsBallStorage = new JoystickButton(joystick2, 3);
+  public final JoystickButton reverseIntake = new JoystickButton(joystick2, 5);
   public final JoystickButton setFieldOriented = new JoystickButton(joystick2, 6);
   public final JoystickButton setRobotOriented = new JoystickButton(joystick2, 7);
   
   public final JoystickButton hangUp = new JoystickButton(joystick3, 1);
-  public final JoystickButton hangDown = new JoystickButton(joystick3, 1);
+  public final JoystickButton hangDown = new JoystickButton(joystick3, 2);
   public final JoystickButton shootBallMid = new JoystickButton(joystick3, 3);
   public final JoystickButton shootBallLow = new JoystickButton(joystick3, 4);
   public final JoystickButton shootBallHigh = new JoystickButton(joystick3, 5);
-  public final JoystickButton backwardsBallStorage = new JoystickButton(joystick3, 8);
+  
   
   public double getForward() {
     return -joystick1.getRawAxis(1);

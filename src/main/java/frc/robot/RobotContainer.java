@@ -82,6 +82,7 @@ public class RobotContainer {
       modifyInput(controls.getStrafe())))).whenReleased(new InstantCommand(() -> robotDrive.setCamMode(false)));
 
     controls.intake.whileHeld(new RunCommand(() -> shooter.runIntake()));
+    controls.reverseIntake.whileHeld(new RunCommand(() -> shooter.runIntakeBackwards()));
     controls.ballStorage.whileHeld(new RunCommand(() -> shooter.runBallStorage()));
     controls.backwardsBallStorage.whileHeld(new RunCommand(() -> shooter.runBallStorageBackwards()));
     

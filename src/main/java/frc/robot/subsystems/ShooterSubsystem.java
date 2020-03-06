@@ -74,8 +74,13 @@ public class ShooterSubsystem extends SubsystemBase {
   public void runIntake() {
     intakeRelease.set(DoubleSolenoid.Value.kForward);
     intakeMotor.set(ControlMode.PercentOutput, 0.4);
-    SmartDashboard.putBoolean("Intake", true);
   }
+
+  public void runIntakeBackwards() {
+    intakeRelease.set(DoubleSolenoid.Value.kForward);
+    intakeMotor.set(ControlMode.PercentOutput, -0.4);
+  }
+
   public void runBallStorage() {
      // TODO: ADD DETECTION HERE
      ballStorage.set(ControlMode.PercentOutput, 0.6);
@@ -92,6 +97,5 @@ public class ShooterSubsystem extends SubsystemBase {
     intakeMotor.set(ControlMode.PercentOutput, 0);
     intakeRelease.set(DoubleSolenoid.Value.kReverse);
     ballHolder.set(DoubleSolenoid.Value.kForward);
-    SmartDashboard.putBoolean("Intake", false);
   }
 }
