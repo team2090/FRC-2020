@@ -177,12 +177,14 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Zero all Swerve Modules (azimuth position and drive output are set to 0)
+   * Init all Swerve Modules in the zero position (azimuth position and drive output are set to 0)
+   * Camera mode is set to normal (not vision)
    */
-  public void zero() {
+  public void initDrive() {
     for (Wheel wheel : wheels) {
       wheel.zero();
     }
+    setCamMode(false);
   }
 
   public void robotOrientedDrive(double forward, double strafe, double yaw) {

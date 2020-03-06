@@ -67,7 +67,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    controls.zeroAzimuthPosition.whenPressed(new InstantCommand(() -> robotDrive.zero()));
+    controls.zeroAzimuthPosition.whenPressed(new InstantCommand(() -> robotDrive.initDrive()));
     controls.setRobotOriented.whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(false)));
     controls.setFieldOriented.whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(true)));
 

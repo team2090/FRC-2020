@@ -88,7 +88,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void stop() {
     shooterMotor1.set(0);
-    //SmartDashboard.putNumber("SPEED!", shooterEncoder.getVelocity());
     ballStorage.set(ControlMode.PercentOutput, 0);
     intakeMotor.set(ControlMode.PercentOutput, 0);
     intakeRelease.set(DoubleSolenoid.Value.kReverse);
