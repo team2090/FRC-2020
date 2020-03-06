@@ -41,6 +41,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final double kLengthComponent;
   private final double kWidthComponent;
   private final ArrayList<TalonFX> instruments = new ArrayList<TalonFX>();
+  private final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   //private Orchestra orchestra;
   //private final Servo visionServo;
 
@@ -191,7 +192,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void updateLimelightTracking(double forwardInput, double strafeInput) {
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    setCamMode(true);
     double headingError = -table.getEntry("tx").getDouble(0);
 
     SmartDashboard.putNumber("tx", headingError);
@@ -202,6 +203,10 @@ public class SwerveSubsystem extends SubsystemBase {
     yawInput = Math.abs(yawInput) > maxYawOutput ? Math.copySign(maxYawOutput, yawInput): yawInput;
 
     drive(forwardInput, strafeInput, yawInput);
+  }
+
+  public void setCamMode(boolean visionMode) {
+    table.getEntry("camMode").setNumber(visionMode ? 0 : 1);
   }
 
   // public void adjustVisionPosition(double offset) {

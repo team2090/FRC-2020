@@ -62,8 +62,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void launchBall(int setPosition) {
-    shooterMotor1.set(0.62);
-    //shooterPIDController.setReference(targetVelocities[setPosition] * shooterMaxRPM, ControlType.kVelocity);
+    //shooterMotor1.set(0.62);
+    shooterPIDController.setReference(targetVelocities[setPosition] * shooterMaxRPM, ControlType.kVelocity);
     // if (Math.abs(shooterEncoder.getVelocity() - (targetVelocities[setPosition] * shooterMaxRPM)) < 100) {
     //   ballHolder.set(DoubleSolenoid.Value.kReverse);
     //   ballStorage.set(ControlMode.PercentOutput, 0.5);
@@ -85,8 +85,6 @@ public class ShooterSubsystem extends SubsystemBase {
     // TODO: ADD DETECTION HERE
     ballStorage.set(ControlMode.PercentOutput, -0.6);
  }
-
-
 
   public void stop() {
     shooterMotor1.set(0);

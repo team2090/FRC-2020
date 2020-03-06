@@ -79,7 +79,7 @@ public class RobotContainer {
     controls.robotOrientedLeft.whileHeld(new RunCommand(() -> robotDrive.robotOrientedDrive(0, -0.2, 0)));
     controls.limelightAim.whileHeld(new RunCommand(() -> robotDrive.updateLimelightTracking(
       modifyInput(controls.getForward()),
-      modifyInput(controls.getStrafe()))));
+      modifyInput(controls.getStrafe())))).whenReleased(new InstantCommand(() -> robotDrive.setCamMode(false)));
 
     controls.intake.whileHeld(new RunCommand(() -> shooter.runIntake()));
     controls.ballStorage.whileHeld(new RunCommand(() -> shooter.runBallStorage()));
@@ -91,7 +91,6 @@ public class RobotContainer {
     
     controls.hangUp.whileHeld(new RunCommand(() -> hang.lift()));
     controls.hangDown.whileHeld(new RunCommand(() -> hang.down()));
-    
   }
   
   /**
