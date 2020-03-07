@@ -43,6 +43,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     shooterMotor1.restoreFactoryDefaults();
     shooterMotor2.restoreFactoryDefaults();
+    ballStorage.restoreFactoryDefaults();
 
     shooterMotor1.setInverted(true);
 
