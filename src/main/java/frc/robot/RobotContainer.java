@@ -85,6 +85,7 @@ public class RobotContainer {
     controls.reverseIntake.whileHeld(new RunCommand(() -> shooter.runIntakeBackwards()));
     controls.ballStorage.whileHeld(new RunCommand(() -> shooter.runBallStorage()));
     controls.backwardsBallStorage.whileHeld(new RunCommand(() -> shooter.runBallStorageBackwards()));
+    controls.lowerIntake.whileHeld(new RunCommand(() -> shooter.intakeDown()));
     
     controls.shootBallLow.whileHeld(new RunCommand(() -> shooter.launchBall(0)));
     controls.shootBallMid.whileHeld(new RunCommand(() -> shooter.launchBall(1)));

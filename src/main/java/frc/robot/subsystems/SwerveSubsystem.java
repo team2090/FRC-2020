@@ -195,7 +195,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void updateLimelightTracking(double forwardInput, double strafeInput) {
     setCamMode(true);
-    double headingError = -table.getEntry("tx").getDouble(0);
+    double headingError = table.getEntry("tx").getDouble(0);
 
     SmartDashboard.putNumber("tx", headingError);
     SmartDashboard.putBoolean("HEY", true);
@@ -203,7 +203,6 @@ public class SwerveSubsystem extends SubsystemBase {
     double yawInput = 0;
     yawInput = Math.abs(headingError) < maxHeadingError ? 0 : (headingError * headingConstant);
     yawInput = Math.abs(yawInput) > maxYawOutput ? Math.copySign(maxYawOutput, yawInput): yawInput;
-
     drive(forwardInput, strafeInput, yawInput);
   }
 

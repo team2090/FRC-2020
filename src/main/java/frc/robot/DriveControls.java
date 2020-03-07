@@ -32,6 +32,7 @@ public class DriveControls {
   public final JoystickButton reverseIntake = new JoystickButton(joystick2, 5);
   public final JoystickButton setFieldOriented = new JoystickButton(joystick2, 6);
   public final JoystickButton setRobotOriented = new JoystickButton(joystick2, 7);
+  public final JoystickButton lowerIntake = new JoystickButton(joystick2, 4);
   
   public final JoystickButton hangUp = new JoystickButton(joystick3, 1);
   public final JoystickButton hangDown = new JoystickButton(joystick3, 2);

@@ -36,14 +36,14 @@ public final class Constants {
     public static final int intakeReleaseReverseChannel = 3;
 
     // PID coefficients
-    public static final double shooterkP = 0.1;
+    public static final double shooterkP = 0.7e-2;
     public static final double shooterkI = 0;
-    public static final double shooterkD = 0.8;
+    public static final double shooterkD = 0.1;
     public static final double shooterkIz = 0;
     public static final double shooterkFF = 0;
     public static final double shooterkMaxOutput = 1;
     public static final double shooterkMinOutput = -1;
-    public static final double shooterMaxRPM = 5000;
+    public static final double shooterMaxRPM = 4000;
   }
 
   public static final class SwerveConstants {
@@ -95,8 +95,8 @@ public final class Constants {
 
     // Smart Motion Coefficients
     // I found max at 5720
-    public static final double azimuthMaxVel = 5000; // rpm
-    public static final double azimuthMaxAcc = 2000;
+    public static final double azimuthMaxVel = 5700; // rpm
+    public static final double azimuthMaxAcc = 2500;
     public static final double azimuthMinVel = 0;
     
     public static final int driveTicks = 2048;

@@ -73,12 +73,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void runIntake() {
     intakeRelease.set(DoubleSolenoid.Value.kForward);
-    intakeMotor.set(ControlMode.PercentOutput, 0.4);
+    intakeMotor.set(ControlMode.PercentOutput, 0.55);
   }
 
   public void runIntakeBackwards() {
     intakeRelease.set(DoubleSolenoid.Value.kForward);
-    intakeMotor.set(ControlMode.PercentOutput, -0.4);
+    intakeMotor.set(ControlMode.PercentOutput, -0.55);
   }
 
   public void runBallStorage() {
@@ -91,11 +91,14 @@ public class ShooterSubsystem extends SubsystemBase {
     ballStorage.set(ControlMode.PercentOutput, -0.6);
  }
 
+ public void intakeDown() {
+  intakeRelease.set(DoubleSolenoid.Value.kReverse);
+ }
+
   public void stop() {
     shooterMotor1.set(0);
     ballStorage.set(ControlMode.PercentOutput, 0);
     intakeMotor.set(ControlMode.PercentOutput, 0);
-    intakeRelease.set(DoubleSolenoid.Value.kReverse);
     ballHolder.set(DoubleSolenoid.Value.kForward);
   }
 }
