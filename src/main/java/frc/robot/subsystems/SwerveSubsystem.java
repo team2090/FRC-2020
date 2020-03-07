@@ -181,6 +181,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * Camera mode is set to normal (not vision)
    */
   public void initDrive() {
+    gyro.reset();
     for (Wheel wheel : wheels) {
       wheel.zero();
     }

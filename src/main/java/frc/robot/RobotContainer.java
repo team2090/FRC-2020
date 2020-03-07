@@ -67,14 +67,16 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    controls.zeroAzimuthPosition.whenPressed(new InstantCommand(() -> robotDrive.initDrive()));
+    controls.zeroField.whenPressed(new InstantCommand(() -> robotDrive.initDrive()));
     controls.setRobotOriented.whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(false)));
     controls.setFieldOriented.whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(true)));
 
     controls.normalDriveMode.whenPressed(new InstantCommand(() -> speedMod = 1.0));
     controls.slowDriveMode.whenPressed(new InstantCommand(() -> speedMod = 0.5));
+    controls.precisionDriveMode.whenPressed(new InstantCommand(() -> speedMod = 0.25));
     
     controls.robotOrientedForward.whileHeld(new RunCommand(() -> robotDrive.robotOrientedDrive(0.2, 0, 0)));
+    controls.robotOrientedBackwards.whileHeld(new RunCommand(() -> robotDrive.robotOrientedDrive(-0.2, 0, 0)));
     controls.robotOrientedRight.whileHeld(new RunCommand(() -> robotDrive.robotOrientedDrive(0, 0.2, 0)));
     controls.robotOrientedLeft.whileHeld(new RunCommand(() -> robotDrive.robotOrientedDrive(0, -0.2, 0)));
     controls.limelightAim.whileHeld(new RunCommand(() -> robotDrive.updateLimelightTracking(

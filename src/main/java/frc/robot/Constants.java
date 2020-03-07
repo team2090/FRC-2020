@@ -85,11 +85,11 @@ public final class Constants {
     public static final double azimuthkMinOutput = -1;
 
     // Drive PID coefficients
-    public static final double drivekP = 0.25;
-    public static final double drivekI = 0.001;
-    public static final double drivekD = 20;
-    public static final double drivekIz = 300;
-    public static final double drivekFF = 1.0;
+    public static final double drivekP = 0.2;
+    public static final double drivekI = 0.0;
+    public static final double drivekD = 0.0;
+    public static final double drivekIz = 0;
+    public static final double drivekFF = 0.2;
     public static final double drivekMaxOutput = 1;
     public static final double drivekMinOutput = -1;
 

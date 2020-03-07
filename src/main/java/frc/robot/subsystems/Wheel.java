@@ -17,6 +17,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
@@ -65,22 +66,23 @@ public class Wheel {
      */
     public void initWheel() {
         azimuthMotor.restoreFactoryDefaults();
-        TalonFXConfiguration configs = new TalonFXConfiguration();
-        /* select integ-sensor for PID0 (it doesn't matter if PID is actually used) */
-        configs.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
-        configs.slot0.kP = drivekP;
-        configs.slot0.kI = drivekI;
-        configs.slot0.kD = drivekD;
-        /* config all the settings */
-        driveMotor.configAllSettings(configs);
-        driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 20);
+        /* Factory default hardware to prevent unexpected behavior */
+		driveMotor.configFactoryDefault();
+
+		/* Configure Sensor Source for Pirmary PID */
+		driveMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
+
+		/* set deadband to super small 0.001 (0.1 %).
+			The default deadband is 0.04 (4 %) */
+		driveMotor.configNeutralDeadband(0.001, 30);
 
 		/*
 		 * Choose which direction motor should spin during positive
 		 * motor-output/sensor-velocity. Note setInverted also takes classic true/false
 		 * as an input.
 		 */
-		driveMotor.setInverted(TalonFXInvertType.CounterClockwise);
+        driveMotor.setInverted(TalonFXInvertType.CounterClockwise);
+        driveMotor.setInverted(false);
 		/*
 		 * Talon FX does not need sensor phase set for its integrated sensor
 		 * This is because it will always be correct if the selected feedback device is integrated sensor (default value)
@@ -90,7 +92,31 @@ public class Wheel {
 		 */
 
 		/* Brake or coast during neutral */
-		driveMotor.setNeutralMode(NeutralMode.Brake);
+        driveMotor.setNeutralMode(NeutralMode.Brake);
+        
+        /* Set relevant frame periods to be at least as fast as periodic rate */
+		driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30);
+		driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 30);
+
+		/* Set the peak and nominal outputs */
+		driveMotor.configNominalOutputForward(0, 30);
+		driveMotor.configNominalOutputReverse(0, 30);
+		driveMotor.configPeakOutputForward(1, 30);
+		driveMotor.configPeakOutputReverse(-1, 30);
+
+		/* Set Motion Magic gains in slot0 - see documentation */
+		driveMotor.selectProfileSlot(0, 0);
+		driveMotor.config_kF(0, drivekFF, 30);
+		driveMotor.config_kP(0, drivekP, 30);
+		driveMotor.config_kI(0, drivekI, 30);
+		driveMotor.config_kD(0, drivekD, 30);
+
+		/* Set acceleration and vcruise velocity - see documentation */
+		driveMotor.configMotionCruiseVelocity(15000, 30);
+		driveMotor.configMotionAcceleration(6000, 30);
+
+		/* Zero the sensor once on robot boot up */
+		driveMotor.setSelectedSensorPosition(0, 0, 30);
     
         // set azimuth PID coefficients
         azimuthPIDController.setP(azimuthkP);
@@ -190,8 +216,9 @@ public class Wheel {
         // SmartDashboard.putNumber("Target Spark Position (Encoder units)", azimuthError / 360.0 * 18 + azimuthMotor.getEncoder().getPosition());
         SmartDashboard.putNumber("module" + azimuthMotor.getDeviceId(), azimuthEncoder.getValue());
         SmartDashboard.putNumber("target" + azimuthMotor.getDeviceId(), targetAngle);
+
         // Prevent the azimuth from resetting position to zero
-        if (drive != 0) {
+        if (drive != 0 && Math.abs(azimuthError) > (0.5)) {
             // The azimuth motor has units of 18 for one full rotation. The position is set using the azimuth error + current position. 
             azimuthPIDController.setReference(azimuthError / 360.0 * 18 + azimuthMotor.getEncoder().getPosition(), ControlType.kSmartMotion);
         }

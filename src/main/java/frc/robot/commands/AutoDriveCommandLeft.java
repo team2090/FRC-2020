@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -15,17 +16,26 @@ import frc.robot.subsystems.SwerveSubsystem;
 /**
  * An example command that uses an example subsystem.
  */
-public class AutoDriveCommandLeft extends SequentialCommandGroup {
-
+public class AutoDriveCommandLeft extends CommandBase {
+  private SwerveSubsystem robotDrive;
+  private ShooterSubsystem robotShooter;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
   public AutoDriveCommandLeft(SwerveSubsystem swerve, ShooterSubsystem shooter) {
-    addCommands(
-      new InstantCommand(() -> swerve.driveSetDistance(1.0)
-    ));
-    
+    robotDrive = swerve;
+    robotShooter = shooter;
+  }
+
+  @Override
+  public void initialize() {
+    robotDrive.driveSetDistance(1.0);
+  }
+
+  @Override
+  public boolean isFinished() {
+    return true;
   }
 }

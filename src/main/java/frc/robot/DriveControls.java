@@ -20,25 +20,27 @@ public class DriveControls {
 
   public final JoystickButton limelightAim = new JoystickButton(joystick1, 1);
   public final JoystickButton robotOrientedForward = new JoystickButton(joystick1, 3);
+  public final JoystickButton robotOrientedBackwards = new JoystickButton(joystick1, 2);
   public final JoystickButton robotOrientedLeft = new JoystickButton(joystick1, 4);
   public final JoystickButton robotOrientedRight = new JoystickButton(joystick1, 5);
-  public final JoystickButton zeroAzimuthPosition = new JoystickButton(joystick1, 8);
-  public final JoystickButton slowDriveMode = new JoystickButton(joystick1, 10);
-  public final JoystickButton normalDriveMode = new JoystickButton(joystick1, 11);
+  public final JoystickButton setFieldOriented = new JoystickButton(joystick1, 10);
+  public final JoystickButton setRobotOriented = new JoystickButton(joystick1, 11);
 
   public final JoystickButton intake = new JoystickButton(joystick2, 1);
-  public final JoystickButton ballStorage = new JoystickButton(joystick2, 2);
-  public final JoystickButton backwardsBallStorage = new JoystickButton(joystick2, 3);
-  public final JoystickButton reverseIntake = new JoystickButton(joystick2, 5);
-  public final JoystickButton setFieldOriented = new JoystickButton(joystick2, 6);
-  public final JoystickButton setRobotOriented = new JoystickButton(joystick2, 7);
+  public final JoystickButton backwardsBallStorage = new JoystickButton(joystick2, 2);
+  public final JoystickButton ballStorage = new JoystickButton(joystick2, 3);
   public final JoystickButton lowerIntake = new JoystickButton(joystick2, 4);
+  public final JoystickButton reverseIntake = new JoystickButton(joystick2, 5);
+  public final JoystickButton slowDriveMode = new JoystickButton(joystick2, 6);
+  public final JoystickButton normalDriveMode = new JoystickButton(joystick2, 7);
+  public final JoystickButton precisionDriveMode = new JoystickButton(joystick2, 8);
+  public final JoystickButton zeroField = new JoystickButton(joystick2, 11);
   
-  public final JoystickButton hangUp = new JoystickButton(joystick3, 1);
-  public final JoystickButton hangDown = new JoystickButton(joystick3, 2);
   public final JoystickButton shootBallMid = new JoystickButton(joystick3, 3);
   public final JoystickButton shootBallLow = new JoystickButton(joystick3, 4);
   public final JoystickButton shootBallHigh = new JoystickButton(joystick3, 5);
+  public final JoystickButton hangDown = new JoystickButton(joystick3, 10);
+  public final JoystickButton hangUp = new JoystickButton(joystick3, 11);
   
   
   public double getForward() {
