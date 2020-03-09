@@ -56,7 +56,7 @@ public class RobotContainer {
     );
     
     hang.setDefaultCommand(
-      new RunCommand(() -> hang.defaultPosition(), hang)
+      new RunCommand(() -> hang.holdPosition(), hang)
     );
   }
 

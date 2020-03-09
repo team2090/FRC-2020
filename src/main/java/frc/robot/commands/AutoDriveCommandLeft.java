@@ -8,8 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -31,6 +29,11 @@ public class AutoDriveCommandLeft extends CommandBase {
 
   @Override
   public void initialize() {
+    robotDrive.initDrive();
+  }
+
+  @Override
+  public void execute() {
     robotDrive.driveSetDistance(1.0);
   }
 

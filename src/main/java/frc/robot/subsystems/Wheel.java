@@ -82,7 +82,6 @@ public class Wheel {
 		 * as an input.
 		 */
         driveMotor.setInverted(TalonFXInvertType.CounterClockwise);
-        driveMotor.setInverted(false);
 		/*
 		 * Talon FX does not need sensor phase set for its integrated sensor
 		 * This is because it will always be correct if the selected feedback device is integrated sensor (default value)

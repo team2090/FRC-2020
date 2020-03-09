@@ -8,12 +8,13 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.HangConstants.*;
 
 public class HangSubsystem extends SubsystemBase {
   private DoubleSolenoid arm;
+  private DoubleSolenoid.Value position = Value.kReverse;
   // private Servo lock1;
   // private Servo lock2;
   
@@ -24,18 +25,20 @@ public class HangSubsystem extends SubsystemBase {
     arm = new DoubleSolenoid(armForwardChannel, armReverseChannel);
     // lock1 = new Servo(lock1port);
     // lock2 = new Servo(lock2port);
-    arm.set(DoubleSolenoid.Value.kReverse);
+    arm.set(position);
   }
 
   public void lift() {
     arm.set(DoubleSolenoid.Value.kForward);
+    position = DoubleSolenoid.Value.kForward;
   }
 
   public void down() {
     arm.set(DoubleSolenoid.Value.kReverse);
+    position = DoubleSolenoid.Value.kReverse;
   }
 
-  public void defaultPosition() {
-    arm.set(DoubleSolenoid.Value.kReverse);
+  public void holdPosition() {
+    arm.set(position);
   }
 }

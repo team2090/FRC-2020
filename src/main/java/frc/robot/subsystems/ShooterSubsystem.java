@@ -24,6 +24,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private CANSparkMax shooterMotor1;
   private CANSparkMax shooterMotor2;
   private CANPIDController shooterPIDController;
+  private CANPIDController ballStoragePIDController;
   private CANEncoder shooterEncoder;
   private TalonSRX intakeMotor;
   private CANSparkMax ballStorage;
@@ -47,22 +48,26 @@ public class ShooterSubsystem extends SubsystemBase {
 
     shooterMotor1.setInverted(true);
 
+    ballStoragePIDController = ballStorage.getPIDController();
     shooterPIDController = shooterMotor1.getPIDController();
     shooterEncoder = shooterMotor1.getEncoder(); // Encoder object created to display velocity values
     
     // set PID coefficients
-    shooterPIDController.setP(shooterkP);
-    shooterPIDController.setI(shooterkI);
-    shooterPIDController.setD(shooterkD);
-
-    SmartDashboard.putNumber("P", shooterkP);
-    SmartDashboard.putNumber("I", shooterkI);
-    SmartDashboard.putNumber("D", shooterkD);
-
+    shooterPIDController.setP(0.0001);
+    shooterPIDController.setI(0);
+    shooterPIDController.setD(0);
     shooterPIDController.setIZone(shooterkIz);
     shooterPIDController.setFF(shooterkFF);
     shooterPIDController.setOutputRange(shooterkMinOutput, shooterkMaxOutput);
     shooterMotor2.follow(shooterMotor1, true);
+
+    ballStoragePIDController.setP(ballStoragekP);
+    ballStoragePIDController.setI(ballStoragekI);
+    ballStoragePIDController.setD(ballStoragekD);
+    ballStoragePIDController.setIZone(ballStoragekIz);
+    ballStoragePIDController.setFF(ballStoragekFF);
+    ballStoragePIDController.setOutputRange(ballStoragekMinOutput, ballStoragekMaxOutput);
+
     intakeRelease.set(DoubleSolenoid.Value.kForward);
     ballHolder.set(DoubleSolenoid.Value.kForward);
   }
@@ -103,10 +108,6 @@ public class ShooterSubsystem extends SubsystemBase {
  }
 
   public void stop() {
-    
-    shooterPIDController.setP(SmartDashboard.getNumber("P", shooterkP));
-    shooterPIDController.setI(SmartDashboard.getNumber("I", shooterkI));
-    shooterPIDController.setD(SmartDashboard.getNumber("D", shooterkD));
 
     shooterPIDController.setReference(targetVelocities[2] * shooterMaxRPM, ControlType.kVelocity);
     ballStorage.set(0);

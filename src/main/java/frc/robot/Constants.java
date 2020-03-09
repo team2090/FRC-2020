@@ -44,6 +44,15 @@ public final class Constants {
     public static final double shooterkMaxOutput = 1;
     public static final double shooterkMinOutput = -1;
     public static final double shooterMaxRPM = 4000;
+
+    // PID coefficients
+    public static final double ballStoragekP = 5e-5;
+    public static final double ballStoragekI = 1e-6;
+    public static final double ballStoragekD = 0;
+    public static final double ballStoragekIz = 0;
+    public static final double ballStoragekFF = 0;
+    public static final double ballStoragekMaxOutput = 1;
+    public static final double ballStoragekMinOutput = -1;
   }
 
   public static final class SwerveConstants {
