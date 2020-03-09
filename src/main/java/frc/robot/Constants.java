@@ -30,8 +30,8 @@ public final class Constants {
     public static final int intakeMotorId = 8;
     public static final int storageMotorId = 9;
 
-    public static final int ballHolderForwardChannel = 0;
-    public static final int ballHolderReverseChannel = 1;
+    public static final int ballShifterForwardChannel = 0;
+    public static final int ballShifterReverseChannel = 1;
     public static final int intakeReleaseForwardChannel = 2;
     public static final int intakeReleaseReverseChannel = 3;
 

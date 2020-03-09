@@ -29,7 +29,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private TalonSRX intakeMotor;
   private CANSparkMax ballStorage;
   private double[] targetVelocities = {0.5, 0.8, 1.0};
-  private DoubleSolenoid ballHolder;
+  private DoubleSolenoid ballShifter;
   private DoubleSolenoid intakeRelease;
 
   public ShooterSubsystem() {
@@ -37,7 +37,7 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotor2 = new CANSparkMax(shooter2, MotorType.kBrushless);
     intakeMotor = new TalonSRX(intakeMotorId);
     ballStorage = new CANSparkMax(storageMotorId, MotorType.kBrushless);
-    ballHolder = new DoubleSolenoid(ballHolderForwardChannel, ballHolderReverseChannel);
+    ballShifter = new DoubleSolenoid(ballShifterForwardChannel, ballShifterReverseChannel);
     intakeRelease = new DoubleSolenoid(intakeReleaseForwardChannel, intakeReleaseReverseChannel);
     intakeMotor.configFactoryDefault();
     intakeMotor.setInverted(false);
@@ -69,14 +69,14 @@ public class ShooterSubsystem extends SubsystemBase {
     ballStoragePIDController.setOutputRange(ballStoragekMinOutput, ballStoragekMaxOutput);
 
     intakeRelease.set(DoubleSolenoid.Value.kForward);
-    ballHolder.set(DoubleSolenoid.Value.kForward);
+    ballShifter.set(DoubleSolenoid.Value.kForward);
   }
 
   public void launchBall(int setPosition) {
     //shooterMotor1.set(0.62);
     shooterPIDController.setReference(targetVelocities[setPosition] * shooterMaxRPM, ControlType.kVelocity);
     // if (Math.abs(shooterEncoder.getVelocity() - (targetVelocities[setPosition] * shooterMaxRPM)) < 100) {
-    //   ballHolder.set(DoubleSolenoid.Value.kReverse);
+    //   ballShifter.set(DoubleSolenoid.Value.kReverse);
     //   ballStorage.set(ControlMode.PercentOutput, 0.5);
     // }
     SmartDashboard.putNumber("Velocity", shooterEncoder.getVelocity());
@@ -94,12 +94,10 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void runBallStorage() {
-     // TODO: ADD DETECTION HERE
      ballStorage.set(0.6);
   }
 
   public void runBallStorageBackwards() {
-    // TODO: ADD DETECTION HERE
     ballStorage.set(-0.6);
  }
 
@@ -112,7 +110,7 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterPIDController.setReference(targetVelocities[2] * shooterMaxRPM, ControlType.kVelocity);
     ballStorage.set(0);
     intakeMotor.set(ControlMode.PercentOutput, 0);
-    ballHolder.set(DoubleSolenoid.Value.kForward);
+    ballShifter.set(DoubleSolenoid.Value.kForward);
   
     SmartDashboard.putNumber("Velocity", shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Output", shooterMotor1.getAppliedOutput());
