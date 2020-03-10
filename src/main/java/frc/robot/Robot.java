@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,6 +26,9 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand;
   private RobotContainer robotContainer;
   private SendableChooser<Command> auto;
+  private AddressableLED light;
+  private AddressableLEDBuffer buffer;
+  private int rainbowFirstPixelHue = 0;
   
   
   // This is some custom drive control code (Jason)
@@ -42,6 +47,10 @@ public class Robot extends TimedRobot {
     auto.setDefaultOption("Left Auto", robotContainer.getAutonomousCommandLeft());
     // auto.addOption("Mid Auto", robotContainer.getAutonomousCommandMid());
     // auto.addOption("Right Auto", robotContainer.getAutonomousCommandRight());
+    light = new AddressableLED(9);
+    buffer = new AddressableLEDBuffer(60);
+    light.setLength(buffer.getLength());
+    light.start();
   }
 
   /**
@@ -58,6 +67,8 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    rainbow();
+    light.setData(buffer);
   }
 
   /**
@@ -83,6 +94,21 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }
+  }
+
+  private void rainbow() {
+    // For every pixel
+    for (var i = 0; i < buffer.getLength(); i++) {
+      // Calculate the hue - hue is easier for rainbows because the color
+      // shape is a circle so only one value needs to precess
+      final var hue = (rainbowFirstPixelHue + (i * 180 / buffer.getLength())) % 180;
+      // Set the value
+      buffer.setHSV(i, hue, 255, 128);
+    }
+    // Increase by to make the rainbow "move"
+    rainbowFirstPixelHue += 3;
+    // Check bounds
+    rainbowFirstPixelHue %= 180;
   }
 
   /**

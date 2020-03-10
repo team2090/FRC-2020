@@ -53,7 +53,7 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterEncoder = shooterMotor1.getEncoder(); // Encoder object created to display velocity values
     
     // set PID coefficients
-    shooterPIDController.setP(0.0001);
+    shooterPIDController.setP(0.01);
     shooterPIDController.setI(0);
     shooterPIDController.setD(0);
     shooterPIDController.setIZone(shooterkIz);
@@ -106,8 +106,7 @@ public class ShooterSubsystem extends SubsystemBase {
  }
 
   public void stop() {
-
-    shooterPIDController.setReference(targetVelocities[2] * shooterMaxRPM, ControlType.kVelocity);
+    shooterPIDController.setReference(targetVelocities[0] * shooterMaxRPM, ControlType.kVelocity);
     ballStorage.set(0);
     intakeMotor.set(ControlMode.PercentOutput, 0);
     ballShifter.set(DoubleSolenoid.Value.kForward);
