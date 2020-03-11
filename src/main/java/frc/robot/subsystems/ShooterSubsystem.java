@@ -29,7 +29,6 @@ public class ShooterSubsystem extends SubsystemBase {
   private TalonSRX intakeMotor;
   private CANSparkMax ballStorage;
   private double[] targetVelocities = {0.5, 0.8, 1.0};
-  private DoubleSolenoid ballShifter;
   private DoubleSolenoid intakeRelease;
 
   public ShooterSubsystem() {
@@ -37,7 +36,6 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotor2 = new CANSparkMax(shooter2, MotorType.kBrushless);
     intakeMotor = new TalonSRX(intakeMotorId);
     ballStorage = new CANSparkMax(storageMotorId, MotorType.kBrushless);
-    ballShifter = new DoubleSolenoid(ballShifterForwardChannel, ballShifterReverseChannel);
     intakeRelease = new DoubleSolenoid(intakeReleaseForwardChannel, intakeReleaseReverseChannel);
     intakeMotor.configFactoryDefault();
     intakeMotor.setInverted(false);
@@ -51,9 +49,9 @@ public class ShooterSubsystem extends SubsystemBase {
     ballStoragePIDController = ballStorage.getPIDController();
     shooterPIDController = shooterMotor1.getPIDController();
     shooterEncoder = shooterMotor1.getEncoder(); // Encoder object created to display velocity values
-    
+   
     // set PID coefficients
-    shooterPIDController.setP(0.0001);
+    shooterPIDController.setP(3.0e-3);
     shooterPIDController.setI(0);
     shooterPIDController.setD(0);
     shooterPIDController.setIZone(shooterkIz);
@@ -69,16 +67,18 @@ public class ShooterSubsystem extends SubsystemBase {
     ballStoragePIDController.setOutputRange(ballStoragekMinOutput, ballStoragekMaxOutput);
 
     intakeRelease.set(DoubleSolenoid.Value.kForward);
-    ballShifter.set(DoubleSolenoid.Value.kForward);
+    SmartDashboard.putBoolean("STOP", false);
   }
 
   public void launchBall(int setPosition) {
-    //shooterMotor1.set(0.62);
-    shooterPIDController.setReference(targetVelocities[setPosition] * shooterMaxRPM, ControlType.kVelocity);
+    shooterMotor1.set(targetVelocities[setPosition] * 0.65);
+    //shooterPIDController.setReference(targetVelocities[setPosition] * shooterMaxRPM, ControlType.kVelocity);
+    //SmartDashboard.putNumber("VOLT", shooterMotor1.getBusVoltage());
     // if (Math.abs(shooterEncoder.getVelocity() - (targetVelocities[setPosition] * shooterMaxRPM)) < 100) {
     //   ballShifter.set(DoubleSolenoid.Value.kReverse);
     //   ballStorage.set(ControlMode.PercentOutput, 0.5);
     // }
+    SmartDashboard.putBoolean("STOP", false);
     SmartDashboard.putNumber("Velocity", shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Output", shooterMotor1.getAppliedOutput());
   }
@@ -106,13 +106,12 @@ public class ShooterSubsystem extends SubsystemBase {
  }
 
   public void stop() {
-
-    shooterPIDController.setReference(targetVelocities[2] * shooterMaxRPM, ControlType.kVelocity);
+    shooterMotor1.set(0);
     ballStorage.set(0);
     intakeMotor.set(ControlMode.PercentOutput, 0);
-    ballShifter.set(DoubleSolenoid.Value.kForward);
-  
+    SmartDashboard.putBoolean("STOP", true);
     SmartDashboard.putNumber("Velocity", shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Output", shooterMotor1.getAppliedOutput());
+    SmartDashboard.putNumber("VOLT", shooterMotor1.getBusVoltage());
   }
 }

@@ -24,8 +24,8 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final int shooter1 = 10;
-    public static final int shooter2 = 11;
+    public static final int shooter1 = 20;
+    public static final int shooter2 = 21;
 
     public static final int intakeMotorId = 8;
     public static final int storageMotorId = 9;
