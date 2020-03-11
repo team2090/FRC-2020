@@ -181,7 +181,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * Camera mode is set to normal (not vision)
    */
   public void initDrive() {
-    gyro.reset();
+    gyro.zeroYaw();
     for (Wheel wheel : wheels) {
       wheel.zero();
     }
@@ -209,6 +209,17 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void setCamMode(boolean visionMode) {
     table.getEntry("camMode").setNumber(visionMode ? 0 : 1);
+  }
+
+  public boolean onTarget() {
+    setCamMode(true);
+    double headingError = table.getEntry("tx").getDouble(0);
+    setCamMode(false);
+    return Math.abs(headingError) < 2.0 ? true : false;
+  }
+
+  public void yawToAngle(double targetPosition) {
+    drive(0, 0, headingConstant * (targetPosition - gyro.getAngle()));
   }
 
   // public void adjustVisionPosition(double offset) {

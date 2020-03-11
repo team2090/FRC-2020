@@ -7,7 +7,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -17,6 +19,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class AutoDriveCommandLeft extends CommandBase {
   private SwerveSubsystem robotDrive;
   private ShooterSubsystem robotShooter;
+  private Timer autoTimer;
   /**
    * Creates a new ExampleCommand.
    *
@@ -25,15 +28,33 @@ public class AutoDriveCommandLeft extends CommandBase {
   public AutoDriveCommandLeft(SwerveSubsystem swerve, ShooterSubsystem shooter) {
     robotDrive = swerve;
     robotShooter = shooter;
+    autoTimer = new Timer();
   }
 
   @Override
   public void initialize() {
+    autoTimer.start();
     robotDrive.initDrive();
   }
 
   @Override
   public void execute() {
+    // // Vision Aim
+    // do {
+    //   robotDrive.updateLimelightTracking(0, 0);
+    // } while (!robotDrive.onTarget() || !(autoTimer.hasPeriodPassed(3.0)));
+
+    // // Shoot
+    // robotShooter.launchBall(1);
+    // Timer.delay(2.0);
+    // robotShooter.runBallStorage();
+    // Timer.delay(4.0);
+
+    // do {
+    //   robotDrive.yawToAngle(180.0);
+    // } while ((Math.abs(180.0 - robotDrive.gyro.getAngle()) > 1.0) || !(autoTimer.hasPeriodPassed(5.0)));
+    robotDrive.setAllAzimuth(180);
+    // robotShooter.runIntake();
     robotDrive.driveSetDistance(1.0);
   }
 

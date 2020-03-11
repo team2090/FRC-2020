@@ -49,12 +49,10 @@ public class DriveControls {
     return -joystick1.getRawAxis(1);
   }
 
-  /** Left stick Y (left-right) axis. */
   public double getStrafe() {
     return joystick1.getRawAxis(0);
   }
 
-  /** Right stick Y (left-right) axis. */
   public double getYaw() {
     return joystick2.getRawAxis(0);
   }
