@@ -69,7 +69,6 @@ public class ShooterSubsystem extends SubsystemBase {
     ballStoragePIDController.setOutputRange(ballStoragekMinOutput, ballStoragekMaxOutput);
 
     intakeRelease.set(DoubleSolenoid.Value.kForward);
-    SmartDashboard.putBoolean("STOP", false);
   }
 
   public void launchBall(int setPosition) {
@@ -81,7 +80,6 @@ public class ShooterSubsystem extends SubsystemBase {
     //   ballShifter.set(DoubleSolenoid.Value.kReverse);
     //   ballStorage.set(ControlMode.PercentOutput, 0.5);
     // }
-    SmartDashboard.putBoolean("STOP", false);
     SmartDashboard.putNumber("Velocity", shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Output", shooterMotor1.getAppliedOutput());
   }
@@ -113,10 +111,7 @@ public class ShooterSubsystem extends SubsystemBase {
     ballStorage.set(0);
     intakeMotor.set(ControlMode.PercentOutput, 0);
 
-    SmartDashboard.putBoolean("STOP", true);
     SmartDashboard.putNumber("Velocity", shooterEncoder.getVelocity());
-    SmartDashboard.putNumber("Output", shooterMotor1.getAppliedOutput());
-    SmartDashboard.putNumber("VOLT", shooterMotor1.getBusVoltage());
   }
 
   public void shiftBallStorageBack() {

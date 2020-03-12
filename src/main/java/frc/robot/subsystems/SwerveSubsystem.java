@@ -173,7 +173,6 @@ public class SwerveSubsystem extends SubsystemBase {
     for (Wheel wheel : wheels) {
       wheel.stop();
     }
-    SmartDashboard.putString("State", "Stopped");
   }
 
   /**
@@ -195,9 +194,6 @@ public class SwerveSubsystem extends SubsystemBase {
   public void updateLimelightTracking(double forwardInput, double strafeInput) {
     setCamMode(true);
     double headingError = table.getEntry("tx").getDouble(0);
-
-    SmartDashboard.putNumber("tx", headingError);
-    SmartDashboard.putBoolean("HEY", true);
   
     double yawInput = 0;
     yawInput = Math.abs(headingError) < maxHeadingError ? 0 : (headingError * headingConstant);

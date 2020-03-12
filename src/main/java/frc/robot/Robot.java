@@ -27,7 +27,6 @@ public class Robot extends TimedRobot {
   private SendableChooser<Command> auto;
   private AddressableLED light;
   private AddressableLEDBuffer buffer;
-  private int rainbowFirstPixelHue = 0;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -64,7 +63,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    rainbow();
+    robotContainer.updateLightsData(buffer);
     light.setData(buffer);
   }
 
@@ -91,21 +90,6 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }
-  }
-
-  private void rainbow() {
-    // For every pixel
-    for (var i = 0; i < buffer.getLength(); i++) {
-      // Calculate the hue - hue is easier for rainbows because the color
-      // shape is a circle so only one value needs to precess
-      final var hue = (rainbowFirstPixelHue + (i * 180 / buffer.getLength())) % 180;
-      // Set the value
-      buffer.setHSV(i, hue, 255, 128);
-    }
-    // Increase by to make the rainbow "move"
-    rainbowFirstPixelHue += 3;
-    // Check bounds
-    rainbowFirstPixelHue %= 180;
   }
 
   /**

@@ -160,7 +160,6 @@ public class Wheel {
      */
     public void setDriveOutput(double output) {
         driveMotor.set(ControlMode.PercentOutput, output);
-        SmartDashboard.putNumber("driveOutput", output);
     }
     
     /**
@@ -201,7 +200,6 @@ public class Wheel {
         if (Math.abs(azimuthError) > 0.25 * 360) {
             azimuthError -= Math.copySign(0.5 * 360, azimuthError);
             drive = -drive;
-             SmartDashboard.putBoolean("direction" + azimuthMotor.getDeviceId(), false);
         }   
         
         // SmartDashboard.putNumber("Encoder current position" + azimuthMotor.getDeviceId(), azimuthEncoder.getValue());
@@ -211,8 +209,6 @@ public class Wheel {
         // SmartDashboard.putNumber("Drive", drive);
         // SmartDashboard.putNumber("Current Spark Position", azimuthMotor.getEncoder().getPosition());
         // SmartDashboard.putNumber("Target Spark Position (Encoder units)", azimuthError / 360.0 * 18 + azimuthMotor.getEncoder().getPosition());
-        SmartDashboard.putNumber("module" + azimuthMotor.getDeviceId(), azimuthEncoder.getValue());
-        SmartDashboard.putNumber("target" + azimuthMotor.getDeviceId(), targetAngle);
 
         // Prevent the azimuth from resetting position to zero
         if (drive != 0 && Math.abs(azimuthError) > (0.5)) {

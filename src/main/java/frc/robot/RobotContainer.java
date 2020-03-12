@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoDriveCommandLeft;
@@ -18,7 +19,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SelectCommand;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -37,12 +37,8 @@ public class RobotContainer {
   private final AutoDriveCommandRight autoRightCommand = new AutoDriveCommandRight(robotDrive, shooter);
   private final DriveControls controls = new DriveControls();
   private double speedMod = 1.0;
-
-  // The enum used as keys for selecting the command to run.
-  private enum CommandSelector {
-    RIGHT, MID, LEFT
-  }
-
+  private int rainbowFirstPixelHue = 0;
+  private int lightMode = 0;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -127,7 +123,7 @@ public class RobotContainer {
    * 
    */
   public Command getAutonomousCommandLeft() {
-    return autoMidCommand;
+    return autoLeftCommand;
   }
   
   public Command getAutonomousCommandMid() {
@@ -151,4 +147,35 @@ public class RobotContainer {
     return robotDrive;
   }
  
+  public void updateLightsData(AddressableLEDBuffer buffer) {
+    switch (lightMode) {
+      case 0:
+        rainbow(buffer);
+        break;
+      case 1:
+        pink(buffer);
+        break;
+    }
+  }
+
+  private void pink(AddressableLEDBuffer buffer) {
+    for (var i = 0; i < buffer.getLength(); i++) {
+      buffer.setHSV(i, 255, 105, 180);
+    }
+  }
+
+  private void rainbow(AddressableLEDBuffer buffer) {
+    // For every pixel
+    for (var i = 0; i < buffer.getLength(); i++) {
+      // Calculate the hue - hue is easier for rainbows because the color
+      // shape is a circle so only one value needs to precess
+      final var hue = (rainbowFirstPixelHue + (i * 180 / buffer.getLength())) % 180;
+      // Set the value
+      buffer.setHSV(i, hue, 255, 128);
+    }
+    // Increase by to make the rainbow "move"
+    rainbowFirstPixelHue += 3;
+    // Check bounds
+    rainbowFirstPixelHue %= 180;
+  }
 }
