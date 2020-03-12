@@ -11,10 +11,9 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
-
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -29,10 +28,6 @@ public class Robot extends TimedRobot {
   private AddressableLED light;
   private AddressableLEDBuffer buffer;
   private int rainbowFirstPixelHue = 0;
-  
-  
-  // This is some custom drive control code (Jason)
-  //public static DriveControls controls;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -43,14 +38,16 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
-    auto = new SendableChooser<Command>();
-    auto.setDefaultOption("Left Auto", robotContainer.getAutonomousCommandLeft());
-    // auto.addOption("Mid Auto", robotContainer.getAutonomousCommandMid());
-    // auto.addOption("Right Auto", robotContainer.getAutonomousCommandRight());
     light = new AddressableLED(9);
     buffer = new AddressableLEDBuffer(60);
     light.setLength(buffer.getLength());
     light.start();
+
+    auto = new SendableChooser<>();
+    auto.setDefaultOption("Left Auto", robotContainer.getAutonomousCommandLeft());
+    auto.addOption("Right Auto ", robotContainer.getAutonomousCommandRight());
+    auto.addOption("Mid Auto ", robotContainer.getAutonomousCommandMid());
+    SmartDashboard.putData("Auto Mode", auto);
   }
 
   /**

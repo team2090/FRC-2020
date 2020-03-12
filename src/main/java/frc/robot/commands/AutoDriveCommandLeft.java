@@ -42,20 +42,26 @@ public class AutoDriveCommandLeft extends CommandBase {
     // // Vision Aim
     // do {
     //   robotDrive.updateLimelightTracking(0, 0);
-    // } while (!robotDrive.onTarget() || !(autoTimer.hasPeriodPassed(3.0)));
+    // } while (!robotDrive.onTarget() || !(autoTimer.hasPeriodPassed(2.0)));
 
     // // Shoot
     // robotShooter.launchBall(1);
-    // Timer.delay(2.0);
+    Timer.delay(2.0);
     // robotShooter.runBallStorage();
     // Timer.delay(4.0);
 
     // do {
     //   robotDrive.yawToAngle(180.0);
-    // } while ((Math.abs(180.0 - robotDrive.gyro.getAngle()) > 1.0) || !(autoTimer.hasPeriodPassed(5.0)));
-    robotDrive.setAllAzimuth(180);
+    // } while ((Math.abs(180.0 - robotDrive.gyro.getAngle()) > 1.0) || !(autoTimer.hasPeriodPassed(4.0)));
+    //robotDrive.setAllAzimuth(0);
     // robotShooter.runIntake();
     robotDrive.driveSetDistance(1.0);
+    //robotDrive.setAllAzimuth(120);
+    // do {
+    //   robotDrive.yawToAngle(120.0);
+    // } while ((Math.abs(120.0 - robotDrive.gyro.getAngle()) > 1.0) || !(autoTimer.hasPeriodPassed(4.0)));
+    //robotDrive.driveSetDistance(1.0);
+    //robotShooter.launchBall(2);
   }
 
   @Override

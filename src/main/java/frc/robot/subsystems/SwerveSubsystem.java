@@ -10,8 +10,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -191,9 +189,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void robotOrientedDrive(double forward, double strafe, double yaw) {
-    setFieldOriented(false);
     drive(forward, strafe, yaw);
-    setFieldOriented(true);
   }
 
   public void updateLimelightTracking(double forwardInput, double strafeInput) {

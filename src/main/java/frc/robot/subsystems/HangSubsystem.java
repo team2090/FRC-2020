@@ -33,6 +33,7 @@ public class HangSubsystem extends SubsystemBase {
     // lock1 = new Servo(lock1port);
     // lock2 = new Servo(lock2port);
     arm.set(position);
+    
     winch1 = new CANSparkMax(6, MotorType.kBrushless);
     winch2 = new CANSparkMax(7, MotorType.kBrushless);
     winch1.follow(winch2);

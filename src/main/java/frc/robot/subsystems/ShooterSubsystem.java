@@ -17,6 +17,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import static frc.robot.Constants.ShooterConstants.*;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -51,9 +52,9 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterEncoder = shooterMotor1.getEncoder(); // Encoder object created to display velocity values
    
     // set PID coefficients
-    shooterPIDController.setP(3.0e-3);
+    shooterPIDController.setP(3.0e-4);
     shooterPIDController.setI(0);
-    shooterPIDController.setD(0);
+    shooterPIDController.setD(0.001);
     shooterPIDController.setIZone(shooterkIz);
     shooterPIDController.setFF(shooterkFF);
     shooterPIDController.setOutputRange(shooterkMinOutput, shooterkMaxOutput);
@@ -113,5 +114,10 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Velocity", shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Output", shooterMotor1.getAppliedOutput());
     SmartDashboard.putNumber("VOLT", shooterMotor1.getBusVoltage());
+  }
+
+  public void shiftBallStorageBack() {
+    ballStoragePIDController.setReference(ballStorage.getEncoder().getPosition() - 2.0, ControlType.kPosition);
+    Timer.delay(1.0);
   }
 }
