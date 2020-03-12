@@ -101,7 +101,6 @@ public class RobotContainer {
       modifyInput(controls.getStrafe())))).whenReleased(new InstantCommand(() -> robotDrive.setCamMode(false)));
 
     controls.intake.whileHeld(new RunCommand(() -> shooter.runIntake()));
-    controls.reverseIntake.whileHeld(new RunCommand(() -> shooter.runIntakeBackwards()));
     controls.ballStorage.whileHeld(new RunCommand(() -> shooter.runBallStorage()));
     controls.backwardsBallStorage.whileHeld(new RunCommand(() -> shooter.runBallStorageBackwards()));
     controls.lowerIntake.whileHeld(new RunCommand(() -> shooter.intakeDown()));
@@ -121,6 +120,7 @@ public class RobotContainer {
   }
   
   /**
+   * 
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous

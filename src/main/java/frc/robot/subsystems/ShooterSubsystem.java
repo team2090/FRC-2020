@@ -40,6 +40,7 @@ public class ShooterSubsystem extends SubsystemBase {
     intakeRelease = new DoubleSolenoid(intakeReleaseForwardChannel, intakeReleaseReverseChannel);
     intakeMotor.configFactoryDefault();
     intakeMotor.setInverted(false);
+    // 5500 gets 3200
 
     shooterMotor1.restoreFactoryDefaults();
     shooterMotor2.restoreFactoryDefaults();
@@ -72,7 +73,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void launchBall(int setPosition) {
-    shooterMotor1.set(targetVelocities[setPosition] * 0.65);
+    //shooterMotor1.set(targetVelocities[setPosition] * 0.65);
+    shooterPIDController.setReference(5500, ControlType.kVelocity);
     //shooterPIDController.setReference(targetVelocities[setPosition] * shooterMaxRPM, ControlType.kVelocity);
     //SmartDashboard.putNumber("VOLT", shooterMotor1.getBusVoltage());
     // if (Math.abs(shooterEncoder.getVelocity() - (targetVelocities[setPosition] * shooterMaxRPM)) < 100) {
@@ -110,6 +112,7 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotor1.set(0);
     ballStorage.set(0);
     intakeMotor.set(ControlMode.PercentOutput, 0);
+
     SmartDashboard.putBoolean("STOP", true);
     SmartDashboard.putNumber("Velocity", shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Output", shooterMotor1.getAppliedOutput());
