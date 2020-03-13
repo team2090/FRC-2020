@@ -29,7 +29,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private CANEncoder shooterEncoder;
   private TalonSRX intakeMotor;
   private CANSparkMax ballStorage;
-  private double[] targetVelocities = {0.5, 0.8, 1.0};
+  private double[] targetVelocities = {3300, 5000, 5800.0};
   private DoubleSolenoid intakeRelease;
 
   public ShooterSubsystem() {
@@ -73,7 +73,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void launchBall(int setPosition) {
     //shooterMotor1.set(targetVelocities[setPosition] * 0.65);
-    shooterPIDController.setReference(5500, ControlType.kVelocity);
+    shooterPIDController.setReference(targetVelocities[setPosition], ControlType.kVelocity);
     //shooterPIDController.setReference(targetVelocities[setPosition] * shooterMaxRPM, ControlType.kVelocity);
     //SmartDashboard.putNumber("VOLT", shooterMotor1.getBusVoltage());
     // if (Math.abs(shooterEncoder.getVelocity() - (targetVelocities[setPosition] * shooterMaxRPM)) < 100) {
@@ -86,20 +86,20 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void runIntake() {
     intakeRelease.set(DoubleSolenoid.Value.kForward);
-    intakeMotor.set(ControlMode.PercentOutput, 0.55);
+    intakeMotor.set(ControlMode.PercentOutput, 0.35);
   }
 
   public void runIntakeBackwards() {
     intakeRelease.set(DoubleSolenoid.Value.kForward);
-    intakeMotor.set(ControlMode.PercentOutput, -0.55);
+    intakeMotor.set(ControlMode.PercentOutput, -0.35);
   }
 
   public void runBallStorage() {
-     ballStorage.set(0.6);
+     ballStorage.set(0.8);
   }
 
   public void runBallStorageBackwards() {
-    ballStorage.set(-0.6);
+    ballStorage.set(-0.8);
  }
 
  public void intakeDown() {
@@ -110,12 +110,7 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotor1.set(0);
     ballStorage.set(0);
     intakeMotor.set(ControlMode.PercentOutput, 0);
-
+    //shiftBallStorageBack();
     SmartDashboard.putNumber("Velocity", shooterEncoder.getVelocity());
-  }
-
-  public void shiftBallStorageBack() {
-    ballStoragePIDController.setReference(ballStorage.getEncoder().getPosition() - 2.0, ControlType.kPosition);
-    Timer.delay(1.0);
   }
 }

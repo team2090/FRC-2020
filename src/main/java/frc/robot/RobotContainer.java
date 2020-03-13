@@ -100,15 +100,12 @@ public class RobotContainer {
     controls.ballStorage.whileHeld(new RunCommand(() -> shooter.runBallStorage()));
     controls.backwardsBallStorage.whileHeld(new RunCommand(() -> shooter.runBallStorageBackwards()));
     controls.lowerIntake.whileHeld(new RunCommand(() -> shooter.intakeDown()));
-    
+    controls.reverseIntake.whileHeld(new RunCommand(() -> shooter.runIntakeBackwards()));
     controls.shootBallLow
-      .whenPressed(new InstantCommand(() -> shooter.runBallStorageBackwards()))
       .whileHeld(new RunCommand(() -> shooter.launchBall(0)));
     controls.shootBallMid
-      .whenPressed(new InstantCommand(() -> shooter.runBallStorageBackwards()))
       .whileHeld(new RunCommand(() -> shooter.launchBall(1)));
     controls.shootBallHigh
-      .whenPressed(new InstantCommand(() -> shooter.runBallStorageBackwards()))
       .whileHeld(new RunCommand(() -> shooter.launchBall(2)));
     
     controls.hangUp.whileHeld(new RunCommand(() -> hang.lift()));

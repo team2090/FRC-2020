@@ -69,7 +69,7 @@ public final class Constants {
     // Front Right
     public static final int FRONT_RIGHT_ANGLE_MOTOR = 3;
     public static final int FRONT_RIGHT_DRIVE_MOTOR = 13;
-    public static final double FRONT_RIGHT_OFFSET = -31;
+    public static final double FRONT_RIGHT_OFFSET = 46;
     public static final int FRONT_RIGHT_ENCODER = 2;
 
     // Back Right
