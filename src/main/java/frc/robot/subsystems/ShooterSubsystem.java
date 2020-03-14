@@ -17,10 +17,13 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import static frc.robot.Constants.ShooterConstants.*;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+/**
+ * The Shooter subsystem uses thre SparkMax motors as the shooter and ball storage motors
+ * A TalonSRX is used as the intake motors
+ */
 public class ShooterSubsystem extends SubsystemBase {
   private CANSparkMax shooterMotor1;
   private CANSparkMax shooterMotor2;
@@ -29,9 +32,12 @@ public class ShooterSubsystem extends SubsystemBase {
   private CANEncoder shooterEncoder;
   private TalonSRX intakeMotor;
   private CANSparkMax ballStorage;
-  private double[] targetVelocities = {3300, 5000, 5800.0};
   private DoubleSolenoid intakeRelease;
 
+  /**
+   * This constructs the Shooter Subsystem with the navx and given constants 
+   * including the ratio of the robot length to width. 
+   */
   public ShooterSubsystem() {
     shooterMotor1 = new CANSparkMax(shooter1, MotorType.kBrushless);
     shooterMotor2 = new CANSparkMax(shooter2, MotorType.kBrushless);
@@ -40,7 +46,6 @@ public class ShooterSubsystem extends SubsystemBase {
     intakeRelease = new DoubleSolenoid(intakeReleaseForwardChannel, intakeReleaseReverseChannel);
     intakeMotor.configFactoryDefault();
     intakeMotor.setInverted(false);
-    // 5500 gets 3200
 
     shooterMotor1.restoreFactoryDefaults();
     shooterMotor2.restoreFactoryDefaults();
@@ -52,10 +57,10 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterPIDController = shooterMotor1.getPIDController();
     shooterEncoder = shooterMotor1.getEncoder(); // Encoder object created to display velocity values
    
-    // set PID coefficients
-    shooterPIDController.setP(3.0e-4);
-    shooterPIDController.setI(0);
-    shooterPIDController.setD(0.001);
+    // Set PID coefficients
+    shooterPIDController.setP(shooterkP);
+    shooterPIDController.setI(shooterkI);
+    shooterPIDController.setD(shooterkD);
     shooterPIDController.setIZone(shooterkIz);
     shooterPIDController.setFF(shooterkFF);
     shooterPIDController.setOutputRange(shooterkMinOutput, shooterkMaxOutput);
@@ -71,46 +76,60 @@ public class ShooterSubsystem extends SubsystemBase {
     intakeRelease.set(DoubleSolenoid.Value.kForward);
   }
 
+  /**
+   * Launch the balls by setting the shooter to a given target velocity
+   * @param setPosition the array position of desired target velocity
+   */
   public void launchBall(int setPosition) {
-    //shooterMotor1.set(targetVelocities[setPosition] * 0.65);
     shooterPIDController.setReference(targetVelocities[setPosition], ControlType.kVelocity);
-    //shooterPIDController.setReference(targetVelocities[setPosition] * shooterMaxRPM, ControlType.kVelocity);
-    //SmartDashboard.putNumber("VOLT", shooterMotor1.getBusVoltage());
-    // if (Math.abs(shooterEncoder.getVelocity() - (targetVelocities[setPosition] * shooterMaxRPM)) < 100) {
-    //   ballShifter.set(DoubleSolenoid.Value.kReverse);
-    //   ballStorage.set(ControlMode.PercentOutput, 0.5);
-    // }
     SmartDashboard.putNumber("Velocity", shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Output", shooterMotor1.getAppliedOutput());
   }
 
+  /**
+   * Lower and run the intake
+   */
   public void runIntake() {
     intakeRelease.set(DoubleSolenoid.Value.kForward);
     intakeMotor.set(ControlMode.PercentOutput, 0.35);
   }
 
+  /**
+   * Lower and run the intake backwards
+   */
   public void runIntakeBackwards() {
     intakeRelease.set(DoubleSolenoid.Value.kForward);
     intakeMotor.set(ControlMode.PercentOutput, -0.35);
   }
 
+  /**
+   * Runs the ball storage 
+   */
   public void runBallStorage() {
      ballStorage.set(0.8);
   }
 
+  /**
+   * Runs the ball storage backwards
+   */
   public void runBallStorageBackwards() {
     ballStorage.set(-0.8);
  }
 
- public void intakeDown() {
-  intakeRelease.set(DoubleSolenoid.Value.kReverse);
- }
+  /**
+   * Lift the intake up
+   */
+  public void intakeUp() {
+    intakeRelease.set(DoubleSolenoid.Value.kReverse);
+  }
 
+  /**
+   * Default behavior of the shooter subsystem
+   * Stops all motors 
+   */
   public void stop() {
     shooterMotor1.set(0);
     ballStorage.set(0);
     intakeMotor.set(ControlMode.PercentOutput, 0);
-    //shiftBallStorageBack();
-    SmartDashboard.putNumber("Velocity", shooterEncoder.getVelocity());
   }
 }

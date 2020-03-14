@@ -185,30 +185,11 @@ public class Wheel {
 
         // The difference between the target angle and the current position 
         double azimuthError = Math.IEEEremainder(currentPosition - targetAngle, 360.0);
-        // boolean overThres = false;
 
-        // SmartDashboard.putBoolean("OverThres", overThres);
-
-        // Minimize azimuth rotation by reversing drive if necessary
-        // if (Math.abs(azimuthError) > 0.75 * 360) {
-        //     azimuthError -= Math.copySign(360, azimuthError);
-        //     drive = -drive;
-        //     if (!overThres){
-        //         overThres = true;
-        //     }
-        // } else 
         if (Math.abs(azimuthError) > 0.25 * 360) {
             azimuthError -= Math.copySign(0.5 * 360, azimuthError);
             drive = -drive;
         }   
-        
-        // SmartDashboard.putNumber("Encoder current position" + azimuthMotor.getDeviceId(), azimuthEncoder.getValue());
-        // SmartDashboard.putNumber("currentPosition" + azimuthMotor.getDeviceId(), currentPosition);
-        // SmartDashboard.putNumber("targetAngle" + azimuthMotor.getDeviceId(), targetAngle);
-        // SmartDashboard.putNumber("AzimuthError" + azimuthMotor.getDeviceId(), azimuthError);
-        // SmartDashboard.putNumber("Drive", drive);
-        // SmartDashboard.putNumber("Current Spark Position", azimuthMotor.getEncoder().getPosition());
-        // SmartDashboard.putNumber("Target Spark Position (Encoder units)", azimuthError / 360.0 * 18 + azimuthMotor.getEncoder().getPosition());
 
         // Prevent the azimuth from resetting position to zero
         if (drive != 0 && Math.abs(azimuthError) > (0.5)) {
@@ -218,6 +199,10 @@ public class Wheel {
         setDriveOutput(drive);
     }
 
+    /**
+     * Get the drive motor for the swerve module
+     * @return TalonFX drive motor
+     */
     public TalonFX getDriveMotor() {
         return driveMotor;
     }
@@ -233,7 +218,6 @@ public class Wheel {
     /**
      * Close the analog input from the encoder and set all motor output to 0.
      */
-
     public void stop() {
         azimuthEncoder.close();
         azimuthMotor.set(0);

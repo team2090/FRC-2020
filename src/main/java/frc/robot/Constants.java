@@ -19,8 +19,15 @@ public final class Constants {
   public static final class HangConstants {
     public static final int armForwardChannel = 6;
     public static final int armReverseChannel = 7;
-    public static final int lock1port = 1;
-    public static final int lock2port = 2;
+    
+    // PID coefficients
+    public static final double winchkP = 3.0e-4;
+    public static final double winchkI = 0;
+    public static final double winchkD = 0.001;
+    public static final double winchkIz = 0;
+    public static final double winchkFF = 0;
+    public static final double winchkMaxOutput = 1;
+    public static final double winchkMinOutput = -1;
   }
 
   public static final class ShooterConstants {
@@ -36,9 +43,9 @@ public final class Constants {
     public static final int intakeReleaseReverseChannel = 3;
 
     // PID coefficients
-    public static final double shooterkP = 0.7e-2;
+    public static final double shooterkP = 3.0e-4;
     public static final double shooterkI = 0;
-    public static final double shooterkD = 0.1;
+    public static final double shooterkD = 0.001;
     public static final double shooterkIz = 0;
     public static final double shooterkFF = 0;
     public static final double shooterkMaxOutput = 1;
@@ -53,6 +60,8 @@ public final class Constants {
     public static final double ballStoragekFF = 0;
     public static final double ballStoragekMaxOutput = 1;
     public static final double ballStoragekMinOutput = -1;
+
+    public static final double[] targetVelocities = {3300, 5000, 5800.0};
   }
 
   public static final class SwerveConstants {

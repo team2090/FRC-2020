@@ -10,23 +10,16 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.music.Orchestra;
 import com.kauailabs.navx.frc.AHRS;
 import static frc.robot.Constants.SwerveConstants.*;
-
-import java.util.ArrayList;
-
 import static frc.robot.Constants.LimelightConstants.*;
 
 /**
  * FRC Team 2090's Swerve Drive Code.
  * 
  * <p>Swerve logic and math is based on Team 2767's <a 
- * href="https://github.com/strykeforce/thirdcoast/tree/master/src/main/java/org/strykeforce/thirdcoast/swerve">
- * Third Coast Java Libraries </a>
+ * href="https://github.com/strykeforce/thirdcoast/">Third Coast Java Libraries </a>
  * 
  * <p>Derivation of inverse kinematic equations are from Ether's <a
  * href="https://www.chiefdelphi.com/media/papers/2426">Swerve Kinematics and Programming</a>.
@@ -40,19 +33,14 @@ public class SwerveSubsystem extends SubsystemBase {
   public final AHRS gyro;
   private final double kLengthComponent;
   private final double kWidthComponent;
-  private final ArrayList<TalonFX> instruments = new ArrayList<TalonFX>();
   private final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  //private Orchestra orchestra;
-  //private final Servo visionServo;
 
   /**
    * This constructs the Swerve Subsystem with the navx and given constants 
-   * including the ratio of the robot length to width. The field oriented driving
-   * mode is set based on whether the gyro is properly connected.
+   * including the ratio of the robot length to width. 
    */
   public SwerveSubsystem() {
     gyro = new AHRS();
-    //visionServo = new Servo(visionServoPort);
     double radius = Math.hypot(robotLength, robotWidth);
     kLengthComponent = robotLength / radius;
     kWidthComponent = robotWidth / radius;
@@ -61,10 +49,9 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Instantiates the wheels with the correct ports for the drive motor, azimuth motor, encoder, and angle offset.
+   * Instantiates the wheels with the given ports for the drive motor, azimuth motor, encoder, and angle offset.
    * Wheels are an array numbered 0-3 from front to back, with even numbers on the left side when facing forward.
-   * 
-   * Initialize the wheels and set them to the absolute zero based on the each Wheel's given offset.
+   * The wheels are initialized (setting up PID) and zeroed based on the offset.
    */
   public void generateWheels() {
     wheels[0] = new Wheel(FRONT_LEFT_ANGLE_MOTOR, FRONT_LEFT_DRIVE_MOTOR, FRONT_LEFT_ENCODER, FRONT_LEFT_OFFSET);
@@ -75,12 +62,11 @@ public class SwerveSubsystem extends SubsystemBase {
     for (Wheel wheel : wheels) {
       wheel.initWheel();
       wheel.zero();
-      instruments.add(wheel.getDriveMotor());
     }
   }
 
   /**
-   * Returns the array of Wheels
+   * Returns an array of Wheels
    */
   public Wheel[] getWheels() {
     return wheels;
@@ -129,37 +115,43 @@ public class SwerveSubsystem extends SubsystemBase {
     wa[2] = Math.atan2(a, d) * 0.5 / Math.PI;
     wa[3] = Math.atan2(a, c) * 0.5 / Math.PI;
 
-    //normalize wheel speed
+    // normalize wheel speed
     final double maxWheelSpeed = Math.max(Math.max(ws[0], ws[1]), Math.max(ws[2], ws[3]));
     if (maxWheelSpeed > 1.0) {
       for (int i = 0; i < 4; i++) {
         ws[i] /= maxWheelSpeed;
       }
     }
-    //set wheels
+    // set wheels
     for (int i = 0; i < 4; i++) {
       wheels[i].set(wa[i], ws[i]);
-    }
-   
+    }   
   }
 
   /**
-   * 
-   * Set the drive with respect to the field
+   * Set the drive mode for the robot
    *
-   * @param enable true to set robot to field oriented driving, false to set to robot oriented
+   * @param enable true = field oriented driving, false = robot oriented
    */
   public void setFieldOriented(boolean enable) {
     isFieldOriented = enable;
     SmartDashboard.putBoolean("driveMode", enable);
   }
 
+  /**
+   * Set the wheels at a given target angle
+   * @param angle the target angle for all swerve modules
+   */
   public void setAllAzimuth(double angle) {
     for (Wheel wheel : wheels) {
       wheel.setTargetAngle(angle);
     }
   }
 
+  /**
+   * Drive a set distance
+   * @param distance the target distance for the modules to drive
+   */
   public void driveSetDistance(double distance) {
     for (Wheel wheel : wheels) {
       wheel.setTargetDistance(distance);
@@ -176,7 +168,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Init all Swerve Modules in the zero position (azimuth position and drive output are set to 0)
+   * Init all Swerve Modules in the zeroed position (azimuth position and drive output are set to 0)
    * Camera mode is set to normal (not vision)
    */
   public void initDrive() {
@@ -187,24 +179,31 @@ public class SwerveSubsystem extends SubsystemBase {
     setCamMode(false);
   }
 
-  public void robotOrientedDrive(double forward, double strafe, double yaw) {
-    drive(forward, strafe, yaw);
-  }
-
-  public void updateLimelightTracking(double forwardInput, double strafeInput) {
+  /**
+   * Aiming at the target by modifying yaw input 
+   * @param forward Y-axis movement, from -1.0 (reverse) to 1.0 (forward)
+   * @param strafe X-axis movement, from -1.0 (left) to 1.0 (right)
+   */
+  public void updateLimelightTracking(double forward, double strafe) {
     setCamMode(true);
     double headingError = table.getEntry("tx").getDouble(0);
-  
     double yawInput = 0;
     yawInput = Math.abs(headingError) < maxHeadingError ? 0 : (headingError * headingConstant);
     yawInput = Math.abs(yawInput) > maxYawOutput ? Math.copySign(maxYawOutput, yawInput): yawInput;
-    drive(forwardInput, strafeInput, yawInput);
+    drive(forward, strafe, yawInput);
   }
 
+  /**
+   * Set the limelight's camera mode
+   * @param visionMode true = vision, false = normal viewing
+   */
   public void setCamMode(boolean visionMode) {
     table.getEntry("camMode").setNumber(visionMode ? 0 : 1);
   }
 
+  /**
+   * Check if the swerve is currently aimed at the target
+   */
   public boolean onTarget() {
     setCamMode(true);
     double headingError = table.getEntry("tx").getDouble(0);
@@ -212,43 +211,11 @@ public class SwerveSubsystem extends SubsystemBase {
     return Math.abs(headingError) < 2.0 ? true : false;
   }
 
+  /**
+   * Yaw the robot to a desired orientation
+   * @param targetPosition the position that the robot will face
+   */
   public void yawToAngle(double targetPosition) {
     drive(0, 0, headingConstant * (targetPosition - gyro.getAngle()));
   }
-
-  // public void adjustVisionPosition(double offset) {
-  //   // offset += visionServo.get();
-  //   // offset = offset > visionUpperPosition ? 0.8 : offset < visionLowerPosition ? 0.2 : offset;
-  //   // visionServo.set(offset);
-  // }
-
-  /**
-   * Change current output based on the whether or not other subsystems are running
-   */
-  public void modifyOutput() {
-    
-  }
-
-  // public void playMusic() {
-  //   orchestra = new Orchestra(instruments);
-
-  //   String[] songs = new String[] {
-  //     "song1.chrp",
-  //     "song2.chrp",
-  //     "song3.chrp",
-  //     "song4.chrp",
-  //     "song5.chrp",
-  //     "song6.chrp",
-  //     "song7.chrp",
-  //     "song8.chrp",
-  //     "song9.chrp", /* the remaining songs play better with three or more FXs */
-  //     "song10.chrp",
-  //     "song11.chrp",
-  //   };
-
-  //   if (orchestra.isPlaying()) {
-  //     orchestra.loadMusic(songs[(int) SmartDashboard.getNumber("Song", 0)]); 
-  //     orchestra.play();
-  //   }
-  // }
 }

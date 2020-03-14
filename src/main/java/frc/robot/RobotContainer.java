@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoDriveCommandLeft;
@@ -37,15 +36,12 @@ public class RobotContainer {
   private final AutoDriveCommandRight autoRightCommand = new AutoDriveCommandRight(robotDrive, shooter);
   private final DriveControls controls = new DriveControls();
   private double speedMod = 1.0;
-  private int rainbowFirstPixelHue = 0;
-  private int lightMode = 0;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    //robotDrive.setDefaultCommand(new TeleOpDriveCommand(robotDrive));
     robotDrive.setDefaultCommand(
       new RunCommand(() -> robotDrive.drive(
           modifyInput(controls.getForward()),
@@ -55,7 +51,6 @@ public class RobotContainer {
     shooter.setDefaultCommand(
       new RunCommand(() -> shooter.stop(), shooter)
     );
-    
     hang.setDefaultCommand(
       new RunCommand(() -> hang.holdPosition(), hang)
     );
@@ -78,28 +73,28 @@ public class RobotContainer {
     
     controls.robotOrientedForward
       .whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(false)))
-      .whileHeld(new RunCommand(() -> robotDrive.robotOrientedDrive(0.2, 0, 0)))
+      .whileHeld(new RunCommand(() -> robotDrive.drive(0.2, 0, 0)))
       .whenReleased(new InstantCommand(() -> robotDrive.setFieldOriented(true)));
     controls.robotOrientedBackwards
       .whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(false)))
-      .whileHeld(new RunCommand(() -> robotDrive.robotOrientedDrive(-0.2, 0, 0)))
+      .whileHeld(new RunCommand(() -> robotDrive.drive(-0.2, 0, 0)))
       .whenReleased(new InstantCommand(() -> robotDrive.setFieldOriented(true)));
     controls.robotOrientedRight
       .whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(false)))
-      .whileHeld(new RunCommand(() -> robotDrive.robotOrientedDrive(0, 0.2, 0)))
+      .whileHeld(new RunCommand(() -> robotDrive.drive(0, 0.2, 0)))
       .whenReleased(new InstantCommand(() -> robotDrive.setFieldOriented(true)));
     controls.robotOrientedLeft
       .whenPressed(new InstantCommand(() -> robotDrive.setFieldOriented(false)))
-      .whileHeld(new RunCommand(() -> robotDrive.robotOrientedDrive(0, -0.2, 0)))
+      .whileHeld(new RunCommand(() -> robotDrive.drive(0, -0.2, 0)))
       .whenReleased(new InstantCommand(() -> robotDrive.setFieldOriented(true)));
     controls.limelightAim.whileHeld(new RunCommand(() -> robotDrive.updateLimelightTracking(
       modifyInput(controls.getForward()),
-      modifyInput(controls.getStrafe())))).whenReleased(new InstantCommand(() -> robotDrive.setCamMode(false)));
-
+			modifyInput(controls.getStrafe())))).whenReleased(new InstantCommand(() -> robotDrive.setCamMode(false)));
+			
     controls.intake.whileHeld(new RunCommand(() -> shooter.runIntake()));
     controls.ballStorage.whileHeld(new RunCommand(() -> shooter.runBallStorage()));
     controls.backwardsBallStorage.whileHeld(new RunCommand(() -> shooter.runBallStorageBackwards()));
-    controls.lowerIntake.whileHeld(new RunCommand(() -> shooter.intakeDown()));
+    controls.liftIntake.whileHeld(new RunCommand(() -> shooter.intakeUp()));
     controls.reverseIntake.whileHeld(new RunCommand(() -> shooter.runIntakeBackwards()));
     controls.shootBallLow
       .whileHeld(new RunCommand(() -> shooter.launchBall(0)));
@@ -136,43 +131,11 @@ public class RobotContainer {
     if (Math.abs(value) < 0.1) {
       return 0;
     }
-
+		// Modify the inputed speed based on which speed mode is currently active
     return value * speedMod;
   }
 
   public SwerveSubsystem getSwerve() {
     return robotDrive;
-  }
- 
-  public void updateLightsData(AddressableLEDBuffer buffer) {
-    switch (lightMode) {
-      case 0:
-        rainbow(buffer);
-        break;
-      case 1:
-        pink(buffer);
-        break;
-    }
-  }
-
-  private void pink(AddressableLEDBuffer buffer) {
-    for (var i = 0; i < buffer.getLength(); i++) {
-      buffer.setHSV(i, 255, 105, 180);
-    }
-  }
-
-  private void rainbow(AddressableLEDBuffer buffer) {
-    // For every pixel
-    for (var i = 0; i < buffer.getLength(); i++) {
-      // Calculate the hue - hue is easier for rainbows because the color
-      // shape is a circle so only one value needs to precess
-      final var hue = (rainbowFirstPixelHue + (i * 180 / buffer.getLength())) % 180;
-      // Set the value
-      buffer.setHSV(i, hue, 255, 128);
-    }
-    // Increase by to make the rainbow "move"
-    rainbowFirstPixelHue += 3;
-    // Check bounds
-    rainbowFirstPixelHue %= 180;
   }
 }

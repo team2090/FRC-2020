@@ -35,6 +35,7 @@ public class AutoDriveCommandRight extends CommandBase {
   @Override
   public void execute() {
     robotDrive.driveSetDistance(1.0);
+    robotShooter.launchBall(1);
   }
 
   @Override

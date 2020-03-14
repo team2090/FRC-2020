@@ -10,7 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 /**
- * Add your docs here.
+ * Custom drive controls class to organize all the driver buttons and stick input
  */
 public class DriveControls {
   
@@ -31,7 +31,7 @@ public class DriveControls {
   public final JoystickButton intake = new JoystickButton(joystick2, 1);
   public final JoystickButton backwardsBallStorage = new JoystickButton(joystick2, 2);
   public final JoystickButton ballStorage = new JoystickButton(joystick2, 3);
-  public final JoystickButton lowerIntake = new JoystickButton(joystick2, 4);
+  public final JoystickButton liftIntake = new JoystickButton(joystick2, 4);
   public final JoystickButton reverseIntake = new JoystickButton(joystick2, 5);
   public final JoystickButton slowDriveMode = new JoystickButton(joystick2, 6);
   public final JoystickButton normalDriveMode = new JoystickButton(joystick2, 7);
