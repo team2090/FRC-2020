@@ -1,7 +1,3 @@
----
-description: Brief Introduction
----
-
 # Introduction
 
 ![](.gitbook/assets/9agyfye4_400x400.jpg)
