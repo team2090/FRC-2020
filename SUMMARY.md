@@ -5,4 +5,5 @@
 ## Setup
 
 * [Getting Started!](setup/getting-started.md)
+* [Project Setup](setup/project-setup.md)
 
